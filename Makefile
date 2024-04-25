@@ -6,7 +6,7 @@
 #    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/04/25 13:50:33 by hbenazza         ###   ########.fr        #
+#    Updated: 2024/04/25 21:04:27 by hbenazza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC = ./program/main.c ./program/reading_promp.c ./parse/parse.c ./lib/ft_atoi.c
 
 OBJ = ${SRC:.c=.o}
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 
 %.o: %.c
 	cc $(CFLAGS) -c -o $@ $^

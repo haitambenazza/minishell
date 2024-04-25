@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:06:42 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/04/25 13:53:00 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/04/25 21:14:33 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct shell
 {
 	char		**cmd;
 	struct shell *next;
+	char		*file_name;
+	int			input_output;
 }	t_shell;
 
 int		reading_promp(void);
