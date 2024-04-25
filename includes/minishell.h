@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:06:42 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/04/25 21:14:33 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/04/25 21:55:14 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ char	**ft_split(char const *s, char c);
 t_shell	*ft_lstnew();
 int		create_list(int count, char **cmd, t_shell **lst);
 void	ft_lstadd_back(t_shell **lst, t_shell *new);
+int		history(char *str);
 
 #endif
