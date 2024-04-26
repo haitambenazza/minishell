@@ -6,14 +6,14 @@
 #    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/04/25 21:04:27 by hbenazza         ###   ########.fr        #
+#    Updated: 2024/04/26 21:45:04 by hbenazza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC = ./program/main.c ./program/reading_promp.c ./parse/parse.c ./lib/ft_atoi.c ./lib/ft_lstadd_back.c ./lib/ft_lstadd_front.c ./lib/ft_lstnew.c\
-		./lib/ft_split.c ./lib/ft_strdup.c ./lib/ft_strjoin.c ./lib/ft_strlen.c ./lib/ft_substr.c
+SRC = ./program/main.c ./program/reading_promp.c ./parse/parse.c ./libft/ft_atoi.c ./libft/ft_lstadd_back.c ./libft/ft_lstadd_front.c ./libft/ft_lstnew.c\
+		./libft/ft_split.c ./libft/ft_strdup.c ./libft/ft_strjoin.c ./libft/ft_strlen.c ./libft/ft_substr.c
 
 OBJ = ${SRC:.c=.o}
 

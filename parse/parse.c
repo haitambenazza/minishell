@@ -6,19 +6,18 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/04/25 21:07:21 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/04/26 21:45:27 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	create_list(int count, char **cmd, t_shell **lst)
+int	create_list(int count, t_shell **lst)
 {
 	t_shell	*node;
 	int		i;
 
 	i = 0;
-	(void)cmd;
 	while (i < count)
 	{
 		node = ft_lstnew();
@@ -41,28 +40,48 @@ char	*cmd_to_mask(char *cmd)
 		return (NULL);
 	while (cmd[i])
 	{
-		if (cmd[i] != ' ' && cmd[i] != '|')
-			mask[i] = '0';
+		if (cmd[i] != ' ' && cmd[i] != '|' && cmd[i] != '>' && cmd[i] != '<')
+			mask[i] = 'c';
 		else if (cmd[i] == ' ')
-			mask[i] = '1';
+			mask[i] = 's';
+		else if (cmd[i] == '|')
+			mask[i] = 'p';
 		else
-			mask[i] = '2';
+			mask[i] = 'r';
 		i++;
 	}
 	mask[i] = 0;
 	return (mask);
 }
 
+// int	parce_mask(char *mask, t_shell *lst)
+// {
+// 	t_shell	*tmp;
+// 	int		i;
+
+// 	i = 0;
+// 	tmp = lst;
+// 	while (mask[i])
+// 	{
+// 		if (mask[i] == '2')
+// 		{
+// 			tmp->number_cmd++;
+// 		}
+// 	}
+// }
+
 int	parsing(char *inputs)
 {
 	t_shell	*lst;
 	int		i;
 	int		cmd;
+	char	*lexer;
 
 	i = 0;
 	cmd = 0;
 	lst = NULL;
-	if (!cmd_to_mask(inputs))
+	lexer = cmd_to_mask(inputs);
+	if (!lexer)
 		return (1);
 	while (inputs[i])
 	{
@@ -71,6 +90,6 @@ int	parsing(char *inputs)
 		i++;
 	}
 	if (cmd)
-		create_list(cmd, ft_split(inputs, '|'), &lst);
+		create_list(cmd, &lst);
 	return (0);
 }

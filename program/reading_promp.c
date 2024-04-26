@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/04/25 21:55:51 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:40:07 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@ void	handler(int signal)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	else if (signal == SIGQUIT)
+		return ;
+}
+
+void	handl(int signal)
+{
+	(void)signal;
+	return ;
 }
 
 int	history(char *str)
@@ -36,11 +44,13 @@ int	reading_promp(void)
 	char	*inputs;
 
 	signal(SIGINT, handler);
+	signal(SIGQUIT, handl);
 	while (1)
 	{
 		inputs = readline("minishell> ");
 		parsing(inputs);
-		history(inputs);
+		if (history(inputs))
+			return (1);
 	}
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:06:42 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/04/25 21:55:14 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/04/26 14:20:25 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct shell
 	struct shell *next;
 	char		*file_name;
 	int			input_output;
+	int			number_cmd;
 }	t_shell;
 
 int		reading_promp(void);
@@ -40,7 +41,7 @@ size_t	ft_strlen(const char *str);
 int		parsing(char *inputs);
 char	**ft_split(char const *s, char c);
 t_shell	*ft_lstnew();
-int		create_list(int count, char **cmd, t_shell **lst);
+int		create_list(int count, t_shell **lst);
 void	ft_lstadd_back(t_shell **lst, t_shell *new);
 int		history(char *str);
 

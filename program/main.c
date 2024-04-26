@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:03:38 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/04/20 18:32:29 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/04/26 10:47:45 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	main(int c, char **v)
 	(void)v;
 	if (c == 1)
 	{
-		reading_promp();
+		if (reading_promp())
+			return (1);
 	}
 	else
 	{
