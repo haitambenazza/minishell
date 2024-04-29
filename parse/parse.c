@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/04/29 18:01:35 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:03:52 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,6 @@ int	get_command(t_shell *shell, char *input)
 	return (0);
 }
 
-void	print(char **inp)
-{
-	int	i;
-
-	i = 0;
-	while (inp[i])
-	{
-		printf("%s\n", inp[i]);
-		i++;
-	}
-}
-
 int	parsing(char *inputs)
 {
 	t_shell	*shell;
@@ -57,13 +45,6 @@ int	parsing(char *inputs)
 		if (!shell)
 			return (1);
 		get_command(shell, inputs);
-		node = shell;
-		while (node)
-		{
-			print(node->cmd);
-			// printf("%s\n", node->cmd[0]);
-			node = node->next;
-		}
 	}
 	return (0);
 }
