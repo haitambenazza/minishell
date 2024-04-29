@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/04/29 18:03:52 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:09:48 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,18 @@ int	get_command(t_shell *shell, char *input)
 	return (0);
 }
 
-int	parsing(char *inputs)
+t_shell	*parsing(char *inputs)
 {
 	t_shell	*shell;
-	t_shell	*node;
 
+	shell = NULL;
 	if (inputs)
 	{
 		shell = lexer(inputs);
 		if (!shell)
-			return (1);
+			return (NULL);
 		get_command(shell, inputs);
+		return (shell);
 	}
-	return (0);
+	return (shell);
 }
