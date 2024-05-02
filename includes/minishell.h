@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:06:42 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/01 14:16:41 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/02 15:10:21 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *str);
 t_shell	*parsing(char *inputs);
 char	**ft_split(char const *s, char c);
-t_shell	*ft_lstnew(void);
-t_shell	*create_list(int len);
+t_shell	*ft_lstnew(char **cmd);
+t_shell	*create_list(int len, char *input);
 void	ft_lstadd_back(t_shell **lst, t_shell *new);
 int		history(char *str);
 t_shell	*lexer(char *inputs);
 void	*taha(t_shell *cmds);
+void	masking(char *str, int i, char c);
+char	*cmd_mask(char *str);
+int		len_token(char *m);
+void	cmd_tokens(char mask, t_token *t, int i);
 
 #endif

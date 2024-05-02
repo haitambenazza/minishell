@@ -6,111 +6,34 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/01 18:41:31 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:52:03 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 //AST here
-
-t_shell	*create_list(int len)
+//dont forgot to expand the env variables $var in the env variables
+t_shell	*create_list(int len, char *input)
 {
 	t_shell	*node;
 	t_shell	*shell;
+	char	**cmd;
 	int		i;
 
-	i = 0;
-	shell = ft_lstnew();
-	while (i < len)
+	i = 1;
+	cmd = ft_split(input, '|');
+	shell = ft_lstnew(ft_split(cmd[0], ' '));
+	while (i <= len)
 	{
-		node = ft_lstnew();
+		node = ft_lstnew(ft_split(cmd[i], ' '));
 		if (!node)
 			return (NULL);
+		node->number_cmd = 1;
 		ft_lstadd_back(&shell, node);
 		i++;
 	}
 	return (shell);
-}
-
-void	masking(char *str, int i, char c)
-{
-	//the rest of the mask from cmd_mask
-	if (c == '>')
-		str[i] = '4';
-	else if (c == '<')
-		str[i] = '3';
-	else if (c == ' ')
-		str[i] = '1';
-	else
-		str[i] = '0';
-}
-
-char	*cmd_mask(char *str)
-{
-	char	*mask;
-	int		i;
-
-	i = 0;
-	mask = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	if (!mask)
-		return (NULL);
-	while (str[i])
-	{
-		//convert inputs to masks
-		if (str[i] == '\'')
-			mask[i] = '6';
-		else if (str[i] == '"')
-			mask[i] = '5';
-		else if (str[i] == '|')
-			mask[i] = '2';
-		else if (str[i] == '&')
-			mask[i] = '8';
-		else
-			masking(mask, i, str[i]);
-		i++;
-	}
-	mask[i] = 0;
-	return (mask);
-}
-
-int	len_token(char *m)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	while (m[i])
-	{
-		//calculate the lenght of the tokens according to the mask
-		if ((m[i] == '0' || m[i] == '1') && m[i] != m[i + 1])
-			len++;
-		if ((m[i] != '0' && m[i] != '1'))
-			len++;
-		i++;
-	}
-	return (len);
-}
-
-void	cmd_tokens(char mask, t_token *t, int i)
-{
-	if (mask == '2')
-		t[i] = PIPE;
-	else if (mask == '3')
-		t[i] = REDIRECTION_IN;
-	else if (mask == '4')
-		t[i] = REDIRECTION_OUT;
-	else if (mask == '5')
-		t[i] = QUOTE;
-	else if (mask == '6')
-		t[i] = SINGEL_Q;
-	else if (mask == '8')
-		t[i] = AND;
-	else if (mask == '1')
-		t[i] = ESPACE;
-	else
-		t[i] = CMD;
 }
 
 t_token	*tokenize(char *m)
@@ -152,14 +75,15 @@ t_shell	*lexer(char *inputs)
 	t = tokenize(mask);
 	if (!t)
 		return (NULL);
-	while (inputs[i])
+	while (i < len_token(mask))
 	{
-		if (inputs[i] == '|')
+		if (t[i] == PIPE)
 			number++;
 		i++;
 	}
-	shell = create_list(number);
+	shell = create_list(number, inputs);
 	if (!shell)
 		return (NULL);
+	free(mask);
 	return (shell);
 }

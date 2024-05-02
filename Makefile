@@ -6,7 +6,7 @@
 #    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/04/29 18:08:03 by hbenazza         ###   ########.fr        #
+#    Updated: 2024/05/01 20:22:34 by hbenazza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 SRC = ./program/main.c ./program/reading_promp.c ./parse/parse.c ./parse/lexer.c ./libft/ft_atoi.c ./libft/ft_lstadd_back.c ./libft/ft_lstadd_front.c ./libft/ft_lstnew.c\
 		./libft/ft_split.c ./libft/ft_strdup.c ./libft/ft_strjoin.c ./libft/ft_strlen.c ./libft/ft_substr.c\
-		./execution/execution.c
+		./execution/execution.c ./parse/tokens.c
 
 OBJ = ${SRC:.c=.o}
 
