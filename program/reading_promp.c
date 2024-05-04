@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/02 15:39:07 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/04 17:24:22 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	reading_promp(void)
 		shell = parsing(inputs);
 		if (history(inputs))
 			return (1);
+		free(inputs);
 		taha(shell);
 	}
 	return (0);
