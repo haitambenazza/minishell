@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:06:42 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/03 16:38:32 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/11 17:41:11 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ typedef struct shell
 	char			**cmd;
 	struct shell	*next;
 	char			*file_name;
-	int				input_output;
-	int				number_cmd;
+	int				input_fd;
+	int				output_fd;
 	t_token			*token;
+	char			*mask;
 }	t_shell;
 
 int		reading_promp(void);
@@ -65,5 +66,9 @@ char	*cmd_mask(char *str);
 int		len_token(char *m);
 void	cmd_tokens(char mask, t_token *t, int i);
 void	free_array(char **v);
+int		ft_strncmp(char *s1, char *s2);
+int		ft_pwd(t_shell *shell);
+void	clean_up(t_shell *shell);
+int		ft_exit(t_shell *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/04 17:25:56 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/11 17:18:57 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,20 @@ void	*taha(t_shell *cmds)
 {
 	//here you can work on execution fetch the commands with tmp->cmd[i]
 	t_shell	*tmp;
+	int		i;
 
 	tmp = cmds;
+	i = 0;
+	if (!cmds)
+		return (NULL);
 	while (tmp)
 	{
-		printf("%s\n", tmp->cmd[0]);
+		if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "pwd"))
+			ft_pwd(tmp);
+		if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "exit"))
+			ft_exit(tmp);
 		tmp = tmp->next;
+		i++;
 	}
 	clean_up(cmds);
 	return (NULL);
@@ -48,10 +56,12 @@ void	clean_up(t_shell *shell)
 	t_shell	*tmp;
 
 	tmp = shell;
-	free(tmp->token);
+	if (tmp->token)
+		free(tmp->token);
 	while (tmp)
 	{
-		free_array(tmp->cmd);
+		if (tmp->cmd)
+			free_array(tmp->cmd);
 		tmp = tmp->next;
 		free(shell);
 		shell = tmp;
