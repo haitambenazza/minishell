@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:06:42 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/13 15:10:41 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:51:16 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,8 @@ int		ft_strncmp(char *s1, char *s2);
 int		ft_pwd(t_shell *shell);
 void	clean_up(t_shell *shell);
 int		ft_exit(t_shell *shell);
+char	*ft_strtrim(char *s1, char *set);
+char	*ft_strchr(char *s, int c);
+int	parcing_tokens(t_token *token, char *mask);
 
 #endif
