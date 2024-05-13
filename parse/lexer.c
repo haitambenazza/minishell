@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/11 17:53:42 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:53:46 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,25 @@
 
 //AST here
 //dont forgot to expand the env variables $var in the env variables
-void	loop(char **v)
-{
-	int	i;
-
-	i = 0;
-	while (v[i])
-	{
-		printf("%s\n", v[i]);
-		i++;
-	}
-}
-
-t_shell	*create_list(int len, char *input)
+t_shell	*create_list(char *input)
 {
 	t_shell	*node;
 	t_shell	*shell;
-	char	**cmd;
+	char	**cmds;
 	int		i;
 
-	i = 1;
-	cmd = ft_split(input, '|');
-	shell = ft_lstnew();
-	shell->cmd = ft_split(cmd[0], ' ');
-	while (i <= len)
+	i = 0;
+	cmds = ft_split(input, '|');
+	shell = NULL;
+	while (cmds[i])
 	{
-		node = ft_lstnew();
+		node = ft_lstnew(cmds[i]);
 		if (!node)
 			return (NULL);
-		node->cmd = ft_split(cmd[i], ' ');
 		ft_lstadd_back(&shell, node);
 		i++;
 	}
-	free_array(cmd);
+	free_array(cmds);
 	return (shell);
 }
 
@@ -95,10 +81,10 @@ t_shell	*lexer(char *inputs)
 			number++;
 		i++;
 	}
-	shell = create_list(number, inputs);
+	shell = create_list(inputs);
 	if (!shell)
 		return (free(mask), NULL);
 	shell->token = t;
-	// shell->mask = mask;
+	shell->mask = mask;
 	return (shell);
 }

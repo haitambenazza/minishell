@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/11 17:45:11 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/12 20:33:19 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,11 @@ int	parcing_tokens(t_shell *shell)
 	int	i;
 
 	i = 0;
-	while (i < len_token(shell->mask))
+	if (shell->token)
 	{
-		printf("%d \n", shell->token[i]);
-		i++;
+		if (shell->token[i] == PIPE)
+			return (parser_error(), 1);
 	}
-	if (shell->token[i] == PIPE)
-		return (parser_error(), 1);
 	return (0);
 }
 

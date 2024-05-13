@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 13:28:51 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/04/25 10:05:11 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/13 13:50:23 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,12 @@ static char	**splitor(char const *s, char c, char **arr, size_t len)
 	return (arr);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	size_t	words;
 	char	**list;
 
-	if (s == NULL)
+	if (!s)
 		return (NULL);
 	words = count(s, c);
 	list = (char **)malloc(sizeof(char *) * (words + 1));

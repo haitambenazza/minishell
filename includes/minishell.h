@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:06:42 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/11 17:41:11 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:10:41 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *str);
 t_shell	*parsing(char *inputs);
-char	**ft_split(char const *s, char c);
-t_shell	*ft_lstnew(void);
-t_shell	*create_list(int len, char *input);
+char	**ft_split(char *s, char c);
+t_shell	*ft_lstnew(char *str);
+t_shell	*create_list(char *input);
 void	ft_lstadd_back(t_shell **lst, t_shell *new);
 int		history(char *str);
 t_shell	*lexer(char *inputs);
