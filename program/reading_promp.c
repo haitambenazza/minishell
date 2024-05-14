@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/13 18:21:19 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/14 11:46:27 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	reading_promp(void)
 		inputs = readline("minishell>");
 		shell = parsing(ft_strtrim(inputs, " "));
 		if (history(inputs))
-			return (1);
+			return (free(inputs), 1);
 		free(inputs);
 		taha(shell);
 	}

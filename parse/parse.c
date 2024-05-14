@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/13 20:57:40 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/14 11:44:59 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,11 @@ t_shell	*parsing(char *inputs)
 	if (inputs)
 	{
 		shell = lexer(inputs);
+		free(inputs);
 		if (!shell)
 			return (NULL);
 	}
+	else
+		free(inputs);
 	return (shell);
 }

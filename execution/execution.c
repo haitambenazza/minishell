@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/13 17:53:40 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/14 11:53:45 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ void	clean_up(t_shell *shell)
 	t_shell	*tmp;
 
 	tmp = shell;
+	if (shell->mask)
+		free(shell->mask);
+	if (shell->token)
+		free(shell->token);
 	while (tmp)
 	{
 		if (tmp->cmd)

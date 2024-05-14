@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/13 19:58:46 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/14 11:53:35 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_token	*tokenize(char *m)
 	}
 	tokens[j] = 10;
 	if (j == 0)
-		return (NULL);
+		return (free(tokens), NULL);
 	return (tokens);
 }
 
@@ -73,10 +73,12 @@ t_shell	*lexer(char *inputs)
 		return (NULL);
 	t = tokenize(mask);
 	if (!t)
-		return (NULL);
+		return (free(mask), NULL);
 	shell = create_list(inputs);
 	parcing_tokens(t, mask);
 	if (!shell)
 		return (free(t), free(mask), NULL);
-	return (free(t), free(mask), shell);
+	shell->mask = mask;
+	shell->token = t;
+	return (shell);
 }
