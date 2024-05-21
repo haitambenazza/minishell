@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/20 14:15:18 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/21 10:19:43 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,31 @@ t_token	*tokenize(char *m)
 	return (tokens);
 }
 
+void	special_string(char *str)
+{
+	int	i;
+	int	holder;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '"')
+		{
+			holder = str[i];
+			i++;
+			while (str[i] && str[i] != holder)
+			{
+				if (str[i] == '|')
+					str[i] = 1;
+				else if (str[i] == ' ')
+					str[i] = 2;
+				i++;
+			}
+		}
+		i++;
+	}
+}
+
 t_shell	*lexer(char *inputs)
 {
 	t_shell	*shell;
@@ -72,10 +97,11 @@ t_shell	*lexer(char *inputs)
 	if (!mask)
 		return (NULL);
 	t = tokenize(mask);
+	parcing_pipe(t, mask);
+	special_string(inputs);
 	if (!t)
 		return (free(mask), NULL);
 	shell = create_list(inputs);
-	parcing_pipe(t, mask);
 	if (!shell)
 		return (free(t), free(mask), NULL);
 	shell->mask = mask;

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/17 09:43:02 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/21 10:18:32 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ void	*taha(t_shell *cmds)
 	i = 0;
 	if (!cmds)
 		return (NULL);
+	for (t_shell *t = tmp; t; t=t->next)
+	{
+		for (int l = 0; t->cmd[l]; l++)
+			printf("%s\n", t->cmd[l]);
+		printf("next\n");
+	}
+
 	while (tmp)
 	{
 		if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "pwd"))
