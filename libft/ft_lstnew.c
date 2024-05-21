@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/21 10:28:45 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/21 10:31:15 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_shell	*ft_lstnew(char *str)
 {
 	t_shell	*node;
 
-	// (void)str;
+	(void)str;
 	node = malloc(sizeof(t_shell));
 	if (!node)
 		return (NULL);

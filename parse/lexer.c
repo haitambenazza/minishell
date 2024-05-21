@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/21 10:19:43 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/21 14:25:01 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	special_string(char *str)
 				i++;
 			}
 		}
+		if (!str[i])
+			break ;
 		i++;
 	}
 }

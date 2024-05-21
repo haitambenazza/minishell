@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/21 10:18:32 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:10:47 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*taha(t_shell *cmds)
 	{
 		for (int l = 0; t->cmd[l]; l++)
 			printf("%s\n", t->cmd[l]);
-		printf("next\n");
+		printf("next command\n");
 	}
 
 	while (tmp)
