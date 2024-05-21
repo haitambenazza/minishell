@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 20:22:24 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/13 19:59:02 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/21 08:21:24 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ void	masking(char *str, int i, char c)
 		str[i] = '3';
 	else if (c == ' ')
 		str[i] = '1';
+	else if (c == '=')
+		str[i] = '=';
+	else if (c == '$')
+		str[i] = '9';
 	else
 		str[i] = '0';
 }
@@ -74,9 +78,9 @@ void	cmd_tokens(char mask, t_token *t, int i)
 	if (mask == '2')
 		t[i] = PIPE;
 	else if (mask == '3')
-		t[i] = REDIRECTION_IN;
+		t[i] = RED_IN;
 	else if (mask == '4')
-		t[i] = REDIRECTION_OUT;
+		t[i] = RED_OUT;
 	else if (mask == '5')
 		t[i] = QUOTE;
 	else if (mask == '6')
@@ -85,6 +89,10 @@ void	cmd_tokens(char mask, t_token *t, int i)
 		t[i] = AND;
 	else if (mask == '1')
 		t[i] = ESPACE;
+	else if (mask == '9')
+		t[i] = DOLLAR;
+	else if (mask == '=')
+		t[i] = EQUAL;
 	else
 		t[i] = CMD;
 }

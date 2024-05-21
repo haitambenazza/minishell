@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:06:42 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/13 17:51:16 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:38:22 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <signal.h>
 
 typedef enum s_token
@@ -29,12 +30,14 @@ typedef enum s_token
 	CMD = 0,
 	ESPACE = 1,
 	PIPE = 2,
-	REDIRECTION_IN = 3,
-	REDIRECTION_OUT = 4,
+	RED_IN = 3,
+	RED_OUT = 4,
 	QUOTE = 5,
 	SINGEL_Q = 6,
 	FILE_NAME = 7,
 	AND = 8,
+	DOLLAR = 9,
+	EQUAL = 10
 }	t_token;
 
 typedef struct shell
@@ -50,7 +53,7 @@ typedef struct shell
 
 int		reading_promp(void);
 char	*ft_strdup(const char *s1);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *str);
 t_shell	*parsing(char *inputs);
@@ -72,6 +75,9 @@ void	clean_up(t_shell *shell);
 int		ft_exit(t_shell *shell);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_strchr(char *s, int c);
-int	parcing_tokens(t_token *token, char *mask);
+int		parcing_pipe(t_token *token, char *mask);
+int		ft_cd(t_shell *shell);
+void	parser_error(void);
+int		ft_strcount(char *s, char chr);
 
 #endif

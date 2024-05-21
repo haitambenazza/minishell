@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:29:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/04/25 10:03:19 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:26:10 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*checking(char const *s1, char const *s2)
 	return (NULL);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*p;
 	size_t	len;
@@ -46,6 +46,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		p[i] = *(char *)s2++;
 		i++;
 	}
+	if (s1)
+		free(s1);
 	p[i] = '\0';
 	return (p);
 }

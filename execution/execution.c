@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/14 11:53:45 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/17 09:43:02 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	*taha(t_shell *cmds)
 			ft_pwd(tmp);
 		if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "exit"))
 			ft_exit(tmp);
+		if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "cd"))
+			ft_cd(tmp);
 		tmp = tmp->next;
 		i++;
 	}
