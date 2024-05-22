@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:06:42 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/16 17:38:22 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/22 19:03:02 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,19 @@ typedef enum s_token
 typedef struct shell
 {
 	char			**cmd;
-	struct shell	*next;
 	char			*file_name;
 	int				input_fd;
 	int				output_fd;
 	t_token			*token;
 	char			*mask;
+	struct shell	*next;
 }	t_shell;
+
+typedef	struct s_env
+{
+	char			*env_var;
+	struct s_env	*next;
+}	t_env;
 
 int		reading_promp(void);
 char	*ft_strdup(const char *s1);
@@ -59,8 +65,10 @@ size_t	ft_strlen(const char *str);
 t_shell	*parsing(char *inputs);
 char	**ft_split(char *s, char c);
 t_shell	*ft_lstnew(char *str);
+t_env	*ft_lstnew2(char *str);
 t_shell	*create_list(char *input);
 void	ft_lstadd_back(t_shell **lst, t_shell *new);
+void	ft_lstadd_back2(t_env **lst, t_env *new);
 int		history(char *str);
 t_shell	*lexer(char *inputs);
 void	*taha(t_shell *cmds);
@@ -79,5 +87,6 @@ int		parcing_pipe(t_token *token, char *mask);
 int		ft_cd(t_shell *shell);
 void	parser_error(void);
 int		ft_strcount(char *s, char chr);
+int     excute_cmd(t_shell *cmds);
 
 #endif

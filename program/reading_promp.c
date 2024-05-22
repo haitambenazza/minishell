@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reading_promp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/21 17:20:05 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/22 18:23:27 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handler(int signal)
 	if (signal == SIGINT)
 	{
 		write(1, "\n", 1);
-		rl_replace_line("", 1);
+		//rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
 	}

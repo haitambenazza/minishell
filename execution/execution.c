@@ -3,39 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/21 17:06:44 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/22 18:24:14 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	clean_up(t_shell *shell);
-void	free_array(char **v);
-
-void	*taha(t_shell *cmds)
+void	builtin(t_shell *cmds)
 {
-	//here you can work on execution fetch the commands with tmp->cmd[i]
-	t_shell	*tmp;
 	int		i;
+	t_shell	*tmp;
 
-	tmp = cmds;
 	i = 0;
-	if (!cmds)
-		return (NULL);
+	tmp = cmds;
 	while (tmp)
 	{
 		if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "pwd"))
 			ft_pwd(tmp);
-		if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "exit"))
+		else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "exit"))
 			ft_exit(tmp);
-		if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "cd"))
+		else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "cd"))
 			ft_cd(tmp);
-		tmp = tmp->next;
+		else
+			excute_cmd(cmds);
+		tmp= tmp->next;
 		i++;
 	}
+}
+	// for (t_shell *tmp = cmds; tmp; tmp=tmp->next)
+	// {
+	// 	for (int i=0; tmp->cmd[i]; i++)
+	// 		printf("node nbr %d : %s \n",i , tmp->cmd[i]);
+	// }
+
+void	*taha(t_shell *cmds)
+{
+	if (!cmds)
+		return (NULL);
+	builtin(cmds);
 	clean_up(cmds);
 	return (NULL);
 }

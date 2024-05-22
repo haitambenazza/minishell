@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 11:20:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/04/24 18:53:20 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/22 18:52:54 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,25 @@
 void	ft_lstadd_back(t_shell **lst, t_shell *new)
 {
 	t_shell	*traverse;
+
+	if (!lst || !new)
+		return ;
+	if (!(*lst))
+	{
+		*lst = new;
+		new->next = NULL;
+		return ;
+	}
+	traverse = *lst;
+	while (traverse->next)
+	{
+		traverse = traverse->next;
+	}
+	traverse->next = new;
+}
+void	ft_lstadd_back2(t_env **lst, t_env *new)
+{
+	t_env	*traverse;
 
 	if (!lst || !new)
 		return ;
