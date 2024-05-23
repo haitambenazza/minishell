@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:37:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/15 18:56:42 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/22 10:25:40 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,9 @@ int	ft_pwd(t_shell *shell)
 	char	*dir;
 	int		i;
 
+	(void)shell;
 	i = 0;
-	while (shell->cmd[i])
-		i++;
-	if (i > 1)
-		return (write(2, "pwd: too many arguments! \n", 26), 1);
-	dir = getcwd((void *)0, 0);
+	dir = getcwd(NULL, 0);
 	if (dir)
 		printf("%s\n", dir);
 	else
