@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   excute_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:14:09 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/22 18:13:48 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/05/23 12:08:25 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int     excute_cmd(t_shell *cmds)
+int	excute_cmd(t_shell *cmds, char **env)
 {
     (void)cmds;
+	(void)env;
     // int pipe[2];
     //int pid;
 

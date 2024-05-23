@@ -3,22 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/22 18:24:14 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/05/23 12:14:47 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	builtin(t_shell *cmds)
+void	builtin(t_shell *cmds, char **env)
 {
 	int		i;
 	t_shell	*tmp;
 
 	i = 0;
 	tmp = cmds;
+	for (t_shell *tmp = cmds; tmp; tmp=tmp->next)
+	{
+		for (int i=0; tmp->cmd[i]; i++)
+			printf("node nbr %d : %s \n",i , tmp->cmd[i]);
+	}
 	while (tmp)
 	{
 		if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "pwd"))
@@ -28,22 +33,17 @@ void	builtin(t_shell *cmds)
 		else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "cd"))
 			ft_cd(tmp);
 		else
-			excute_cmd(cmds);
+			excute_cmd(cmds, env);
 		tmp= tmp->next;
 		i++;
 	}
 }
-	// for (t_shell *tmp = cmds; tmp; tmp=tmp->next)
-	// {
-	// 	for (int i=0; tmp->cmd[i]; i++)
-	// 		printf("node nbr %d : %s \n",i , tmp->cmd[i]);
-	// }
 
-void	*taha(t_shell *cmds)
+void	*execute(t_shell *cmds, char **env)
 {
 	if (!cmds)
 		return (NULL);
-	builtin(cmds);
+	builtin(cmds, env);
 	clean_up(cmds);
 	return (NULL);
 }

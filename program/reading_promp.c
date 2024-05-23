@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reading_promp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/22 18:23:27 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/05/23 12:06:11 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	cntl_D(void)
 	write(1, "exit\n", 5);
 }
 
-int	reading_promp(void)
+int	reading_promp(char **env)
 {
 	t_shell	*shell;
 	char	*inputs;
@@ -62,7 +62,7 @@ int	reading_promp(void)
 		if (history(inputs))
 			return (free(inputs), 1);
 		free(inputs);
-		taha(shell);
+		execute(shell, env);
 	}
 	return (0);
 }
