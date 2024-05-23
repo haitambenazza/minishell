@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/22 18:24:14 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/05/23 11:54:36 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,10 @@ void	builtin(t_shell *cmds)
 		i++;
 	}
 }
-	// for (t_shell *tmp = cmds; tmp; tmp=tmp->next)
-	// {
-	// 	for (int i=0; tmp->cmd[i]; i++)
-	// 		printf("node nbr %d : %s \n",i , tmp->cmd[i]);
-	// }
 
-void	*taha(t_shell *cmds)
+void	*execute(t_shell *cmds, char **env)
 {
+	(void)env;
 	if (!cmds)
 		return (NULL);
 	builtin(cmds);
