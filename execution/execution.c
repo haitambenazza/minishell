@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/24 13:18:46 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/24 14:21:12 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,10 @@ void	clean_lst(t_env *shell)
 	lst = shell;
 	while (shell)
 	{
+		if (shell->key)
+			free(shell->key);
+		if (shell->value)
+			free(shell->value);
 		lst = shell->next;
 		free(shell);
 		shell = lst;
@@ -78,8 +82,8 @@ void	clean_up(t_shell *shell)
 		free(shell->mask);
 	if (shell->token)
 		free(shell->token);
-	// if (shell)
-	// 	clean_lst(shell->env);
+	if (shell)
+		clean_lst(shell->env);
 	while (tmp)
 	{
 		if (tmp->cmd)

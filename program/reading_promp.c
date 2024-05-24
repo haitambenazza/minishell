@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/24 14:00:35 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/24 14:21:08 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	reading_promp(char **env)
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handl);
 	lst = create_lst_env(env);
-	// clean_lst(lst);
+	clean_lst(lst);
 	while (1)
 	{
 		inputs = readline("minishell>");
