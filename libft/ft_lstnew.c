@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/22 19:02:46 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/05/24 14:07:02 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,53 @@ t_shell	*ft_lstnew(char *str)
 	node->next = NULL;
 	return (node);
 }
+
+char	*get_key(char *str)
+{
+	char	*key;
+	int		i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	key = malloc(sizeof(char) * (i + 1));
+	if (!key)
+		return (NULL);
+	i = 0;
+	while (str[i] && str[i] != '=')
+	{
+		key[i] = str[i];
+		i++;
+	}
+	key[i] = '\0';
+	return (key);
+}
+
+char	*get_value(char *str)
+{
+	char	*value;
+	int		i;
+
+	i = 0;
+	while (*str != '=')
+		str ++;
+	if (*str == '=')
+		str++;
+	while (str[i])
+		i++;
+	value = malloc((i + 1));
+	if (!value)
+		return (NULL);
+	i = 0;
+	while (*str)
+	{
+		value[i] = *(str++);
+		i++;
+	}
+	value[i] = 0;
+	return (value);
+}
+
 t_env	*ft_lstnew2(char *str)
 {
 	t_env	*node;
@@ -55,7 +102,8 @@ t_env	*ft_lstnew2(char *str)
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
-	node->env_var = str;
+	node->key = get_key(str);
+	node->value = get_value(str);
 	node->next = NULL;
 	return (node);
 }

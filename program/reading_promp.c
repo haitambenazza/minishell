@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/23 12:06:11 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/24 14:00:35 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handler(int signal)
 	if (signal == SIGINT)
 	{
 		write(1, "\n", 1);
-		//rl_replace_line("", 1);
+		rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
 	}
@@ -46,23 +46,47 @@ void	cntl_D(void)
 	write(1, "exit\n", 5);
 }
 
+t_env	*create_lst_env(char **env)
+{
+	t_env	*head;
+	t_env	*node;
+	int		i;
+
+	i = 0;
+	head = NULL;
+	while (env[i])
+	{
+		node = ft_lstnew2(env[i]);
+		ft_lstadd_back2(&head, node);
+		i++;
+		node = node->next;
+	}
+	return (head);
+}
+
 int	reading_promp(char **env)
 {
 	t_shell	*shell;
+	t_env	*lst;
 	char	*inputs;
 
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handl);
+	lst = create_lst_env(env);
+	// clean_lst(lst);
 	while (1)
 	{
 		inputs = readline("minishell>");
 		if (!inputs)
 			return (cntl_D(), 0);
 		shell = parsing(ft_strtrim(inputs, " "));
+		if (shell)
+			shell->env = create_lst_env(env);
 		if (history(inputs))
 			return (free(inputs), 1);
 		free(inputs);
-		execute(shell, env);
+		if (shell)
+			execute(shell, shell->env);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 21:45:07 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/23 12:09:49 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/24 13:09:36 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ typedef enum s_token
 	EQUAL = 10
 }	t_token;
 
+typedef	struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct shell
 {
 	char			**cmd;
@@ -49,14 +56,8 @@ typedef struct shell
 	t_token			*token;
 	char			*mask;
 	struct shell	*next;
+	struct s_env	*env;
 }	t_shell;
-
-typedef	struct s_env
-{
-	char			*line;
-	struct s_env	*next;
-}	t_env;
-
 
 /*------- parsing --------*/
 t_shell	*parsing(char *inputs);
@@ -70,20 +71,22 @@ char	*cmd_mask(char *str);
 /*------------------------*/
 
 /*--------excution--------*/
-void	*execute(t_shell *cmds, char **env);
+void	*execute(t_shell *cmds, t_env *env);
 int		history(char *str);
 int		reading_promp(char **env);
-int		excute_cmd(t_shell *cmds, char **env);
+int		excute_cmd(t_shell *cmds, t_env *env);
 /*------------------------*/
 
 /*--------built-in--------*/
 int		ft_pwd(t_shell *shell);
 int		ft_cd(t_shell *shell);
 int		ft_exit(t_shell *shell);
+int		ft_export(t_shell *shell, t_env *env);
 /*------------------------*/
 
 /*--------clean-up--------*/
 void	clean_up(t_shell *shell);
+void	clean_lst(t_env *shell);
 void	free_array(char **v);
 /*------------------------*/
 
@@ -94,8 +97,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *str);
 char	**ft_split(char *s, char c);
 t_shell	*ft_lstnew(char *str);
+t_env	*ft_lstnew2(char *str);
 t_shell	*create_list(char *input);
 void	ft_lstadd_back(t_shell **lst, t_shell *new);
+void	ft_lstadd_back2(t_env **lst, t_env *new);
 int		ft_strncmp(char *s1, char *s2);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_strchr(char *s, int c);

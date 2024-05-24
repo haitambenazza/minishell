@@ -6,24 +6,19 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/23 12:14:47 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/24 13:18:46 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	builtin(t_shell *cmds, char **env)
+void	builtin(t_shell *cmds, t_env *env)
 {
 	int		i;
 	t_shell	*tmp;
 
 	i = 0;
 	tmp = cmds;
-	for (t_shell *tmp = cmds; tmp; tmp=tmp->next)
-	{
-		for (int i=0; tmp->cmd[i]; i++)
-			printf("node nbr %d : %s \n",i , tmp->cmd[i]);
-	}
 	while (tmp)
 	{
 		if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "pwd"))
@@ -32,6 +27,8 @@ void	builtin(t_shell *cmds, char **env)
 			ft_exit(tmp);
 		else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "cd"))
 			ft_cd(tmp);
+		else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "export"))
+			ft_export(tmp, env);
 		else
 			excute_cmd(cmds, env);
 		tmp= tmp->next;
@@ -39,10 +36,8 @@ void	builtin(t_shell *cmds, char **env)
 	}
 }
 
-void	*execute(t_shell *cmds, char **env)
+void	*execute(t_shell *cmds, t_env *env)
 {
-	if (!cmds)
-		return (NULL);
 	builtin(cmds, env);
 	clean_up(cmds);
 	return (NULL);
@@ -61,6 +56,19 @@ void	free_array(char **v)
 	free(v);
 }
 
+void	clean_lst(t_env *shell)
+{
+	t_env	*lst;
+
+	lst = shell;
+	while (shell)
+	{
+		lst = shell->next;
+		free(shell);
+		shell = lst;
+	}
+}
+
 void	clean_up(t_shell *shell)
 {
 	t_shell	*tmp;
@@ -70,6 +78,8 @@ void	clean_up(t_shell *shell)
 		free(shell->mask);
 	if (shell->token)
 		free(shell->token);
+	// if (shell)
+	// 	clean_lst(shell->env);
 	while (tmp)
 	{
 		if (tmp->cmd)

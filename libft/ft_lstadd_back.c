@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 11:20:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/22 18:52:54 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/05/23 17:36:10 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_lstadd_back(t_shell **lst, t_shell *new)
 	}
 	traverse->next = new;
 }
+
 void	ft_lstadd_back2(t_env **lst, t_env *new)
 {
 	t_env	*traverse;

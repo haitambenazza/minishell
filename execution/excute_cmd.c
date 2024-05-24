@@ -6,13 +6,13 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:14:09 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/23 12:08:25 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/23 18:43:40 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	excute_cmd(t_shell *cmds, char **env)
+int	excute_cmd(t_shell *cmds, t_env *env)
 {
     (void)cmds;
 	(void)env;
