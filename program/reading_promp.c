@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reading_promp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/24 14:21:08 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/24 16:11:07 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	reading_promp(char **env)
 	clean_lst(lst);
 	while (1)
 	{
-		inputs = readline("minishell>");
+		inputs = readline("minishell~> ");
 		if (!inputs)
 			return (cntl_D(), 0);
 		shell = parsing(ft_strtrim(inputs, " "));
@@ -86,7 +86,7 @@ int	reading_promp(char **env)
 			return (free(inputs), 1);
 		free(inputs);
 		if (shell)
-			execute(shell, shell->env);
+			execute(shell);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
+#    By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/05/23 18:40:03 by hbenazza         ###   ########.fr        #
+#    Updated: 2024/05/24 16:29:03 by tkoulal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC = ./program/main.c\
 	./libft/ft_atoi.c\
 	./libft/ft_lstadd_back.c \
 	./libft/ft_lstadd_front.c \
+	./libft/ft_lstsize.c \
 	./libft/ft_lstnew.c	\
 	./libft/ft_split.c \
 	./libft/ft_strdup.c \
