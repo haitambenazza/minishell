@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 21:45:07 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/24 13:09:36 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/25 02:01:30 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct shell
 	char			*file_name;
 	int				input_fd;
 	int				output_fd;
+	int				pipe[2];
 	t_token			*token;
 	char			*mask;
 	struct shell	*next;
@@ -71,17 +72,18 @@ char	*cmd_mask(char *str);
 /*------------------------*/
 
 /*--------excution--------*/
-void	*execute(t_shell *cmds, t_env *env);
+void	*execute(t_shell *cmds);
 int		history(char *str);
 int		reading_promp(char **env);
-int		excute_cmd(t_shell *cmds, t_env *env);
+int		execute_cmd(t_shell *cmds);
 /*------------------------*/
 
 /*--------built-in--------*/
 int		ft_pwd(t_shell *shell);
 int		ft_cd(t_shell *shell);
 int		ft_exit(t_shell *shell);
-int		ft_export(t_shell *shell, t_env *env);
+int		ft_env(t_env *shell);
+int		ft_export(t_shell *shell);
 /*------------------------*/
 
 /*--------clean-up--------*/
@@ -101,6 +103,7 @@ t_env	*ft_lstnew2(char *str);
 t_shell	*create_list(char *input);
 void	ft_lstadd_back(t_shell **lst, t_shell *new);
 void	ft_lstadd_back2(t_env **lst, t_env *new);
+int 	lstsize(t_shell *cmd);
 int		ft_strncmp(char *s1, char *s2);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_strchr(char *s, int c);

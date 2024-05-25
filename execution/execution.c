@@ -6,39 +6,70 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/24 14:21:12 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:49:59 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	builtin(t_shell *cmds, t_env *env)
+void	open_pipes(t_shell *cmd)
 {
-	int		i;
-	t_shell	*tmp;
-
-	i = 0;
-	tmp = cmds;
-	while (tmp)
-	{
-		if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "pwd"))
-			ft_pwd(tmp);
-		else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "exit"))
-			ft_exit(tmp);
-		else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "cd"))
-			ft_cd(tmp);
-		else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "export"))
-			ft_export(tmp, env);
-		else
-			excute_cmd(cmds, env);
-		tmp= tmp->next;
-		i++;
-	}
+	if (!cmd)
+		return;
+	cmd->next->input_fd = cmd->pipe[0];
+	cmd->input_fd = cmd->pipe[1];
 }
 
-void	*execute(t_shell *cmds, t_env *env)
+int	if_built_in_run(t_shell *tmp)
 {
-	builtin(cmds, env);
+	if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "pwd"))
+		return (ft_pwd(tmp));
+	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "echo"))
+		;//return (ft_echo(tmp));
+	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "exit"))
+		return (ft_exit(tmp));
+	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "cd"))
+		return (ft_cd(tmp));
+	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "export"))
+		return (ft_export(tmp));
+	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "env"))
+		return (ft_env(tmp->env));
+	return (1);
+}
+
+int	is_built_in(t_shell *tmp)
+{
+	if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "pwd"))
+		return (0);
+	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "echo"))
+		return (0);
+	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "exit"))
+		return (0);
+	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "cd"))
+		return (0);
+	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "export"))
+		return (0);
+	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "env"))
+		return (0);
+	return (1);
+}
+
+void	*execute(t_shell *cmds)
+{
+	t_shell	*tmp;
+
+	tmp = cmds;
+	if (tmp->next == NULL)
+	{
+		if (if_built_in_run(tmp))
+			execute_cmd(tmp);
+	}
+	else
+		open_pipes(tmp);
+	if (!is_built_in(tmp) && tmp->next)
+		execute_cmd(tmp->next);
+	else if (is_built_in(tmp) && tmp->next)
+		execute_cmd(tmp->next);
 	clean_up(cmds);
 	return (NULL);
 }
