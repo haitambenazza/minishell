@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:37:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/24 23:51:50 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/05/25 09:57:17 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,13 @@ int	ft_export(t_shell *shell)
 
 int	ft_env(t_env *shell)
 {
-	while (shell)
+	t_env	*tmp;
+
+	tmp = shell;
+	while (tmp)
 	{
-		printf("%s=%s\n", shell->key, shell->value);
-		shell = shell->next;
+		printf("%s=%s\n", tmp->key, tmp->value);
+		tmp = tmp->next;
 	}
 	return (0);
 }
