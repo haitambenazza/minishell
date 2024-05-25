@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/23 17:57:53 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/25 09:37:00 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ t_shell	*lexer(char *inputs)
 	t = tokenize(mask);
 	if (!t)
 		return (free(mask), NULL);
-	parcing_pipe(t, mask);
+	if (parcing_pipe(t, mask))
+		return (NULL);
 	special_string(inputs);
 	shell = create_list(inputs);
 	if (!shell)
