@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/26 12:01:24 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/26 12:50:44 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ char	*add_space(char *str)
 
 	len = new_lenght(str);
 	out = malloc(sizeof(char) * (len + 1));
-	printf("%s %d\n", str, len);
 	if (!out)
 		return (NULL);
 	i = 0;
@@ -172,6 +171,7 @@ t_shell	*lexer(char *inputs)
 {
 	t_shell	*shell;
 	t_token	*t;
+	char	*sp;
 	char	*mask;
 
 	mask = cmd_mask(inputs);
@@ -182,17 +182,12 @@ t_shell	*lexer(char *inputs)
 		return (free(mask), NULL);
 	if (parcing_pipe(t, mask))
 		return (NULL);
-	char *sp = add_space(inputs);
+	sp = add_space(inputs);
 	special_string(sp);
 	shell = create_list(sp);
 	if (!shell)
-		return (free(t), free(mask), NULL);
-	for (t_shell *tmp = shell; tmp; tmp=tmp->next)
-	{
-		for (int i = 0; tmp->cmd[i]; i++)
-			printf("%s\n", tmp->cmd[i]);
-	}
+		return (free(sp), free(t), free(mask), NULL);
 	shell->mask = mask;
 	shell->token = t;
-	return (shell);
+	return (free(sp), shell);
 }
