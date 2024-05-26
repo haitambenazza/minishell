@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/25 09:37:00 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/26 12:01:24 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,85 @@ void	special_string(char *str)
 	}
 }
 
+int	new_lenght(char *str)
+{
+	int	len;
+	int	i;
+
+	i = 0;
+	len = ft_strlen(str);
+	while (str[i])
+	{
+		if ((str[i] == '>' || str[i] == '<') && str[i] != str[i + 1])
+			len += 2;
+		i++;
+	}
+	return (len);
+}
+
+void	skip_quotes(char *out, int *len, char *str, int *i)
+{
+	char	quote;
+
+	if (str[*i] == '"' || str[*i] == '\'')
+	{
+		quote = str[*i];
+		out[*len] = str[*i];
+		*len += 1;
+		*i += 1;
+		while (str[*i] && str[*i] != quote)
+		{
+			out[*len] = str[*i];
+			*len += 1;
+			*i += 1;
+		}
+		if (str[*i] == '"' || str[*i] == '\'')
+		{
+			out[*len] = str[*i];
+			*i += 1;
+			*len += 1;
+		}
+	}
+}
+void	spacing(char *out, char *str, int *len, int *i)
+{
+	if ((str[*i] == '>' || str[*i] == '<') && str[*i] != str[*i - 1])
+	{
+		out[*len] = ' ';
+		*len += 1;
+	}
+	if (*i && (str[*i - 1] == '>' || str[*i - 1] == '<') && str[*i] != str[*i - 1])
+	{
+		out[*len] = ' ';
+		*len += 1;
+	}
+}
+
+char	*add_space(char *str)
+{
+	char	*out;
+	int		i;
+	int		len;
+
+	len = new_lenght(str);
+	out = malloc(sizeof(char) * (len + 1));
+	printf("%s %d\n", str, len);
+	if (!out)
+		return (NULL);
+	i = 0;
+	len = 0;
+	while (str[i])
+	{
+		skip_quotes(out, &len, str, &i);
+		spacing(out, str, &len, &i);
+		out[len] = str[i];
+		len++;
+		i++;
+	}
+	out[len] = 0;
+	return (out);
+}
+
 t_shell	*lexer(char *inputs)
 {
 	t_shell	*shell;
@@ -103,10 +182,16 @@ t_shell	*lexer(char *inputs)
 		return (free(mask), NULL);
 	if (parcing_pipe(t, mask))
 		return (NULL);
-	special_string(inputs);
-	shell = create_list(inputs);
+	char *sp = add_space(inputs);
+	special_string(sp);
+	shell = create_list(sp);
 	if (!shell)
 		return (free(t), free(mask), NULL);
+	for (t_shell *tmp = shell; tmp; tmp=tmp->next)
+	{
+		for (int i = 0; tmp->cmd[i]; i++)
+			printf("%s\n", tmp->cmd[i]);
+	}
 	shell->mask = mask;
 	shell->token = t;
 	return (shell);

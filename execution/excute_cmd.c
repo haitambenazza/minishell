@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   excute_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:14:09 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/25 02:01:40 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/05/26 09:05:24 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	execute_cmd(t_shell *cmds)
 {
-    puts("execute");
+    // puts("execute");
     (void)cmds;
     //int pid;
 
