@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 21:45:07 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/27 13:43:13 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/27 20:32:38 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdint.h>
 # include <limits.h>
 # include <unistd.h>
+# include <stdbool.h>
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -51,8 +52,8 @@ typedef struct s_env
 
 typedef struct s_redirect
 {
-	t_token	type;
-	char	*file_name;
+	t_token				type;
+	char				*file_name;
 	struct s_redirect	*next;
 }	t_redirect;
 
@@ -61,6 +62,7 @@ typedef struct shell
 	char				**cmd;
 	int					input_fd;
 	int					output_fd;
+	int					*list_dollar;
 	int					pipe[2];
 	t_token				*token;
 	char				*mask;

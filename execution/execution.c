@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/27 14:46:15 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/27 20:36:51 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	*execute(t_shell *cmds)
 		for (t_redirect *l = t->redirection; l; l=l->next)
 		{
 			printf("for cmd   %s\n", t->cmd[0]);
-			printf("redirection type of %d for file {%s}\n", l->type, l->file_name);
+			printf("redirection type of %u for file {%s}\n", l->type, l->file_name);
 		}
 	}
 	if (tmp->next == NULL)
@@ -119,14 +119,13 @@ void	clean_redirect(t_shell *shell)
 	t_shell		*tmp;
 	t_redirect	*redirect;
 	t_redirect	*redirect_tmp;
+
 	tmp = shell;
 	while (tmp)
 	{
-		printf("1\n");
 		redirect = tmp->redirection;
 		while (redirect)
 		{
-			printf("2\n");
 			redirect_tmp = redirect->next;
 			free(redirect);
 			redirect = redirect_tmp;

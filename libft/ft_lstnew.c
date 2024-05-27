@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/27 14:13:52 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/27 20:34:21 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,25 @@ t_redirect	*ft_lstnew_redirect(char *str, char *file)
 t_shell	*ft_lstnew(char *str)
 {
 	t_shell	*node;
+	int		i;
+	int		len;
 
-	(void)str;
+	i = 0;
+	len = 0;
 	node = malloc(sizeof(t_shell));
 	if (!node)
 		return (NULL);
 	if (str)
 		node->cmd = ft_split(str, ' ');
 	string_special(node->cmd);
+	while (node->cmd[i])
+	{
+		if (ft_strchr(node->cmd[i], '$'))
+			len++;
+		i++;
+	}
+	node->list_dollar = malloc(sizeof(int) * (len + 1));
+	node->list_dollar[len] = 2;
 	node->redirection = NULL;
 	node->next = NULL;
 	return (node);

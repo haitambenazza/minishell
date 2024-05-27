@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/27 14:29:44 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/27 20:36:33 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,12 @@ int	new_lenght(char *str)
 	}
 	return (len);
 }
+void	copy_char(char *out, char *str, int *len, int *i)
+{
+	out[*len] = str[*i];
+	*i += 1;
+	*len += 1;
+}
 
 void	skip_quotes(char *out, int *len, char *str, int *i)
 {
@@ -100,17 +106,9 @@ void	skip_quotes(char *out, int *len, char *str, int *i)
 		*len += 1;
 		*i += 1;
 		while (str[*i] && str[*i] != quote)
-		{
-			out[*len] = str[*i];
-			*len += 1;
-			*i += 1;
-		}
+			copy_char(out, str, len, i);
 		if (str[*i] == '"' || str[*i] == '\'')
-		{
-			out[*len] = str[*i];
-			*i += 1;
-			*len += 1;
-		}
+			copy_char(out, str, len, i);
 	}
 }
 void	spacing(char *out, char *str, int *len, int *i)
@@ -140,9 +138,6 @@ char	*add_space(char *str)
 	i = 0;
 	len = 0;
 	while (str[i])
-		i++;
-	i = 0;
-	while (str[i])
 	{
 		skip_quotes(out, &len, str, &i);
 		spacing(out, str, &len, &i);
@@ -165,12 +160,13 @@ int	lst_size(char **lst)
 	return (len);
 }
 
-char	*new_cmd(char *str)
+char	*new_cmd(char *str, t_shell *shell)
 {
 	char	*output;
 	char	**lst;
 	int		i;
 
+	(void)shell;
 	i = 0;
 	while (str[i])
 	{
@@ -202,7 +198,7 @@ void	remove_quotes(t_shell *shell)
 		i = 0;
 		while (tmp->cmd[i])
 		{
-			tmp->cmd[i] = new_cmd(tmp->cmd[i]);
+			tmp->cmd[i] = new_cmd(tmp->cmd[i], tmp);
 			i++;
 		}
 		tmp = tmp->next;
