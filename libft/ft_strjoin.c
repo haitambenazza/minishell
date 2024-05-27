@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:29:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/16 13:26:10 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/27 11:11:49 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,64 @@ static char	*checking(char const *s1, char const *s2)
 	return (NULL);
 }
 
+char	*ft_strcat(char *s1, char *s2)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = ft_strlen(s1);
+	while (s2[i])
+	{
+		s1[j] = s2[i];
+		i++;
+		j++;
+	}
+	s1[j] = '\0';
+	return (s1);
+}
+
+char	*new_str(char *seperator, int size, int t, char **strs)
+{
+	int		i;
+	char	*str;
+
+	i = 0;
+	if (size == 0)
+		t = 1;
+	str = (char *)malloc(t);
+	if (str == NULL)
+		return (0);
+	str[0] = '\0';
+	i = 0;
+	while (i < size)
+	{
+		str = ft_strcat(str, strs[i]);
+		if (i < size - 1)
+			str = ft_strcat(str, seperator);
+		i++;
+	}
+	return (str);
+}
+
+char	*ft_strjoin2(int size, char **strs, char *sep)
+{
+	int		i;
+	int		total;
+	char	*sentence;
+
+	total = 0;
+	i = 0;
+	while (i < size)
+	{
+		total = total + ft_strlen(strs[i]);
+		i++;
+	}
+	i = 0;
+	total = total + (size - 1) * ft_strlen(sep) + 1;
+	sentence = new_str(sep, size, total, strs);
+	return (sentence);
+}
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*p;

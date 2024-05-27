@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 21:45:07 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/25 02:01:30 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/05/27 13:43:13 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,36 @@ typedef enum s_token
 	FILE_NAME = 7,
 	AND = 8,
 	DOLLAR = 9,
-	EQUAL = 10
+	EQUAL = 10,
+	APPEND = 11,
+	DELIMET = 12
 }	t_token;
 
-typedef	struct s_env
+typedef struct s_env
 {
 	char			*key;
 	char			*value;
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_redirect
+{
+	t_token	type;
+	char	*file_name;
+	struct s_redirect	*next;
+}	t_redirect;
+
 typedef struct shell
 {
-	char			**cmd;
-	char			*file_name;
-	int				input_fd;
-	int				output_fd;
-	int				pipe[2];
-	t_token			*token;
-	char			*mask;
-	struct shell	*next;
-	struct s_env	*env;
+	char				**cmd;
+	int					input_fd;
+	int					output_fd;
+	int					pipe[2];
+	t_token				*token;
+	char				*mask;
+	struct shell		*next;
+	struct s_redirect	*redirection;
+	struct s_env		*env;
 }	t_shell;
 
 /*------- parsing --------*/
@@ -89,25 +98,28 @@ int		ft_export(t_shell *shell);
 /*--------clean-up--------*/
 void	clean_up(t_shell *shell);
 void	clean_lst(t_env *shell);
-void	free_array(char **v);
+int		free_array(char **v);
 /*------------------------*/
 
 /*--------help_fct--------*/
-char	*ft_strdup(const char *s1);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-size_t	ft_strlen(const char *str);
-char	**ft_split(char *s, char c);
-t_shell	*ft_lstnew(char *str);
-t_env	*ft_lstnew2(char *str);
-t_shell	*create_list(char *input);
-void	ft_lstadd_back(t_shell **lst, t_shell *new);
-void	ft_lstadd_back2(t_env **lst, t_env *new);
-int 	lstsize(t_shell *cmd);
-int		ft_strncmp(char *s1, char *s2);
-char	*ft_strtrim(char *s1, char *set);
-char	*ft_strchr(char *s, int c);
-int		ft_strcount(char *s, char chr);
+char		*ft_strdup(const char *s1);
+char		*ft_strjoin(char *s1, char *s2);
+char		*ft_substr(char const *s, unsigned int start, size_t len);
+size_t		ft_strlen(const char *str);
+char		**ft_split(char *s, char c);
+t_shell		*ft_lstnew(char *str);
+t_env		*ft_lstnew2(char *str);
+t_shell		*create_list(char *input);
+void		ft_lstadd_back(t_shell **lst, t_shell *new);
+void		ft_lstadd_back2(t_env **lst, t_env *new);
+int 		lstsize(t_shell *cmd);
+int			ft_strncmp(char *s1, char *s2);
+char		*ft_strtrim(char *s1, char *set);
+char		*ft_strchr(char *s, int c);
+int			ft_strcount(char *s, char chr);
+char		*ft_strjoin2(int size, char **strs, char *sep);
+t_redirect	*ft_lstnew_redirect(char *str, char *file);
+void		ft_lstadd_back3(t_redirect **lst, t_redirect *new);
 /*------------------------*/
 
 #endif

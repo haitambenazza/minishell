@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/26 12:50:44 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:29:44 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,6 @@
 
 //AST here
 //dont forgot to expand the env variables $var in the env variables
-t_shell	*create_list(char *input)
-{
-	t_shell	*node;
-	t_shell	*shell;
-	char	**cmds;
-	int		i;
-
-	i = 0;
-	cmds = ft_split(input, '|');
-	shell = NULL;
-	while (cmds[i])
-	{
-		node = ft_lstnew(cmds[i]);
-		if (!node)
-			return (NULL);
-		ft_lstadd_back(&shell, node);
-		i++;
-	}
-	free_array(cmds);
-	return (shell);
-}
 
 t_token	*tokenize(char *m)
 {
@@ -111,6 +90,11 @@ void	skip_quotes(char *out, int *len, char *str, int *i)
 
 	if (str[*i] == '"' || str[*i] == '\'')
 	{
+		if (*i && (str[*i - 1] == '>' || str[*i - 1] == '<'))
+		{
+			out[*len] = ' ';
+			*len += 1;
+		}
 		quote = str[*i];
 		out[*len] = str[*i];
 		*len += 1;
@@ -131,7 +115,7 @@ void	skip_quotes(char *out, int *len, char *str, int *i)
 }
 void	spacing(char *out, char *str, int *len, int *i)
 {
-	if ((str[*i] == '>' || str[*i] == '<') && str[*i] != str[*i - 1])
+	if (*i && (str[*i] == '>' || str[*i] == '<') && str[*i] != str[*i - 1])
 	{
 		out[*len] = ' ';
 		*len += 1;
@@ -156,15 +140,74 @@ char	*add_space(char *str)
 	i = 0;
 	len = 0;
 	while (str[i])
+		i++;
+	i = 0;
+	while (str[i])
 	{
 		skip_quotes(out, &len, str, &i);
 		spacing(out, str, &len, &i);
 		out[len] = str[i];
+		if (!str[i])
+			break ;
 		len++;
 		i++;
 	}
 	out[len] = 0;
 	return (out);
+}
+int	lst_size(char **lst)
+{
+	int	len;
+
+	len = 0;
+	while (lst[len])
+		len++;
+	return (len);
+}
+
+char	*new_cmd(char *str)
+{
+	char	*output;
+	char	**lst;
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'')
+		{
+			lst = ft_split(str, '\'');
+			output = ft_strjoin2(lst_size(lst), lst, "");
+			return (free(str), free_array(lst), output);
+		}
+		else if (str[i] == '"')
+		{
+			lst = ft_split(str, '"');
+			output = ft_strjoin2(lst_size(lst), lst, "");
+			return (free(str), free_array(lst), output);
+		}
+		i++;
+	}
+	return (str);
+}
+
+void	remove_quotes(t_shell *shell)
+{
+	t_shell	*tmp;
+	int		i;
+
+	tmp = shell;
+	while (tmp)
+	{
+		i = 0;
+		while (tmp->cmd[i])
+		{
+			tmp->cmd[i] = new_cmd(tmp->cmd[i]);
+			i++;
+		}
+		tmp = tmp->next;
+	}
+
 }
 
 t_shell	*lexer(char *inputs)
@@ -187,6 +230,7 @@ t_shell	*lexer(char *inputs)
 	shell = create_list(sp);
 	if (!shell)
 		return (free(sp), free(t), free(mask), NULL);
+	remove_quotes(shell);
 	shell->mask = mask;
 	shell->token = t;
 	return (free(sp), shell);

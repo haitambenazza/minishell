@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/24 16:39:12 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/05/27 14:13:52 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,27 @@ void	string_special(char **cmd)
 	}
 }
 
+t_redirect	*ft_lstnew_redirect(char *str, char *file)
+{
+	t_redirect	*node;
+
+	(void)str;
+	node = malloc(sizeof(t_redirect));
+	if (!node)
+		return (NULL);
+	if (!ft_strncmp(str, ">"))
+		node->type = RED_OUT;
+	else if (!ft_strncmp(str, "<"))
+		node->type = RED_IN;
+	else if (!ft_strncmp(str, ">>"))
+		node->type = APPEND;
+	else if (!ft_strncmp(str, "<<"))
+		node->type = DELIMET;
+	node->file_name = file;
+	node->next = NULL;
+	return (node);
+}
+
 t_shell	*ft_lstnew(char *str)
 {
 	t_shell	*node;
@@ -44,6 +65,7 @@ t_shell	*ft_lstnew(char *str)
 	if (str)
 		node->cmd = ft_split(str, ' ');
 	string_special(node->cmd);
+	node->redirection = NULL;
 	node->next = NULL;
 	return (node);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+         #
+#    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/05/24 16:29:03 by tkoulal          ###   ########.fr        #
+#    Updated: 2024/05/27 14:38:45 by hbenazza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,11 +31,12 @@ SRC = ./program/main.c\
 	./libft/ft_strchr.c\
 	./execution/execution.c\
 	./execution/excute_cmd.c\
-	./built-in/commands1.c
+	./built-in/commands1.c\
+	./parse/init_struct.c
 
 OBJ = ${SRC:.c=.o}
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g 
 
 %.o: %.c
 	cc $(CFLAGS) -c -o $@ $^
