@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/27 20:36:33 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/28 17:28:21 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,78 @@ void	remove_quotes(t_shell *shell)
 	}
 
 }
+int	len_cmd(t_shell *shell)
+{
+	t_shell	*t;
+	int		len;
+	int		i;
+
+	len = 0;
+	i = 0;
+	t = shell;
+	while (t->cmd[i])
+	{
+		if (!ft_strncmp(t->cmd[i], ">") || !ft_strncmp(t->cmd[i], ">>"))
+			i++;
+		else if (!ft_strncmp(t->cmd[i], "<") || !ft_strncmp(t->cmd[i], "<<"))
+			i++;
+		else
+			len++;
+		i++;
+	}
+	return (len);
+}
+void	ft_malloc(char *str, char **arr, int *len)
+{
+	int	i;
+
+	arr[*len] = malloc((ft_strlen(str) + 1));
+	if (!arr[*len])
+		return ;
+	i = 0;
+	while (str[i])
+	{
+		arr[*len][i] = str[i];
+		i++;
+	}
+	arr[*len][i] = 0;
+	printf("%s\n", arr[*len]);
+	*len += 1;
+}
+
+void	only_cmd(t_shell *shell)
+{
+	t_shell	*tmp;
+	char	**arr;
+	int		i;
+	int		len;
+
+	tmp = shell;
+	while (tmp)
+	{
+		i = 0;
+		len = len_cmd(tmp);
+		arr = malloc(sizeof(char*) * (len + 1));
+		arr[len] = 0;
+		len = 0;
+		if (!arr)
+			return ;
+		while (tmp->cmd[i])
+		{
+			if (!ft_strncmp(tmp->cmd[i], ">") || !ft_strncmp(tmp->cmd[i], ">>"))
+				i++;
+			else if (!ft_strncmp(tmp->cmd[i], "<") || !ft_strncmp(tmp->cmd[i], "<<"))
+				i++;
+			else
+				ft_malloc(tmp->cmd[i], arr, &len);
+			i++;
+		}
+		free_array(tmp->cmd);
+		tmp->cmd = arr;
+		tmp = tmp->next;
+	}
+}
+
 
 t_shell	*lexer(char *inputs)
 {
@@ -227,6 +299,8 @@ t_shell	*lexer(char *inputs)
 	if (!shell)
 		return (free(sp), free(t), free(mask), NULL);
 	remove_quotes(shell);
+	redirections_lst(shell);
+	only_cmd(shell);
 	shell->mask = mask;
 	shell->token = t;
 	return (free(sp), shell);

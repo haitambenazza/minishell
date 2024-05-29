@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/27 14:08:14 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/29 08:18:34 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_redirect	*create_redirect_lst(char **cmd)
 			node = ft_lstnew_redirect(cmd[i], cmd[i + 1]);
 			ft_lstadd_back3(&head, node);
 		}
-		if (!ft_strncmp(cmd[i], "<<") || !ft_strncmp(cmd[i], ">>"))
+		else if (!ft_strncmp(cmd[i], "<<") || !ft_strncmp(cmd[i], ">>"))
 		{
 			node = ft_lstnew_redirect(cmd[i], cmd[i + 1]);
 			ft_lstadd_back3(&head, node);
@@ -154,7 +154,6 @@ t_shell	*parsing(char *inputs)
 		free(inputs);
 		if (!shell)
 			return (NULL);
-		redirections_lst(shell);
 	}
 	else
 		free(inputs);
