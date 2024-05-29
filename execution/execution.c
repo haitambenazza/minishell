@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/29 12:43:51 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/29 13:22:26 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	*execute(t_shell *cmds)
 	tmp = cmds;
 	for (t_shell *t = cmds; t; t=t->next)
 	{
-		// for (int i = 0; t->cmd[i]; i++)
-		// 	printf("%s\n", t->cmd[i]);
 		for (t_redirect *l = t->redirection; l; l=l->next)
 		{
 			printf("cmd   %s\n", t->cmd[0]);
@@ -125,7 +123,8 @@ void	clean_redirect(t_shell *shell)
 		while (tmp->redirection)
 		{
 			redirect_tmp = tmp->redirection->next;
-			// free(tmp->redirection);
+			free(tmp->redirection->file_name);
+			free(tmp->redirection);
 			tmp->redirection = redirect_tmp;
 		}
 		tmp = tmp->next;
