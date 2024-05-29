@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/29 13:24:21 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:01:08 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_redirect	*ft_lstnew_redirect(char *str, char *file)
 	node = malloc(sizeof(t_redirect));
 	if (!node)
 		return (NULL);
+	printf("node %p\n", node);
 	if (!ft_strncmp(str, ">"))
 		node->type = RED_OUT;
 	else if (!ft_strncmp(str, "<"))

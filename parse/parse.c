@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/29 11:58:19 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:07:02 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,27 +93,25 @@ int	parcing_pipe(t_token *token, char *mask)
 	return (0);
 }
 
-t_redirect	*create_redirect_lst(char **cmd)
+t_redirect	*create_redirect_lst(char **cmd, int *i)
 {
 	t_redirect	*head;
 	t_redirect	*node;
-	int			i;
 
-	i = 0;
 	head = NULL;
-	while (cmd[i])
+	while (cmd[*i])
 	{
-		if (!ft_strncmp(cmd[i], ">") || !ft_strncmp(cmd[i], "<"))
+		if (!ft_strncmp(cmd[*i], ">") || !ft_strncmp(cmd[*i], "<"))
 		{
-			node = ft_lstnew_redirect(cmd[i], cmd[i + 1]);
+			node = ft_lstnew_redirect(cmd[*i], cmd[*i + 1]);
 			ft_lstadd_back3(&head, node);
 		}
-		if (!ft_strncmp(cmd[i], "<<") || !ft_strncmp(cmd[i], ">>"))
+		if (!ft_strncmp(cmd[*i], "<<") || !ft_strncmp(cmd[*i], ">>"))
 		{
-			node = ft_lstnew_redirect(cmd[i], cmd[i + 1]);
+			node = ft_lstnew_redirect(cmd[*i], cmd[*i + 1]);
 			ft_lstadd_back3(&head, node);
 		}
-		i++;
+		*i += 1;
 	}
 	return (head);
 }
@@ -130,9 +128,11 @@ void	redirections_lst(t_shell *shell)
 		while (tmp->cmd[i])
 		{
 			if (!ft_strncmp(tmp->cmd[i], ">") || !ft_strncmp(tmp->cmd[i], "<"))
-				tmp->redirection = create_redirect_lst(tmp->cmd);
+				tmp->redirection = create_redirect_lst(tmp->cmd, &i);
 			if (!ft_strncmp(tmp->cmd[i], "<<") || !ft_strncmp(tmp->cmd[i], ">>"))
-				tmp->redirection = create_redirect_lst(tmp->cmd);
+				tmp->redirection = create_redirect_lst(tmp->cmd, &i);
+			if (!tmp->cmd[i])
+				break ;
 			i++;
 		}
 		tmp = tmp->next;

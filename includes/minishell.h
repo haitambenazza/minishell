@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 21:45:07 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/28 15:30:58 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:04:47 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ char		*ft_strjoin2(int size, char **strs, char *sep);
 t_redirect	*ft_lstnew_redirect(char *str, char *file);
 void		ft_lstadd_back3(t_redirect **lst, t_redirect *new);
 void		redirections_lst(t_shell *shell);
-t_redirect	*create_redirect_lst(char **cmd);
+t_redirect	*create_redirect_lst(char **cmd, int *i);
 /*------------------------*/
 
 #endif

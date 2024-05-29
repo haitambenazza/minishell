@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/29 13:22:26 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/29 17:00:43 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void	clean_redirect(t_shell *shell)
 		while (tmp->redirection)
 		{
 			redirect_tmp = tmp->redirection->next;
+			printf("%p in free\n", tmp->redirection);
 			free(tmp->redirection->file_name);
 			free(tmp->redirection);
 			tmp->redirection = redirect_tmp;
