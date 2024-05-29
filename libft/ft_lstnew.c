@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/29 10:12:14 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/29 12:45:03 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ t_redirect	*ft_lstnew_redirect(char *str, char *file)
 		node->type = APPEND;
 	else if (!ft_strncmp(str, "<<"))
 		node->type = DELIMET;
-	node->file_name = file;
+	node->file_name = ft_strdup(file);
+	printf("fileee %s\n", node->file_name);
 	node->next = NULL;
 	return (node);
 }

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/29 10:11:28 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/29 12:43:51 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,16 @@ void	*execute(t_shell *cmds)
 	t_shell	*tmp;
 
 	tmp = cmds;
-	// for (t_shell *t = cmds; t; t=t->next)
-	// {
-	// 	for (int i = 0; t->cmd[i]; i++)
-	// 		printf("%s\n", t->cmd[i]);
-	// 	for (t_redirect *l = t->redirection; l; l=l->next)
-	// 	{
-	// 		printf("for cmd   %s\n", t->cmd[0]);
-	// 		printf("redirection type of %u for file {%s}\n", l->type, l->file_name);
-	// 	}
-	// }
+	for (t_shell *t = cmds; t; t=t->next)
+	{
+		// for (int i = 0; t->cmd[i]; i++)
+		// 	printf("%s\n", t->cmd[i]);
+		for (t_redirect *l = t->redirection; l; l=l->next)
+		{
+			printf("cmd   %s\n", t->cmd[0]);
+			printf("redirection type of %u for file {%s}\n", l->type, l->file_name);
+		}
+	}
 	if (tmp->next == NULL)
 	{
 		if (if_built_in_run(tmp))
@@ -125,7 +125,7 @@ void	clean_redirect(t_shell *shell)
 		while (tmp->redirection)
 		{
 			redirect_tmp = tmp->redirection->next;
-			free(tmp->redirection);
+			// free(tmp->redirection);
 			tmp->redirection = redirect_tmp;
 		}
 		tmp = tmp->next;

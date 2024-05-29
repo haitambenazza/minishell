@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/29 08:18:34 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:58:19 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_redirect	*create_redirect_lst(char **cmd)
 			node = ft_lstnew_redirect(cmd[i], cmd[i + 1]);
 			ft_lstadd_back3(&head, node);
 		}
-		else if (!ft_strncmp(cmd[i], "<<") || !ft_strncmp(cmd[i], ">>"))
+		if (!ft_strncmp(cmd[i], "<<") || !ft_strncmp(cmd[i], ">>"))
 		{
 			node = ft_lstnew_redirect(cmd[i], cmd[i + 1]);
 			ft_lstadd_back3(&head, node);
@@ -122,20 +122,16 @@ void	redirections_lst(t_shell *shell)
 {
 	t_shell	*tmp;
 	int		i;
-	int		len;
 
 	tmp = shell;
 	while (tmp)
 	{
 		i = 0;
-		len = 0;
 		while (tmp->cmd[i])
 		{
 			if (!ft_strncmp(tmp->cmd[i], ">") || !ft_strncmp(tmp->cmd[i], "<"))
-				len++;
+				tmp->redirection = create_redirect_lst(tmp->cmd);
 			if (!ft_strncmp(tmp->cmd[i], "<<") || !ft_strncmp(tmp->cmd[i], ">>"))
-				len++;
-			if (len)
 				tmp->redirection = create_redirect_lst(tmp->cmd);
 			i++;
 		}
