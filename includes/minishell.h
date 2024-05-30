@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/02 21:45:07 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/30 13:26:29 by hbenazza         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -60,10 +48,12 @@ typedef struct s_redirect
 typedef struct shell
 {
 	char				**cmd;
+	char				**envp;
+	int					pid;
 	int					input_fd;
 	int					output_fd;
 	int					*list_quotes;
-	int					pipe[2];
+	int					pipe_fd[2];
 	struct shell		*next;
 	struct s_redirect	*redirection;
 	struct s_env		*env;
@@ -85,9 +75,12 @@ void	*execute(t_shell *cmds);
 int		history(char *str);
 int		reading_promp(char **env);
 int		execute_cmd(t_shell *cmds);
+char	**lst_arr(t_shell *shell);
 /*------------------------*/
 
 /*--------built-in--------*/
+int		if_built_in_run(t_shell *tmp);
+int		is_built_in(t_shell *tmp);
 int		ft_pwd(t_shell *shell);
 int		ft_cd(t_shell *shell);
 int		ft_exit(t_shell *shell);
@@ -99,6 +92,7 @@ int		ft_export(t_shell *shell);
 void	clean_up(t_shell *shell);
 void	clean_lst(t_env *shell);
 int		free_array(char **v);
+void	clean_redirect(t_shell *shell);
 /*------------------------*/
 
 /*--------help_fct--------*/

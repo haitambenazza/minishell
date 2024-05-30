@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   excute_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 17:14:09 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/26 09:05:24 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:59:35 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	execute_cmd(t_shell *cmds)
 {
     // puts("execute");
-    (void)cmds;
-    //int pid;
-
-    //pid = fork();
-    // if (pid == 0)
-    //     puts("taha");
-    // else
-    //     puts("koulal");
-        return (0);
+    while (cmds)
+    {
+        cmds->pid = fork();
+        if (!cmds->pid) //ana child
+            execve("/bin/ls", cmds->cmd, cmds->envp);
+        cmds = cmds->next;
+    }
+    while (wait(NULL) != -1);
+    return (0);
 }

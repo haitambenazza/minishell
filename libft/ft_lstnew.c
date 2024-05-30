@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/30 13:27:11 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:53:01 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ t_redirect	*ft_lstnew_redirect(char *str, char *file)
 	node = malloc(sizeof(t_redirect));
 	if (!node)
 		return (NULL);
-	printf("node %p\n", node);
 	if (!ft_strncmp(str, ">"))
 		node->type = RED_OUT;
 	else if (!ft_strncmp(str, "<"))
