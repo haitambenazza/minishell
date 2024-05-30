@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/29 17:00:43 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 11:35:28 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,42 @@ int	is_built_in(t_shell *tmp)
 	return (1);
 }
 
+char	**lst_arr(t_shell *shell)
+{
+	t_shell	*tmp;
+	char	**envir;
+	// char	*holder;
+	int		i;
+	int		len;
+
+	i = 0;
+	len = 0;
+	tmp = shell;
+	while (tmp->env)
+	{
+		len++;
+		// printf("%s%s\n", tmp->env->key, tmp->env->value);
+		tmp->env = tmp->env->next;
+	}
+	tmp = shell;
+	envir = malloc(sizeof(char *) * (len +1));
+	envir[len] = NULL;
+	while (tmp)
+	{
+		printf("%s\n", ft_strjoin(tmp->env->key, "="));
+		// envir[i] = malloc((ft_strlen(holder) + ft_strlen(tmp->env->value) + 1));
+		// envir[i] = ft_strdup(ft_strjoin(holder, tmp->env->value));
+		// envir[i] = 0;
+		i++;
+		tmp = tmp->next;
+	}
+	return (envir);
+}
+
 void	*execute(t_shell *cmds)
 {
 	t_shell	*tmp;
+	// char	**envir;
 
 	tmp = cmds;
 	for (t_shell *t = cmds; t; t=t->next)
@@ -67,6 +100,10 @@ void	*execute(t_shell *cmds)
 			printf("redirection type of %u for file {%s}\n", l->type, l->file_name);
 		}
 	}
+	// if (tmp)
+	// {
+	// 	envir = lst_arr(tmp);
+	// }
 	if (tmp->next == NULL)
 	{
 		if (if_built_in_run(tmp))
@@ -123,7 +160,6 @@ void	clean_redirect(t_shell *shell)
 		while (tmp->redirection)
 		{
 			redirect_tmp = tmp->redirection->next;
-			printf("%p in free\n", tmp->redirection);
 			free(tmp->redirection->file_name);
 			free(tmp->redirection);
 			tmp->redirection = redirect_tmp;
@@ -137,10 +173,10 @@ void	clean_up(t_shell *shell)
 	t_shell	*tmp;
 
 	tmp = shell;
-	if (shell->mask)
-		free(shell->mask);
-	if (shell->token)
-		free(shell->token);
+	// if (shell->mask)
+	// 	free(shell->mask);
+	// // if (shell->token)
+	// 	free(shell->token);
 	clean_redirect(shell);
 	if (shell)
 	{

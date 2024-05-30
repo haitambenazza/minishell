@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 21:45:07 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/29 17:04:47 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 11:14:22 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ typedef struct shell
 	int					output_fd;
 	int					*list_dollar;
 	int					pipe[2];
-	t_token				*token;
-	char				*mask;
 	struct shell		*next;
 	struct s_redirect	*redirection;
 	struct s_env		*env;

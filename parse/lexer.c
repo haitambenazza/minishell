@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/28 17:28:21 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 09:50:30 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,7 +301,5 @@ t_shell	*lexer(char *inputs)
 	remove_quotes(shell);
 	redirections_lst(shell);
 	only_cmd(shell);
-	shell->mask = mask;
-	shell->token = t;
-	return (free(sp), shell);
+	return (free(sp), free(t), free(mask), shell);
 }
