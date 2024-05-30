@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/30 15:55:01 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/05/30 18:55:13 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	open_pipes(t_shell *cmd)
 	}
 }
 
-void	*execute(t_shell *cmds)
+void	*execution(t_shell *cmds)
 {
 	t_shell	*tmp;
 

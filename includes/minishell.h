@@ -71,7 +71,7 @@ char	*cmd_mask(char *str);
 /*------------------------*/
 
 /*--------excution--------*/
-void	*execute(t_shell *cmds);
+void	*execution(t_shell *cmds);
 int		history(char *str);
 int		reading_promp(char **env);
 int		execute_cmd(t_shell *cmds);
