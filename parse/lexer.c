@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/30 09:50:30 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:51:30 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,6 @@ void	ft_malloc(char *str, char **arr, int *len)
 		i++;
 	}
 	arr[*len][i] = 0;
-	printf("%s\n", arr[*len]);
 	*len += 1;
 }
 
@@ -276,7 +275,19 @@ void	only_cmd(t_shell *shell)
 		tmp = tmp->next;
 	}
 }
+void	count_quotes(t_shell *shell)
+{
+	t_shell	*tmp;
+	int		i;
 
+	i = 0;
+	tmp = shell;
+	while (tmp)
+	{
+
+		tmp = tmp->next;
+	}
+}
 
 t_shell	*lexer(char *inputs)
 {
@@ -292,12 +303,13 @@ t_shell	*lexer(char *inputs)
 	if (!t)
 		return (free(mask), NULL);
 	if (parcing_pipe(t, mask))
-		return (NULL);
+		return (free(t), free(mask), NULL);
 	sp = add_space(inputs);
 	special_string(sp);
 	shell = create_list(sp);
 	if (!shell)
 		return (free(sp), free(t), free(mask), NULL);
+	count_quotes(shell);
 	remove_quotes(shell);
 	redirections_lst(shell);
 	only_cmd(shell);

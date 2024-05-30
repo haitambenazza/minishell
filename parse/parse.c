@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/29 19:05:43 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:50:09 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,28 @@ int	find_next_command(t_token *token, int index)
 	}
 	if (token[index] == PIPE)
 		return (1);
+	return (0);
+}
+
+int	redirection_space(t_token *t)
+{
+	int	i;
+
+	i = 0;
+	while (t[i] != 11)
+	{
+		if (t[i] == RED_IN || t[i] == RED_OUT)
+		{
+			i++;
+			if (t[i] == ESPACE)
+			{
+				i++;
+				if (t[i] == RED_IN || t[i] == RED_OUT)
+					return (1);
+			}
+		}
+		i++;
+	}
 	return (0);
 }
 
@@ -51,6 +73,8 @@ int	parsing_redirect(t_token *token, int index)
 			break ;
 	}
 	if (token[index] == PIPE || token[index] == 11 || c > 1 || token[index] == opposite)
+		return (1);
+	if (c == 1 && redirection_space(token))
 		return (1);
 	return (0);
 }

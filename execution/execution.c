@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/30 12:16:11 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 13:43:37 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,14 @@ void	*execute(t_shell *cmds)
 	tmp = cmds;
 	for (t_shell *t = cmds; t; t=t->next)
 	{
-		for (t_redirect *l = t->redirection; l; l=l->next)
-		{
-			printf("cmd   %s\n", t->cmd[0]);
-			printf("redirection type of %u for file {%s}\n", l->type, l->file_name);
-		}
+		for (int i = 0; t->cmd[i]; i++)
+			printf("%s\n", t->cmd[i]);
 	}
 	if (tmp)
 	{
 		envir = lst_arr(tmp);
+		// for (int i = 0; envir[i]; i++)
+		// 	printf("%s\n", envir[i]);
 		free_array(envir);
 	}
 

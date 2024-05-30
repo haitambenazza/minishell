@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/29 17:01:08 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 13:27:11 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,7 @@ t_shell	*ft_lstnew(char *str)
 	if (str)
 		node->cmd = ft_split(str, ' ');
 	string_special(node->cmd);
-	while (node->cmd[i])
-	{
-		if (ft_strchr(node->cmd[i], '$'))
-			len++;
-		i++;
-	}
-	if (len)
-	{
-		node->list_dollar = malloc(sizeof(int) * (len + 1));
-		node->list_dollar[len] = 2;//2 reprents the end of the list of 0 and 1
-	}
+	node->list_quotes = NULL;
 	node->redirection = NULL;
 	node->next = NULL;
 	return (node);

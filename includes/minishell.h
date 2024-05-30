@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 21:45:07 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/30 12:07:55 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 13:26:29 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct shell
 	char				**cmd;
 	int					input_fd;
 	int					output_fd;
-	int					*list_dollar;
+	int					*list_quotes;
 	int					pipe[2];
 	struct shell		*next;
 	struct s_redirect	*redirection;

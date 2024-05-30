@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/30 11:16:59 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 13:50:22 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	history(char *str)
 {
 	if (!str)
 		return (1);
-	add_history(str);
+	if (ft_strlen(str))
+		add_history(str);
 	// rl_clear_history();
 	return (0);
 
@@ -68,14 +69,11 @@ t_env	*create_lst_env(char **env)
 int	reading_promp(char **env)
 {
 	t_shell	*shell;
-	t_env	*lst;
 	char	*inputs;
 
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handl);
-	lst = create_lst_env(env);
-	clean_lst(lst);
-	while (1)
+	while (1337)
 	{
 		inputs = readline("minishell~> ");
 		if (!inputs)
