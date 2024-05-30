@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 21:45:07 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/30 11:14:22 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 12:07:55 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_env		*ft_lstnew2(char *str);
 t_shell		*create_list(char *input);
 void		ft_lstadd_back(t_shell **lst, t_shell *new);
 void		ft_lstadd_back2(t_env **lst, t_env *new);
-int 		lstsize(t_shell *cmd);
+int 		lstsize(t_env *cmd);
 int			ft_strncmp(char *s1, char *s2);
 char		*ft_strtrim(char *s1, char *set);
 char		*ft_strchr(char *s, int c);
@@ -122,6 +122,7 @@ t_redirect	*ft_lstnew_redirect(char *str, char *file);
 void		ft_lstadd_back3(t_redirect **lst, t_redirect *new);
 void		redirections_lst(t_shell *shell);
 t_redirect	*create_redirect_lst(char **cmd, int *i);
+char		*ft_strjoin_no_free(char *s1, char *s2);
 /*------------------------*/
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/30 11:35:28 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/05/30 12:16:11 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,30 +56,24 @@ int	is_built_in(t_shell *tmp)
 
 char	**lst_arr(t_shell *shell)
 {
-	t_shell	*tmp;
+	t_env	*tmp;
 	char	**envir;
-	// char	*holder;
+	char	*holder;
+	char	*buffer;
 	int		i;
-	int		len;
 
+	i = lstsize(shell->env);
+	envir = malloc(sizeof(char *) * (i +1));
+	envir[i] = NULL;
+	tmp = shell->env;
 	i = 0;
-	len = 0;
-	tmp = shell;
-	while (tmp->env)
-	{
-		len++;
-		// printf("%s%s\n", tmp->env->key, tmp->env->value);
-		tmp->env = tmp->env->next;
-	}
-	tmp = shell;
-	envir = malloc(sizeof(char *) * (len +1));
-	envir[len] = NULL;
 	while (tmp)
 	{
-		printf("%s\n", ft_strjoin(tmp->env->key, "="));
-		// envir[i] = malloc((ft_strlen(holder) + ft_strlen(tmp->env->value) + 1));
-		// envir[i] = ft_strdup(ft_strjoin(holder, tmp->env->value));
-		// envir[i] = 0;
+		holder = ft_strjoin_no_free(tmp->key, "=");
+		buffer = ft_strjoin_no_free(holder, tmp->value);
+		envir[i] = ft_strdup(buffer);
+		free(holder);
+		free(buffer);
 		i++;
 		tmp = tmp->next;
 	}
@@ -89,7 +83,7 @@ char	**lst_arr(t_shell *shell)
 void	*execute(t_shell *cmds)
 {
 	t_shell	*tmp;
-	// char	**envir;
+	char	**envir;
 
 	tmp = cmds;
 	for (t_shell *t = cmds; t; t=t->next)
@@ -100,10 +94,12 @@ void	*execute(t_shell *cmds)
 			printf("redirection type of %u for file {%s}\n", l->type, l->file_name);
 		}
 	}
-	// if (tmp)
-	// {
-	// 	envir = lst_arr(tmp);
-	// }
+	if (tmp)
+	{
+		envir = lst_arr(tmp);
+		free_array(envir);
+	}
+
 	if (tmp->next == NULL)
 	{
 		if (if_built_in_run(tmp))

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:24:41 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/24 16:26:46 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/05/30 12:07:40 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int lstsize(t_shell *cmd)
+int lstsize(t_env *cmd)
 {
     int i;
 
