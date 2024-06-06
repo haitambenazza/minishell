@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:58:22 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/30 18:50:56 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/06 13:45:02 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	if_built_in_run(t_shell *tmp)
 
 int	is_built_in(t_shell *tmp)
 {
+
 	if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "pwd"))
 		return (0);
 	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "echo"))

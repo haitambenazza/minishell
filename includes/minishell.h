@@ -4,15 +4,26 @@
 # include <stdio.h>
 # include <string.h>
 # include <stdint.h>
+# include <errno.h>
 # include <limits.h>
 # include <unistd.h>
 # include <stdbool.h>
+#include <string.h> /// 7aydha
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <signal.h>
+# define ERROR 1
+# define SUCCESS 0
+
+/*-------colors-------*/
+#define RST "\033[0m"
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+#define BOLD_CYAN "\033[1;36m"
+/*....................*/
 
 typedef enum s_token
 {
@@ -28,9 +39,14 @@ typedef enum s_token
 	DOLLAR = 9,
 	EQUAL = 10,
 	APPEND = 11,
-	DELIMET = 12
+	DELIMET = 12,
+	HERDOC = 13
 }	t_token;
 
+typedef struct t_data
+{
+	int		exit_status;
+}	t_data;
 typedef struct s_env
 {
 	char			*key;
@@ -53,7 +69,6 @@ typedef struct shell
 	int					input_fd;
 	int					output_fd;
 	int					*list_quotes;
-	int					pipe_fd[2];
 	struct shell		*next;
 	struct s_redirect	*redirection;
 	struct s_env		*env;
@@ -71,13 +86,22 @@ char	*cmd_mask(char *str);
 /*------------------------*/
 
 /*--------excution--------*/
-void	*execution(t_shell *cmds);
+int 	handel_redirection(t_shell *cmds);
+int		open_pipes(t_shell *cmd, int pipe_fd[2]);
+int		run_execution(t_shell *cmds);
+int		run_execution1(t_shell *cmds);
+int		close_fd(int fd1, int fd2);
+int		execute(t_shell *cmds);
+char	*get_cmd(char *cmd, char **envp);
 int		history(char *str);
 int		reading_promp(char **env);
 int		execute_cmd(t_shell *cmds);
 char	**lst_arr(t_shell *shell);
 /*------------------------*/
 
+/*---------herdoc---------*/
+int	handle_heredoc(t_shell *cmds);
+/*........................*/
 /*--------built-in--------*/
 int		if_built_in_run(t_shell *tmp);
 int		is_built_in(t_shell *tmp);
@@ -108,6 +132,7 @@ void		ft_lstadd_back(t_shell **lst, t_shell *new);
 void		ft_lstadd_back2(t_env **lst, t_env *new);
 int 		lstsize(t_env *cmd);
 int			ft_strncmp(char *s1, char *s2);
+int			ft_strnncmp(char *s1, char *s2, size_t len);
 char		*ft_strtrim(char *s1, char *set);
 char		*ft_strchr(char *s, int c);
 int			ft_strcount(char *s, char chr);

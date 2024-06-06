@@ -6,47 +6,130 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/30 18:55:13 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/06 16:00:07 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	open_pipes(t_shell *cmd)
+t_data	g_data;
+
+int run_execution(t_shell *cmds)
 {
-	if (!cmd)
-		return;
-	if (cmd->next == NULL)
+	int	err;
+	// if (handle_heredoc(tmp) == -1)
+	// {
+	// 	//run_heredoc(tmp); TODO
+	// 	return (2);
+	// }
+	if (cmds->next == NULL && !is_built_in(cmds))
 	{
-		cmd->input_fd = STDIN_FILENO;
-		cmd->output_fd = STDOUT_FILENO;
+		err = if_built_in_run(cmds);
+		if (err == 1)
+			return (2);
+		else if (err < 0)
+			return (1);
 	}
-	else
-	{
-		cmd->next->input_fd = cmd->pipe_fd[1];
-		cmd->output_fd = cmd->pipe_fd[0];
-	}
+	if (run_execution1(cmds) == 1)
+		return (ERROR);
+	return (SUCCESS);
 }
 
-void	*execution(t_shell *cmds)
+int		run_execution1(t_shell *cmds)
 {
-	t_shell	*tmp;
+	int			status;
+	t_shell		*tmp;
 
+	status = 0;
 	tmp = cmds;
 	cmds->envp = lst_arr(tmp); //free_array(envir);
+	while (tmp)
+	{
+		g_data.exit_status = 0;
+		if (execute(tmp) == SUCCESS)
+			g_data.exit_status = g_data.exit_status;
+		else
+			close_fd(tmp->input_fd ,tmp->output_fd);
+		tmp = tmp->next;
+	}
+	if (status == -1)
+		return (ERROR);
+	if (status == 13)
+		status = 127;
+	g_data.exit_status = status;
+	free_array(cmds->envp);
+	close_fd(cmds->input_fd, cmds->output_fd);
+	clean_up(cmds);
+	return (SUCCESS);
+}
+
+int	execute(t_shell *cmds)
+{
+	t_shell	*tmp;
+	int		pipe_fd[2];
+	int		err;
+
+	tmp = cmds;
+	cmds->pid = 0;
+	if (tmp->next != NULL)
+	{
+		if (open_pipes(cmds, pipe_fd))
+			return (ERROR);
+	}
 
 	if (tmp->redirection == NULL)
-		//handel_redirection();
-	if (tmp->next == NULL)
 	{
-		if (if_built_in_run(tmp))
-			execute_cmd(tmp);
+		err = handel_redirection(tmp);
+		if (err < 0)
+		{
+			g_data.exit_status = 1;
+			return (err);
+		}
 	}
-	if (tmp->next != NULL)
-		open_pipes(cmds);
-	clean_up(cmds);
-	return (NULL);
+	if (execute_cmd(cmds) == ERROR)
+		return (ERROR);
+	return (0);
 }
+
+
+
+
+// int	pipe_fd[2];
+// 	int	err;
+
+// 	node->pid = 0;
+// 	if (node->next != NULL)
+// 	{
+// 		if (open_pipes(node, pipe_fd) == ERROR)
+// 			return (ERROR);
+// 	}
+// 	else
+// 		node->outfile = STDOUT_FILENO;
+// 	if (node->type)
+// 	{
+// 		err = handle_files(node);
+// 		if (err < 0)
+// 		{
+// 			g_data.exit_status = 1;
+// 			return (err);
+// 		}
+// 	}
+// 	if (exec_cmd(node) == ERROR)
+// 		return (ERROR);
+// 	close_fd(node->infile, node->outfile);
+// 	return (SUCCESS);
+
+
+
+
+
+
+
+
+
+
+
+
 
 //test
 	// for (t_shell *t = cmds; t; t=t->next)

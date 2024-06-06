@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/30 18:55:43 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/06 15:51:35 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,11 @@ int	reading_promp(char **env)
 {
 	t_shell	*shell;
 	char	*inputs;
+	int		err;
 
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handl);
+	err = 0;
 	while (1337)
 	{
 		inputs = readline("minishell~> ");
@@ -85,7 +87,7 @@ int	reading_promp(char **env)
 			return (free(inputs), 1);
 		free(inputs);
 		if (shell)
-			execution(shell);
+			err = run_execution(shell);
 	}
 	return (0);
 }
