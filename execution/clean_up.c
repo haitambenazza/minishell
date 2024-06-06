@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:02:17 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/05/30 18:52:20 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/06 21:53:51 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	clean_lst(t_env *shell)
 		shell = lst;
 	}
 }
+
 
 void	clean_redirect(t_shell *shell)
 {

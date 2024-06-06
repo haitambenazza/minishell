@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:55:13 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/06/06 14:03:56 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/06 20:55:06 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int handel_redirection(t_shell *cmds)
 {
-    (void)cmds;
+    (void)cmds;      
     return (SUCCESS);
 }

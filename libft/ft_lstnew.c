@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/30 18:53:01 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/06 21:37:28 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,32 @@ void	string_special(char **cmd)
 	}
 }
 
-t_redirect	*ft_lstnew_redirect(char *str, char *file)
+t_redirect *ft_lstnew_redirect(char *str, char *file)
 {
-	t_redirect	*node;
+    t_redirect *node;
 
-	(void)str;
-	node = malloc(sizeof(t_redirect));
-	if (!node)
-		return (NULL);
-	if (!ft_strncmp(str, ">"))
-		node->type = RED_OUT;
-	else if (!ft_strncmp(str, "<"))
-		node->type = RED_IN;
-	else if (!ft_strncmp(str, ">>"))
-		node->type = APPEND;
-	else if (!ft_strncmp(str, "<<"))
-		node->type = DELIMET;
-	node->file_name = ft_strdup(file);
-	node->next = NULL;
-	return (node);
+    (void)str;
+    node = malloc(sizeof(t_redirect));
+    if (!node)
+        return (NULL);
+    if (!ft_strncmp(str, ">"))
+        node->type = RED_OUT;
+    else if (!ft_strncmp(str, "<"))
+        node->type = RED_IN;
+    else if (!ft_strncmp(str, ">>"))
+        node->type = APPEND;
+    else if (!ft_strncmp(str, "<<"))
+        node->type = DELIMET;
+    node->file_name = ft_strdup(file);
+    if (!node->file_name)
+    {
+        free(node);
+        return (NULL);
+    }
+    node->next = NULL;
+    return (node);
 }
+
 
 t_shell	*ft_lstnew(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/06 16:01:50 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/06 21:56:49 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ int run_execution(t_shell *cmds)
 	}
 	if (run_execution1(cmds) == 1)
 		return (ERROR);
+	free_array(cmds->envp);
+	close_fd(cmds->input_fd, cmds->output_fd);
+	clean_up(cmds);
 	return (SUCCESS);
 }
 
@@ -42,7 +45,7 @@ int		run_execution1(t_shell *cmds)
 
 	status = 0;
 	tmp = cmds;
-	cmds->envp = lst_arr(tmp); //free_array(envir);
+	cmds->envp = lst_arr(tmp);
 	while (tmp)
 	{
 		g_data.exit_status = 0;
@@ -57,19 +60,19 @@ int		run_execution1(t_shell *cmds)
 	if (status == 13)
 		status = 127;
 	g_data.exit_status = status;
-	free_array(cmds->envp);
-	close_fd(cmds->input_fd, cmds->output_fd);
-	clean_up(cmds);
+
 	return (SUCCESS);
 }
 
 int	execute(t_shell *cmds)
 {
 	t_shell	*tmp;
+	t_redirect *tmp_red;
 	int		pipe_fd[2];
 	int		err;
 
 	tmp = cmds;
+	tmp_red = cmds->redirection;
 	cmds->pid = 0;
 	if (tmp->next != NULL)
 	{
@@ -77,14 +80,16 @@ int	execute(t_shell *cmds)
 			return (ERROR);
 	}
 
-	if (tmp->redirection == NULL)
+	while (tmp_red != NULL)
 	{
+		printf(GREEN"should open  this file %s \n"RST, tmp_red->file_name);
 		err = handel_redirection(tmp);
 		if (err < 0)
 		{
 			g_data.exit_status = 1;
 			return (err);
 		}
+		tmp_red = tmp_red->next;
 	}
 	if (execute_cmd(cmds) == ERROR)
 		return (ERROR);
