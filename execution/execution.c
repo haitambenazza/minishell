@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/06 21:56:49 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/06 21:59:51 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ int		run_execution1(t_shell *cmds)
 int	execute(t_shell *cmds)
 {
 	t_shell	*tmp;
-	t_redirect *tmp_red;
+	t_redirect *tmp_redirection;
 	int		pipe_fd[2];
 	int		err;
 
 	tmp = cmds;
-	tmp_red = cmds->redirection;
+	tmp_redirection = cmds->redirection;
 	cmds->pid = 0;
 	if (tmp->next != NULL)
 	{
@@ -80,16 +80,16 @@ int	execute(t_shell *cmds)
 			return (ERROR);
 	}
 
-	while (tmp_red != NULL)
+	while (tmp_redirection != NULL)
 	{
-		printf(GREEN"should open  this file %s \n"RST, tmp_red->file_name);
+		printf(GREEN"should open  this file %s \n"RST, tmp_redirection->file_name);
 		err = handel_redirection(tmp);
 		if (err < 0)
 		{
 			g_data.exit_status = 1;
 			return (err);
 		}
-		tmp_red = tmp_red->next;
+		tmp_redirection = tmp_redirection->next;
 	}
 	if (execute_cmd(cmds) == ERROR)
 		return (ERROR);
