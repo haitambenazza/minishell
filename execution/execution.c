@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/06 16:00:07 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/06 16:01:50 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,46 +90,6 @@ int	execute(t_shell *cmds)
 		return (ERROR);
 	return (0);
 }
-
-
-
-
-// int	pipe_fd[2];
-// 	int	err;
-
-// 	node->pid = 0;
-// 	if (node->next != NULL)
-// 	{
-// 		if (open_pipes(node, pipe_fd) == ERROR)
-// 			return (ERROR);
-// 	}
-// 	else
-// 		node->outfile = STDOUT_FILENO;
-// 	if (node->type)
-// 	{
-// 		err = handle_files(node);
-// 		if (err < 0)
-// 		{
-// 			g_data.exit_status = 1;
-// 			return (err);
-// 		}
-// 	}
-// 	if (exec_cmd(node) == ERROR)
-// 		return (ERROR);
-// 	close_fd(node->infile, node->outfile);
-// 	return (SUCCESS);
-
-
-
-
-
-
-
-
-
-
-
-
 
 //test
 	// for (t_shell *t = cmds; t; t=t->next)
