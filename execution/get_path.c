@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 10:10:34 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/06/06 11:25:39 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/07 22:21:48 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ char *get_cmd(char *cmd, char **envp)
         free(pathcmd);
         i++;
     }
-    free_strs(arr);
+    free_array(arr);
     return NULL;
 }

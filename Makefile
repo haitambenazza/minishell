@@ -6,7 +6,7 @@
 #    By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/06/06 14:07:56 by tkoulal          ###   ########.fr        #
+#    Updated: 2024/06/07 22:21:15 by tkoulal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC = ./program/main.c\
 	./execution/excute_cmd.c\
 	./execution/check_built_in.c\
 	./execution/clean_up.c\
+	./execution/get_path.c\
 	./execution/execuction_utils.c\
 	./execution/handel_files.c\
 	./built-in/commands1.c\

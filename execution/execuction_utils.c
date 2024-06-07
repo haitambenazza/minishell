@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 09:57:51 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/06/06 13:51:14 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/07 20:46:06 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,11 @@ int	open_pipes(t_shell *cmd, int pipe_fd[2])
 	if (pipe(pipe_fd) == -1)
 	{
 		printf(RED"minishell: pipe: %s\n"RST, strerror(errno));
-		//g_data.exit_status = 1;
+		exit_status = 1;
 		return (ERROR);
 	}
-	if (cmd->next == NULL)
-	{
-		cmd->input_fd = STDIN_FILENO;
-		cmd->output_fd = STDOUT_FILENO;
-	}
-	else
-	{
-		cmd->next->input_fd = pipe_fd[0];
-		cmd->output_fd = pipe_fd[1];
-	}
+	cmd->next->input_fd = pipe_fd[0];
+	cmd->output_fd = pipe_fd[1];
 	return (SUCCESS);
 }
 

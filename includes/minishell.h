@@ -7,6 +7,7 @@
 # include <errno.h>
 # include <limits.h>
 # include <unistd.h>
+# include <fcntl.h>
 # include <stdbool.h>
 #include <string.h> /// 7aydha
 # include <stdlib.h>
@@ -24,6 +25,7 @@
 #define GREEN "\033[0;32m"
 #define BOLD_CYAN "\033[1;36m"
 /*....................*/
+
 
 typedef enum s_token
 {
@@ -43,10 +45,8 @@ typedef enum s_token
 	HERDOC = 13
 }	t_token;
 
-typedef struct t_data
-{
-	int		exit_status;
-}	t_data;
+extern int exit_status;
+
 typedef struct s_env
 {
 	char			*key;
@@ -86,13 +86,13 @@ char	*cmd_mask(char *str);
 /*------------------------*/
 
 /*--------excution--------*/
-int 	handel_redirection(t_shell *cmds);
+int 	handel_redirection(t_redirect *node);
 int		open_pipes(t_shell *cmd, int pipe_fd[2]);
 int		run_execution(t_shell *cmds);
 int		run_execution1(t_shell *cmds);
 int		close_fd(int fd1, int fd2);
-int		execute(t_shell *cmds);
 char	*get_cmd(char *cmd, char **envp);
+int		execute(t_shell *cmds);
 int		history(char *str);
 int		reading_promp(char **env);
 int		execute_cmd(t_shell *cmds);
