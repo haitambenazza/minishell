@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/06 21:22:14 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/22 17:51:42 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_token	*tokenize(char *m)
 		j++;
 		i++;
 	}
-	tokens[j] = 11;
+	tokens[j] = 20;
 	if (j == 0)
 		return (free(tokens), NULL);
 	return (tokens);
@@ -242,36 +242,42 @@ void	ft_malloc(char *str, char **arr, int *len)
 	arr[*len][i] = 0;
 	*len += 1;
 }
-
-void	only_cmd(t_shell *shell)
+void	split_cmd(t_shell *shell)
 {
-	t_shell	*tmp;
 	char	**arr;
 	int		i;
 	int		len;
 
+	i = 0;
+	len = len_cmd(shell);
+	arr = malloc(sizeof(char*) * (len + 1));
+	arr[len] = 0;
+	len = 0;
+	if (!arr)
+		return ;
+	while (shell->cmd[i])
+	{
+		if (!ft_strncmp(shell->cmd[i], ">") || !ft_strncmp(shell->cmd[i], ">>"))
+			i++;
+		else if (!ft_strncmp(shell->cmd[i], "<") || !ft_strncmp(shell->cmd[i], "<<"))
+			i++;
+		else
+			ft_malloc(shell->cmd[i], arr, &len);
+		i++;
+	}
+	free_array(shell->cmd);
+	shell->cmd = arr;
+}
+void	only_cmd(t_shell *shell)
+{
+	t_shell	*tmp;
+
 	tmp = shell;
 	while (tmp)
 	{
-		i = 0;
-		len = len_cmd(tmp);
-		arr = malloc(sizeof(char*) * (len + 1));
-		arr[len] = 0;
-		len = 0;
-		if (!arr)
-			return ;
-		while (tmp->cmd[i])
-		{
-			if (!ft_strncmp(tmp->cmd[i], ">") || !ft_strncmp(tmp->cmd[i], ">>"))
-				i++;
-			else if (!ft_strncmp(tmp->cmd[i], "<") || !ft_strncmp(tmp->cmd[i], "<<"))
-				i++;
-			else
-				ft_malloc(tmp->cmd[i], arr, &len);
-			i++;
-		}
-		free_array(tmp->cmd);
-		tmp->cmd = arr;
+		split_cmd(tmp);
+		for (int i = 0; tmp->cmd[i]; i++)
+			printf("%s\n", tmp->cmd[i]);
 		tmp = tmp->next;
 	}
 }

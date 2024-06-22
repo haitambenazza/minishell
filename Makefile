@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+         #
+#    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/06/07 22:21:15 by tkoulal          ###   ########.fr        #
+#    Updated: 2024/06/22 17:49:38 by hbenazza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRC = ./program/main.c\
 
 OBJ = ${SRC:.c=.o}
 
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address 
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 
 %.o: %.c
 	cc $(CFLAGS) -c -o $@ $^

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/06 21:39:00 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/21 18:38:20 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	parser_error()
 
 int	find_next_command(t_token *token, int index)
 {
-	while (token[index] != 11)
+	while (token[index] != 20)
 	{
 		index++;
 		if (token[index] != ESPACE)
@@ -35,7 +35,7 @@ int	redirection_space(t_token *t)
 	int	i;
 
 	i = 0;
-	while (t[i] != 11)
+	while (t[i] != 20)
 	{
 		if (t[i] == RED_IN || t[i] == RED_OUT)
 		{
@@ -64,7 +64,7 @@ int	parsing_redirect(t_token *token, int index)
 		opposite = 3;
 	else
 		opposite = 4;
-	while (token[index] != 11)
+	while (token[index] != 20)
 	{
 		index++;
 		if (token[index] == t)
@@ -72,7 +72,7 @@ int	parsing_redirect(t_token *token, int index)
 		if (token[index] != ESPACE && token[index] != t)
 			break ;
 	}
-	if (token[index] == PIPE || token[index] == 11 || c > 1 || token[index] == opposite)
+	if (token[index] == PIPE || token[index] == 20 || c > 1 || token[index] == opposite)
 		return (1);
 	if (c == 1 && redirection_space(token))
 		return (1);
@@ -85,7 +85,7 @@ int	parse_quote(t_token *token, int *i)
 
 	t = token[*i];
 	*i += 1;
-	while (token[*i] != 11 && token[*i] != t)
+	while (token[*i] != 20 && token[*i] != t)
 		*i += 1;
 	if (token[*i] == t)
 		return (0);
@@ -100,7 +100,7 @@ int	parcing_pipe(t_token *token, char *mask)
 	(void)mask;
 	if (token && token[i] == PIPE)// you need to create a file without content
 		return (parser_error(), 1);
-	while (token[i] != 11)
+	while (token[i] != 20)
 	{
 		if ((token[i] == QUOTE || token[i] == SINGEL_Q) &&\
 			parse_quote(token, &i))

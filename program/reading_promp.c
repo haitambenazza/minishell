@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reading_promp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/07 13:19:58 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/20 17:59:22 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,11 @@ int	reading_promp(char **env)
 		if (history(inputs))
 			return (free(inputs), 1);
 		free(inputs);
-		if (shell)
-			err = run_execution(shell);
-		if (err < 0)
-			return (1);
+		clean_up(shell);
+		// if (shell)
+		// 	err = run_execution(shell);
+		// if (err < 0)
+		// 	return (1);
 	}
 	return (0);
 }
