@@ -6,42 +6,21 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/22 17:51:42 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:22:44 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-//AST here
-//dont forgot to expand the env variables $var in the env variables
-
-t_token	*tokenize(char *m)
+//change the value of pipes and space to save them later
+void	change_value_heredoc(char *str)
 {
-	t_token	*tokens;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	tokens = malloc(sizeof(t_token) * (len_token(m) + 1));
-	if (!tokens)
-		return (NULL);
-	while (m[i])
-	{
-		//convert the mask to tokens
-		while ((m[i] == '1' || m[i] == '0') && (m[i] == m[i + 1]))
-			i++;
-		cmd_tokens(m[i], tokens, j);
-		j++;
-		i++;
-	}
-	tokens[j] = 20;
-	if (j == 0)
-		return (free(tokens), NULL);
-	return (tokens);
+	if (*str == '>')
+		*str = 3;
+	else if (*str == '<')
+		*str = 4;
 }
 
-void	special_string(char *str)
+void	change_value_inside_quotes(char *str)
 {
 	int	i;
 	int	holder;
@@ -59,6 +38,8 @@ void	special_string(char *str)
 					str[i] = 1;
 				else if (str[i] == ' ')
 					str[i] = 2;
+				else
+					change_value_heredoc(&str[i]);
 				i++;
 			}
 		}
@@ -82,12 +63,6 @@ int	new_lenght(char *str)
 		i++;
 	}
 	return (len);
-}
-void	copy_char(char *out, char *str, int *len, int *i)
-{
-	out[*len] = str[*i];
-	*i += 1;
-	*len += 1;
 }
 
 void	skip_quotes(char *out, int *len, char *str, int *i)
@@ -150,124 +125,7 @@ char	*add_space(char *str)
 	out[len] = 0;
 	return (out);
 }
-int	lst_size(char **lst)
-{
-	int	len;
 
-	len = 0;
-	while (lst[len])
-		len++;
-	return (len);
-}
-
-char	*new_cmd(char *str, t_shell *shell)
-{
-	char	*output;
-	char	**lst;
-	int		i;
-
-	(void)shell;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'')
-		{
-			lst = ft_split(str, '\'');
-			output = ft_strjoin2(lst_size(lst), lst, "");
-			return (free(str), free_array(lst), output);
-		}
-		else if (str[i] == '"')
-		{
-			lst = ft_split(str, '"');
-			output = ft_strjoin2(lst_size(lst), lst, "");
-			return (free(str), free_array(lst), output);
-		}
-		i++;
-	}
-	return (str);
-}
-
-void	remove_quotes(t_shell *shell)
-{
-	t_shell	*tmp;
-	int		i;
-
-	tmp = shell;
-	while (tmp)
-	{
-		i = 0;
-		while (tmp->cmd[i])
-		{
-			tmp->cmd[i] = new_cmd(tmp->cmd[i], tmp);
-			i++;
-		}
-		tmp = tmp->next;
-	}
-
-}
-int	len_cmd(t_shell *shell)
-{
-	t_shell	*t;
-	int		len;
-	int		i;
-
-	len = 0;
-	i = 0;
-	t = shell;
-	while (t->cmd[i])
-	{
-		if (!ft_strncmp(t->cmd[i], ">") || !ft_strncmp(t->cmd[i], ">>"))
-			i++;
-		else if (!ft_strncmp(t->cmd[i], "<") || !ft_strncmp(t->cmd[i], "<<"))
-			i++;
-		else
-			len++;
-		i++;
-	}
-	return (len);
-}
-void	ft_malloc(char *str, char **arr, int *len)
-{
-	int	i;
-
-	arr[*len] = malloc((ft_strlen(str) + 1));
-	if (!arr[*len])
-		return ;
-	i = 0;
-	while (str[i])
-	{
-		arr[*len][i] = str[i];
-		i++;
-	}
-	arr[*len][i] = 0;
-	*len += 1;
-}
-void	split_cmd(t_shell *shell)
-{
-	char	**arr;
-	int		i;
-	int		len;
-
-	i = 0;
-	len = len_cmd(shell);
-	arr = malloc(sizeof(char*) * (len + 1));
-	arr[len] = 0;
-	len = 0;
-	if (!arr)
-		return ;
-	while (shell->cmd[i])
-	{
-		if (!ft_strncmp(shell->cmd[i], ">") || !ft_strncmp(shell->cmd[i], ">>"))
-			i++;
-		else if (!ft_strncmp(shell->cmd[i], "<") || !ft_strncmp(shell->cmd[i], "<<"))
-			i++;
-		else
-			ft_malloc(shell->cmd[i], arr, &len);
-		i++;
-	}
-	free_array(shell->cmd);
-	shell->cmd = arr;
-}
 void	only_cmd(t_shell *shell)
 {
 	t_shell	*tmp;
@@ -276,21 +134,6 @@ void	only_cmd(t_shell *shell)
 	while (tmp)
 	{
 		split_cmd(tmp);
-		for (int i = 0; tmp->cmd[i]; i++)
-			printf("%s\n", tmp->cmd[i]);
-		tmp = tmp->next;
-	}
-}
-void	count_quotes(t_shell *shell)
-{
-	t_shell	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = shell;
-	while (tmp)
-	{
-
 		tmp = tmp->next;
 	}
 }
@@ -311,13 +154,13 @@ t_shell	*lexer(char *inputs)
 	if (parcing_pipe(t, mask))
 		return (free(t), free(mask), NULL);
 	sp = add_space(inputs);
-	special_string(sp);
+	change_value_inside_quotes(sp);
 	shell = create_list(sp);
 	if (!shell)
 		return (free(sp), free(t), free(mask), NULL);
-	count_quotes(shell);
+	only_cmd(shell);
+	save_quotes(shell);
 	remove_quotes(shell);
 	redirections_lst(shell);
-	only_cmd(shell);
 	return (free(sp), free(t), free(mask), shell);
 }

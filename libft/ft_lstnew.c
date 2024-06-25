@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/06 21:37:28 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/25 14:21:40 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ void	string_special(char **cmd)
 				cmd[i][j] = '|';
 			else if (cmd[i][j] == 2)
 				cmd[i][j] = ' ';
+			else if (cmd[i][j] == 3)
+				cmd[i][j] = '>';
+			else if (cmd[i][j] == 4)
+				cmd[i][j] = '<';
 			j++;
 		}
 		i++;
@@ -35,28 +39,28 @@ void	string_special(char **cmd)
 
 t_redirect *ft_lstnew_redirect(char *str, char *file)
 {
-    t_redirect *node;
+	t_redirect *node;
 
-    (void)str;
-    node = malloc(sizeof(t_redirect));
-    if (!node)
-        return (NULL);
-    if (!ft_strncmp(str, ">"))
-        node->type = RED_OUT;
-    else if (!ft_strncmp(str, "<"))
-        node->type = RED_IN;
-    else if (!ft_strncmp(str, ">>"))
-        node->type = APPEND;
-    else if (!ft_strncmp(str, "<<"))
-        node->type = DELIMET;
-    node->file_name = ft_strdup(file);
-    if (!node->file_name)
-    {
-        free(node);
-        return (NULL);
-    }
-    node->next = NULL;
-    return (node);
+	(void)str;
+	node = malloc(sizeof(t_redirect));
+	if (!node)
+		return (NULL);
+	if (!ft_strncmp(str, ">"))
+		node->type = RED_OUT;
+	else if (!ft_strncmp(str, "<"))
+		node->type = RED_IN;
+	else if (!ft_strncmp(str, ">>"))
+		node->type = APPEND;
+	else if (!ft_strncmp(str, "<<"))
+		node->type = DELIMET;
+	node->file_name = ft_strdup(file);
+	if (!node->file_name)
+	{
+		free(node);
+		return (NULL);
+	}
+	node->next = NULL;
+	return (node);
 }
 
 

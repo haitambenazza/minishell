@@ -68,7 +68,7 @@ typedef struct shell
 	int					pid;
 	int					input_fd;
 	int					output_fd;
-	int					*list_quotes;
+	char				**list_quotes;
 	struct shell		*next;
 	struct s_redirect	*redirection;
 	struct s_env		*env;
@@ -83,6 +83,10 @@ void	cmd_tokens(char mask, t_token *t, int i);
 t_shell	*lexer(char *inputs);
 void	masking(char *str, int i, char c);
 char	*cmd_mask(char *str);
+void	save_quotes(t_shell *shell);
+void	remove_quotes(t_shell *shell);
+char	*new_cmd(char *str, t_shell *shell);
+t_token	*tokenize(char *m);
 /*------------------------*/
 
 /*--------excution--------*/
@@ -100,7 +104,9 @@ char	**lst_arr(t_shell *shell);
 /*------------------------*/
 
 /*---------herdoc---------*/
-int	handle_heredoc(t_shell *cmds);
+void		redirections_lst(t_shell *shell);
+t_redirect	*create_redirect_lst(char **cmd, int *i);
+int			handle_heredoc(t_shell *cmds);
 /*........................*/
 /*--------built-in--------*/
 int		if_built_in_run(t_shell *tmp);
@@ -139,9 +145,14 @@ int			ft_strcount(char *s, char chr);
 char		*ft_strjoin2(int size, char **strs, char *sep);
 t_redirect	*ft_lstnew_redirect(char *str, char *file);
 void		ft_lstadd_back3(t_redirect **lst, t_redirect *new);
-void		redirections_lst(t_shell *shell);
-t_redirect	*create_redirect_lst(char **cmd, int *i);
 char		*ft_strjoin_no_free(char *s1, char *s2);
+int			lst_size(char **lst);
+int			len_cmd(t_shell *shell);
+void		split_cmd(t_shell *shell);
+void		ft_malloc(char *str, char **arr, int *len);
+int			new_lenght(char *str);
+void		copy_char(char *out, char *str, int *len, int *i);
+void		change_value_inside_quotes(char *str);
 /*------------------------*/
 
 #endif

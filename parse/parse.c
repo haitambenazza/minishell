@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/21 18:38:20 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:21:28 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,52 +115,6 @@ int	parcing_pipe(t_token *token, char *mask)
 	if (token[--i] == PIPE)
 		return (parser_error(), 1);
 	return (0);
-}
-
-t_redirect	*create_redirect_lst(char **cmd, int *i)
-{
-	t_redirect	*head;
-	t_redirect	*node;
-
-	head = NULL;
-	while (cmd[*i])
-	{
-		if (!ft_strncmp(cmd[*i], ">") || !ft_strncmp(cmd[*i], "<"))
-		{
-			node = ft_lstnew_redirect(cmd[*i], cmd[*i + 1]);
-			ft_lstadd_back3(&head, node);
-		}
-		if (!ft_strncmp(cmd[*i], "<<") || !ft_strncmp(cmd[*i], ">>"))
-		{
-			node = ft_lstnew_redirect(cmd[*i], cmd[*i + 1]);
-			ft_lstadd_back3(&head, node);
-		}
-		*i += 1;
-	}
-	return (head);
-}
-
-void	redirections_lst(t_shell *shell)
-{
-	t_shell	*tmp;
-	int		i;
-
-	tmp = shell;
-	while (tmp)
-	{
-		i = 0;
-		while (tmp->cmd[i])
-		{
-			if (!ft_strncmp(tmp->cmd[i], ">") || !ft_strncmp(tmp->cmd[i], "<"))
-				tmp->redirection = create_redirect_lst(tmp->cmd, &i);
-			if (!ft_strncmp(tmp->cmd[i], "<<") || !ft_strncmp(tmp->cmd[i], ">>"))
-				tmp->redirection = create_redirect_lst(tmp->cmd, &i);
-			if (!tmp->cmd[i])
-				break ;
-			i++;
-		}
-		tmp = tmp->next;
-	}
 }
 
 t_shell	*parsing(char *inputs)
