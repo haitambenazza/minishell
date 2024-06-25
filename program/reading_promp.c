@@ -6,29 +6,11 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/25 14:16:36 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/25 21:51:47 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	handler(int signal)
-{
-	if (signal == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_replace_line("", 1);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
-void	handl(int signal)
-{
-	(void)signal;
-	rl_on_new_line();
-	rl_redisplay();
-}
 
 int	history(char *str)
 {
@@ -36,15 +18,8 @@ int	history(char *str)
 		return (1);
 	if (ft_strlen(str))
 		add_history(str);
-	// rl_clear_history();
 	return (0);
 
-}
-
-void	cntl_D(void)
-{
-	rl_on_new_line();
-	write(1, "exit\n", 5);
 }
 
 t_env	*create_lst_env(char **env)
@@ -72,8 +47,8 @@ int	reading_promp(char **env)
 	char	*inputs;
 	int		err;
 
-	signal(SIGINT, handler);
-	signal(SIGQUIT, handl);
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, ctrl_empty);
 	err = 0;
 	while (1337)
 	{

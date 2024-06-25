@@ -6,16 +6,11 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/25 12:21:28 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/25 19:12:49 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	parser_error()
-{
-	write(2, "minishell: parsing error!\n", 26);
-}
 
 int	find_next_command(t_token *token, int index)
 {
@@ -30,7 +25,7 @@ int	find_next_command(t_token *token, int index)
 	return (0);
 }
 
-int	redirection_space(t_token *t)
+int	parse_redirection_space(t_token *t)
 {
 	int	i;
 
@@ -74,7 +69,7 @@ int	parsing_redirect(t_token *token, int index)
 	}
 	if (token[index] == PIPE || token[index] == 20 || c > 1 || token[index] == opposite)
 		return (1);
-	if (c == 1 && redirection_space(token))
+	if (c == 1 && parse_redirection_space(token))
 		return (1);
 	return (0);
 }

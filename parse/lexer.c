@@ -6,18 +6,20 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/25 14:22:44 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:06:44 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 //change the value of pipes and space to save them later
-void	change_value_heredoc(char *str)
+void	change_value_others(char *str, int holder)
 {
+	(void)holder;
 	if (*str == '>')
 		*str = 3;
 	else if (*str == '<')
 		*str = 4;
+	// else if 
 }
 
 void	change_value_inside_quotes(char *str)
@@ -39,7 +41,7 @@ void	change_value_inside_quotes(char *str)
 				else if (str[i] == ' ')
 					str[i] = 2;
 				else
-					change_value_heredoc(&str[i]);
+					change_value_others(&str[i], holder);
 				i++;
 			}
 		}

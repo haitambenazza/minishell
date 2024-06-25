@@ -6,11 +6,16 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 09:59:45 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/25 12:08:32 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/25 19:12:56 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	parser_error()
+{
+	write(2, "minishell: parsing error!\n", 26);
+}
 
 void	ft_malloc(char *str, char **arr, int *len)
 {

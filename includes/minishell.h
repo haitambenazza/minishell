@@ -68,7 +68,7 @@ typedef struct shell
 	int					pid;
 	int					input_fd;
 	int					output_fd;
-	char				**list_quotes;
+	// char				**list_quotes;
 	struct shell		*next;
 	struct s_redirect	*redirection;
 	struct s_env		*env;
@@ -87,6 +87,12 @@ void	save_quotes(t_shell *shell);
 void	remove_quotes(t_shell *shell);
 char	*new_cmd(char *str, t_shell *shell);
 t_token	*tokenize(char *m);
+/*------------------------*/
+
+/*--------signals---------*/
+void	cntl_D(void);
+void	ctrl_empty(int signal);
+void	ctrl_c(int signal);
 /*------------------------*/
 
 /*--------excution--------*/
