@@ -68,7 +68,7 @@ typedef struct shell
 	int					pid;
 	int					input_fd;
 	int					output_fd;
-	// char				**list_quotes;
+	char				**list_quotes;
 	struct shell		*next;
 	struct s_redirect	*redirection;
 	struct s_env		*env;
@@ -83,7 +83,7 @@ void	cmd_tokens(char mask, t_token *t, int i);
 t_shell	*lexer(char *inputs);
 void	masking(char *str, int i, char c);
 char	*cmd_mask(char *str);
-void	save_quotes(t_shell *shell);
+void	expander(t_shell *shell);
 void	remove_quotes(t_shell *shell);
 char	*new_cmd(char *str, t_shell *shell);
 t_token	*tokenize(char *m);
@@ -159,6 +159,7 @@ void		ft_malloc(char *str, char **arr, int *len);
 int			new_lenght(char *str);
 void		copy_char(char *out, char *str, int *len, int *i);
 void		change_value_inside_quotes(char *str);
+void		number_special_char(char **cmd);
 /*------------------------*/
 
 #endif

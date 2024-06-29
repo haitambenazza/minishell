@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execuction_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 09:57:51 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/06/07 20:46:06 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/26 11:28:22 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	handle_heredoc(t_shell *cmds)
 		if (node->redirection->type == 13)
 		{
 			//fd = ft_heredoc(readline, l_env, node->file_name[i]); TODO
-            if (fd == -1)
-                return (fd);
+			if (fd == -1)
+				return (fd);
 		}
 		node->redirection = node->redirection->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:07:23 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/07 21:00:02 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/26 11:23:17 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	execute(t_shell *cmds)
 	// 	tmp_redirection = tmp_redirection->next;
 	// }
 
-	
+
 	if (tmp->next != NULL)
 	{
 		if (open_pipes(cmds, pipe_fd))

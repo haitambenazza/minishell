@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/25 15:06:44 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/29 11:23:55 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	change_value_others(char *str, int holder)
 		*str = 3;
 	else if (*str == '<')
 		*str = 4;
-	// else if 
+	// else if
 }
 
 void	change_value_inside_quotes(char *str)
@@ -160,8 +160,8 @@ t_shell	*lexer(char *inputs)
 	shell = create_list(sp);
 	if (!shell)
 		return (free(sp), free(t), free(mask), NULL);
+	// expander(shell);
 	only_cmd(shell);
-	save_quotes(shell);
 	remove_quotes(shell);
 	redirections_lst(shell);
 	return (free(sp), free(t), free(mask), shell);

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 09:59:45 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/25 19:12:56 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/27 09:42:28 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,29 @@ void	copy_char(char *out, char *str, int *len, int *i)
 	out[*len] = str[*i];
 	*i += 1;
 	*len += 1;
+}
+
+void	number_special_char(char **cmd)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (cmd[i])
+	{
+		j = 0;
+		while (cmd[i][j])
+		{
+			if (cmd[i][j] == 1)
+				cmd[i][j] = '|';
+			else if (cmd[i][j] == 2)
+				cmd[i][j] = ' ';
+			else if (cmd[i][j] == 3)
+				cmd[i][j] = '>';
+			else if (cmd[i][j] == 4)
+				cmd[i][j] = '<';
+			j++;
+		}
+		i++;
+	}
 }

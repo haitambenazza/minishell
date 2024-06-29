@@ -6,36 +6,11 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/25 15:07:03 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/27 09:42:20 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	string_special(char **cmd)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (cmd[i])
-	{
-		j = 0;
-		while (cmd[i][j])
-		{
-			if (cmd[i][j] == 1)
-				cmd[i][j] = '|';
-			else if (cmd[i][j] == 2)
-				cmd[i][j] = ' ';
-			else if (cmd[i][j] == 3)
-				cmd[i][j] = '>';
-			else if (cmd[i][j] == 4)
-				cmd[i][j] = '<';
-			j++;
-		}
-		i++;
-	}
-}
 
 t_redirect *ft_lstnew_redirect(char *str, char *file)
 {
@@ -77,8 +52,8 @@ t_shell	*ft_lstnew(char *str)
 		return (NULL);
 	if (str)
 		node->cmd = ft_split(str, ' ');
-	string_special(node->cmd);
-	// node->list_quotes = NULL;
+	number_special_char(node->cmd);
+	node->list_quotes = NULL;
 	node->redirection = NULL;
 	node->next = NULL;
 	return (node);

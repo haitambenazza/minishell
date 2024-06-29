@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/25 21:51:47 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/29 11:22:04 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,17 @@ t_env	*create_lst_env(char **env)
 	return (head);
 }
 
+void	init_env_lst(t_shell *sh, char **env)
+{
+	t_shell	*tmp;
+
+	tmp = sh;
+	while (tmp)
+	{
+		tmp->env = create_lst_env(env);
+		tmp = tmp->next;
+	}
+}
 
 int	reading_promp(char **env)
 {
@@ -57,15 +68,22 @@ int	reading_promp(char **env)
 			return (cntl_D(), 0);
 		shell = parsing(ft_strtrim(inputs, " "));
 		if (shell)
-			shell->env = create_lst_env(env);
+			init_env_lst(shell, env);
 		if (history(inputs))
 			return (free(inputs), 1);
 		free(inputs);
 		for (t_shell *tmp = shell; tmp; tmp=tmp->next)
 		{
-			for (int i= 0; tmp->cmd[i]; i++)
+			for (int i = 0; tmp->cmd[i]; i++)
 				printf("%s\n", tmp->cmd[i]);
 		}
+		// if (shell)
+		// {
+		// 	for (t_env *env = shell->env; env; env=env->next)
+		// 	{
+		// 		printf("%s=%s\n", env->key, env->value);
+		// 	}
+		// }
 		clean_up(shell);
 		// if (shell)
 		// 	err = run_execution(shell);

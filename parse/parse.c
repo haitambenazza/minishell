@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/25 19:12:49 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/28 20:27:58 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	parcing_pipe(t_token *token, char *mask)
 
 	i = 0;
 	(void)mask;
-	if (token && token[i] == PIPE)// you need to create a file without content
+	if (token && token[i] == PIPE)
 		return (parser_error(), 1);
 	while (token[i] != 20)
 	{
