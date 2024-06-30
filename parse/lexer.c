@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/29 11:43:46 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/29 12:07:36 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,10 +164,5 @@ t_shell	*lexer(char *inputs)
 	redirections_lst(shell);
 	remove_quotes(shell);
 	only_cmd(shell);
-	for (t_shell *tmp = shell; tmp; tmp=tmp->next)
-	{
-		for (t_redirect *red = tmp->redirection; red; red=red->next)
-			printf("type  %d   filename  %s\n", red->type, red->file_name);
-	}
 	return (free(sp), free(t), free(mask), shell);
 }

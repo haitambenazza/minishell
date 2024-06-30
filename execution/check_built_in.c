@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:58:22 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/06/06 13:45:02 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/29 18:08:55 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 int	if_built_in_run(t_shell *tmp)
 {
+	// puts("taha");
 	if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "pwd"))
 		return (ft_pwd(tmp));
 	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "echo"))
-		;//return (ft_echo(tmp));
+		;// return (ft_echo(tmp));
 	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "exit"))
 		return (ft_exit(tmp));
 	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "cd"))

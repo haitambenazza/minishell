@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
+#    By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/06/28 16:46:39 by hbenazza         ###   ########.fr        #
+#    Updated: 2024/06/29 12:11:50 by tkoulal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,8 @@ SRC = ./program/main.c\
 	./libft/ft_strtrim.c\
 	./libft/ft_strchr.c\
 	./execution/execution.c\
-	./execution/excute_cmd.c\
 	./execution/check_built_in.c\
 	./execution/clean_up.c\
-	./execution/get_path.c\
-	./execution/execuction_utils.c\
 	./execution/handel_files.c\
 	./built-in/commands1.c\
 	./parse/init_struct.c\

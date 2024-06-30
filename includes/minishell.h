@@ -64,10 +64,7 @@ typedef struct s_redirect
 typedef struct shell
 {
 	char				**cmd;
-	char				**envp;
 	int					pid;
-	int					input_fd;
-	int					output_fd;
 	char				**list_quotes;
 	struct shell		*next;
 	struct s_redirect	*redirection;
@@ -97,22 +94,16 @@ void	ctrl_c(int signal);
 
 /*--------excution--------*/
 int 	handel_redirection(t_redirect *node);
-int		open_pipes(t_shell *cmd, int pipe_fd[2]);
-int		run_execution(t_shell *cmds);
-int		run_execution1(t_shell *cmds);
-int		close_fd(int fd1, int fd2);
-char	*get_cmd(char *cmd, char **envp);
-int		execute(t_shell *cmds);
+int		execution(t_shell *cmds);
 int		history(char *str);
 int		reading_promp(char **env);
-int		execute_cmd(t_shell *cmds);
 char	**lst_arr(t_shell *shell);
 /*------------------------*/
 
 /*---------herdoc---------*/
 void		redirections_lst(t_shell *shell);
 t_redirect	*create_redirect_lst(char **cmd, int *i);
-int			handle_heredoc(t_shell *cmds);
+// int			handle_heredoc(t_shell *cmds);
 /*........................*/
 /*--------built-in--------*/
 int		if_built_in_run(t_shell *tmp);
@@ -143,6 +134,7 @@ t_shell		*create_list(char *input);
 void		ft_lstadd_back(t_shell **lst, t_shell *new);
 void		ft_lstadd_back2(t_env **lst, t_env *new);
 int 		lstsize(t_env *cmd);
+int 		cmds_size(t_shell *cmd);
 int			ft_strncmp(char *s1, char *s2);
 int			ft_strnncmp(char *s1, char *s2, size_t len);
 char		*ft_strtrim(char *s1, char *set);

@@ -6,12 +6,11 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:55:13 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/06/07 20:56:05 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/06/30 15:11:38 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 int open_infiles(t_redirect *node)
 {
@@ -20,50 +19,70 @@ int open_infiles(t_redirect *node)
     status = 0;
     if (!node->file_name)
     {
-        printf(RED"minishell: ambiguous redirect\n"RST);
+        printf(RED "minishell: ambiguous redirect\n" RST);
         return (-1);
     }
-   // status = check_infile_access(node->file_name);
+    // status = check_infile_access(node->file_name);
     if (status < 0)
         return (ERROR);
     return (status);
 }
-int open_outfiles(t_redirect *node)
+int open_outfiles(char *file)
 {
     int status;
 
     status = 0;
-    if (!node->file_name)
-    {
-        printf(RED"minishell: ambiguous redirect\n"RST);
-        return (-1);
-    }
-    status = open(node->file_name, O_RDONLY);
+    status = open(file, O_WRONLY | O_APPEND | O_CREAT, 0640);
     return (status);
 }
 
 int handel_redirection(t_redirect *node)
 {
-	int	i;
-
-	i = -1;
-    if (node->type == RED_OUT)
+    int fd;
+    while (node)
     {
-		// printf(GREEN"1ok now u should open  this file > {%s} \n"RST, node->file_name);
-        // if (open_infiles(node) < 0)
-        //     return (ERROR);
+        if (node->type == RED_OUT)
+        {
+            fd = open(node->file_name, O_RDWR | O_CREAT | O_TRUNC, 0666);
+            if (fd < 0)
+            {
+                perror(node->file_name);
+                close(fd);
+                return (1);
+            }
+            dup2(fd, STDOUT_FILENO);
+        }
+        else if (node->type == RED_IN)
+        {
+            if (access(node->file_name, R_OK) == 0)
+            {
+                fd = open(node->file_name, O_RDONLY);
+                if (fd < 0)
+                {
+                    perror(node->file_name);
+                    close(fd);
+                    return (1);
+                }
+                dup2(fd, STDIN_FILENO);
+            }
+            else
+            {
+                perror(node->file_name);
+                return (1);
+            }
+        }
+        else if (node->type == APPEND)
+        {
+            fd = open(node->file_name, O_RDWR | O_CREAT | O_APPEND, 0666);
+            if (fd < 0)
+            {
+                perror(node->file_name);
+                close(fd);
+                return (1);
+            }
+            dup2(fd, STDOUT_FILENO);
+        }
+        node = node->next;
     }
-    else if (node->type == RED_IN)
-    {
-		printf(GREEN"2ok now u should open  this file  < {%s} \n"RST, node->file_name);
-        // if (open_infiles(node, i) < 0)
-        //     return (ERROR);
-    }
-    else if (node->type == APPEND)
-    {
-		printf(GREEN"3ok now u should open  this file >> {%s} \n"RST, node->file_name);
-        // if (open_infiles(node, i) < 0)
-        //     return (ERROR);
-    }
-	return (SUCCESS);
+    return (0);
 }
