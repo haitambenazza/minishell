@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reading_promp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/30 16:03:33 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/02 09:44:01 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	reading_promp(char **env)
 		inputs = readline(GREEN"minishell~> "RST);
 		if (!inputs)
 			return (cntl_D(), 0);
-		shell = parsing(ft_strtrim(inputs, " "));
+		shell = parsing(ft_strtrim(inputs, " "), env);
 		if (shell)
 			init_env_lst(shell, env);
 		if (history(inputs))

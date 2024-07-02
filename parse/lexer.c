@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/29 12:07:36 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/02 09:44:37 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	change_value_others(char *str, int holder)
 		*str = 3;
 	else if (*str == '<')
 		*str = 4;
-	// else if
+	else if (*str == '\t')
+		*str = 5;
 }
 
 void	change_value_inside_quotes(char *str)
@@ -140,7 +141,7 @@ void	only_cmd(t_shell *shell)
 	}
 }
 
-t_shell	*lexer(char *inputs)
+t_shell	*lexer(char *inputs, char **env)
 {
 	t_shell	*shell;
 	t_token	*t;
@@ -160,6 +161,8 @@ t_shell	*lexer(char *inputs)
 	shell = create_list(sp);
 	if (!shell)
 		return (free(sp), free(t), free(mask), NULL);
+	if (shell)
+		init_env_lst(shell, env);
 	// expander(shell);
 	redirections_lst(shell);
 	remove_quotes(shell);

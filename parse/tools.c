@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 09:59:45 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/27 09:42:28 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/02 09:35:08 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	number_special_char(char **cmd)
 				cmd[i][j] = '>';
 			else if (cmd[i][j] == 4)
 				cmd[i][j] = '<';
+			else if (cmd[i][j] == 5)
+				cmd[i][j] = '\t';
 			j++;
 		}
 		i++;

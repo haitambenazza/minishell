@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:36:46 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/16 17:38:12 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/02 09:30:27 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,5 @@ char	*ft_strchr(char *s, int c)
 			return ((char *)(s + i));
 		i++;
 	}
-	if (char_c == '\0')
-		return ((char *)&s[i]);
 	return (NULL);
 }

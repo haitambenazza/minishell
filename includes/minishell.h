@@ -72,12 +72,12 @@ typedef struct shell
 }	t_shell;
 
 /*------- parsing --------*/
-t_shell	*parsing(char *inputs);
+t_shell	*parsing(char *inputs, char **env);
 int		parcing_pipe(t_token *token, char *mask);
 void	parser_error(void);
 int		len_token(char *m);
 void	cmd_tokens(char mask, t_token *t, int i);
-t_shell	*lexer(char *inputs);
+t_shell	*lexer(char *inputs, char **env);
 void	masking(char *str, int i, char c);
 char	*cmd_mask(char *str);
 void	expander(t_shell *shell);
@@ -98,6 +98,11 @@ int		execution(t_shell *cmds);
 int		history(char *str);
 int		reading_promp(char **env);
 char	**lst_arr(t_shell *shell);
+/*------------------------*/
+
+/*---------init-----------*/
+void	init_env_lst(t_shell *sh, char **env);
+t_env	*create_lst_env(char **env);
 /*------------------------*/
 
 /*---------herdoc---------*/
@@ -127,7 +132,7 @@ char		*ft_strdup(const char *s1);
 char		*ft_strjoin(char *s1, char *s2);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 size_t		ft_strlen(const char *str);
-char		**ft_split(char *s, char c);
+char		**ft_split(char *s, char *c);
 t_shell		*ft_lstnew(char *str);
 t_env		*ft_lstnew2(char *str);
 t_shell		*create_list(char *input);

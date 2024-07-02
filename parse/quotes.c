@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 13:21:11 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/25 12:34:48 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/02 09:38:09 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ char	*new_cmd(char *str, t_shell *shell)
 	{
 		if (str[i] == '\'')
 		{
-			lst = ft_split(str, '\'');
+			lst = ft_split(str, "\'");
 			output = ft_strjoin2(lst_size(lst), lst, "");
 			return (free(str), free_array(lst), output);
 		}
 		else if (str[i] == '"')
 		{
-			lst = ft_split(str, '"');
+			lst = ft_split(str, "\"");
 			output = ft_strjoin2(lst_size(lst), lst, "");
 			return (free(str), free_array(lst), output);
 		}
