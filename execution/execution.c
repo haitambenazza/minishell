@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/06/30 16:00:50 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/02 11:07:59 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char    **find_path(char **envp)
     while (envp[i])
     {
         if (!ft_strnncmp(envp[i], "PATH=", 5))
-            return (ft_split(envp[i] + 5, ':'));
+            return (ft_split(envp[i] + 5, ":"));
         i++;
     }
     return (NULL);

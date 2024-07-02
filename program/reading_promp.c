@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/02 09:44:01 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:09:56 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,36 +20,6 @@ int	history(char *str)
 		add_history(str);
 	return (0);
 
-}
-
-t_env	*create_lst_env(char **env)
-{
-	t_env	*head;
-	t_env	*node;
-	int		i;
-
-	i = 0;
-	head = NULL;
-	while (env[i])
-	{
-		node = ft_lstnew2(env[i]);
-		ft_lstadd_back2(&head, node);
-		i++;
-		node = node->next;
-	}
-	return (head);
-}
-
-void	init_env_lst(t_shell *sh, char **env)
-{
-	t_shell	*tmp;
-
-	tmp = sh;
-	while (tmp)
-	{
-		tmp->env = create_lst_env(env);
-		tmp = tmp->next;
-	}
 }
 
 int	reading_promp(char **env)
