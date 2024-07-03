@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 09:59:45 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/02 09:35:08 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/03 10:28:39 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,15 @@ void	number_special_char(char **cmd)
 		j = 0;
 		while (cmd[i][j])
 		{
-			if (cmd[i][j] == 1)
+			if (cmd[i][j] == -1)
 				cmd[i][j] = '|';
-			else if (cmd[i][j] == 2)
+			else if (cmd[i][j] == -2)
 				cmd[i][j] = ' ';
-			else if (cmd[i][j] == 3)
+			else if (cmd[i][j] == -3)
 				cmd[i][j] = '>';
-			else if (cmd[i][j] == 4)
+			else if (cmd[i][j] == -4)
 				cmd[i][j] = '<';
-			else if (cmd[i][j] == 5)
+			else if (cmd[i][j] == -5)
 				cmd[i][j] = '\t';
 			j++;
 		}

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/02 11:07:23 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/04 00:45:20 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	change_value_others(char *str, int holder)
 {
 	(void)holder;
 	if (*str == '>')
-		*str = 3;
+		*str = -3;
 	else if (*str == '<')
-		*str = 4;
+		*str = -4;
 	else if (*str == '\t')
-		*str = 5;
+		*str = -5;
 }
 
 void	change_value_inside_quotes(char *str)
@@ -38,9 +38,9 @@ void	change_value_inside_quotes(char *str)
 			while (str[i] && str[i] != holder)
 			{
 				if (str[i] == '|')
-					str[i] = 1;
+					str[i] = -1;
 				else if (str[i] == ' ')
-					str[i] = 2;
+					str[i] = -2;
 				else
 					change_value_others(&str[i], holder);
 				i++;
@@ -163,7 +163,7 @@ t_shell	*lexer(char *inputs, char **env)
 		return (free(sp), free(t), free(mask), NULL);
 	if (shell)
 		init_env_lst(shell, env);
-	expander(shell);
+	// expander(shell, t);
 	redirections_lst(shell);
 	remove_quotes(shell);
 	only_cmd(shell);

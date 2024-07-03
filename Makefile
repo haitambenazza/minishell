@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+         #
+#    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/06/29 12:11:50 by tkoulal          ###   ########.fr        #
+#    Updated: 2024/07/02 17:24:24 by hbenazza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,8 @@ SRC = ./program/main.c\
 	./parse/expander.c\
 	./parse/tokens_utils.c\
 	./parse/redirections.c\
-	./parse/signals.c
+	./parse/signals.c\
+	./parse/expander_tools.c
 
 OBJ = ${SRC:.c=.o}
 

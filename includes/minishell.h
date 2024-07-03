@@ -80,10 +80,15 @@ void	cmd_tokens(char mask, t_token *t, int i);
 t_shell	*lexer(char *inputs, char **env);
 void	masking(char *str, int i, char c);
 char	*cmd_mask(char *str);
-void	expander(t_shell *shell);
 void	remove_quotes(t_shell *shell);
 char	*new_cmd(char *str, t_shell *shell);
 t_token	*tokenize(char *m);
+/*------------------------*/
+
+/*-----expander-----------*/
+t_shell	*expander(t_shell *shell, t_token *t);
+int		still_expandable(t_token *t);
+int		is_in_range(char *str, char delimiter, char inside_char);
 /*------------------------*/
 
 /*--------signals---------*/
@@ -110,6 +115,7 @@ void		redirections_lst(t_shell *shell);
 t_redirect	*create_redirect_lst(char **cmd, int *i);
 // int			handle_heredoc(t_shell *cmds);
 /*........................*/
+
 /*--------built-in--------*/
 int		if_built_in_run(t_shell *tmp);
 int		is_built_in(t_shell *tmp);
@@ -157,6 +163,7 @@ int			new_lenght(char *str);
 void		copy_char(char *out, char *str, int *len, int *i);
 void		change_value_inside_quotes(char *str);
 void		number_special_char(char **cmd);
+int			cmds_size(t_shell *cmd);
 /*------------------------*/
 
 #endif

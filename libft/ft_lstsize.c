@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 16:24:41 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/06/29 12:15:08 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/02 19:27:06 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 
 int lstsize(t_env *cmd)
 {
-    int i;
+	int i;
 
-    i = 0;
-    while (cmd)
-    {
-        i++;
-        cmd = cmd->next;
-    }
-    return (i);
+	i = 0;
+	while (cmd)
+	{
+		i++;
+		cmd = cmd->next;
+	}
+	return (i);
 }
 
 int cmds_size(t_shell *cmd)
 {
-    int i;
+	int i;
 
-    i = 0;
-    while (cmd)
-    {
-        i++;
-        cmd = cmd->next;
-    }
-    return (i);
+	i = 0;
+	while (cmd)
+	{
+		i++;
+		cmd = cmd->next;
+	}
+	return (i);
 }

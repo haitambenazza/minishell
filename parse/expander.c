@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/01 12:30:37 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/04 00:44:49 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@ int	len_inside_quotes(char *str)
 	return (len);
 }
 
-int	quotes_range(char *str, char delimiter, char inside_char)
+int	is_in_range(char *str, char delimiter, char inside_char)
 {
 	int	i;
+	int	flag;
 
 	i = 0;
+	flag = 0;
 	while (str[i])
 	{
 		if (str[i] == delimiter)
@@ -50,7 +52,9 @@ int	quotes_range(char *str, char delimiter, char inside_char)
 			while (str[i] && str[i] != delimiter)
 			{
 				if (str[i] == inside_char)
-					return (1);
+					flag = 1;
+				if (str[i] == inside_char && delimiter == '\'')
+					flag = 0;
 				i++;
 			}
 		}
@@ -58,216 +62,157 @@ int	quotes_range(char *str, char delimiter, char inside_char)
 			return (0);
 		i++;
 	}
-	return (0);
+	return (flag);
 }
 
-int	get_len_env(t_shell *tmp, char *holder)
+int	len_env(char *s, t_shell *sh)
 {
-	t_env	*env_lst;
+	t_env	*env;
 
-	env_lst = tmp->env;
-	printf("holder %s\n", holder);
-	while (env_lst)
+	env = sh->env;
+	while (env)
 	{
-		if (!ft_strncmp(env_lst->key, holder))
-			return (free(holder), ft_strlen(env_lst->value));
-		env_lst = env_lst->next;
+		if (!ft_strncmp(env->key, s))
+			return (printf("%s vlau\n", env->value), free(s), ft_strlen(env->value));
+		env = env->next;
 	}
-	free(holder);
 	return (0);
 }
 
-int	get_env(t_shell *tmp, int index, int *i)
+int	fetch_len_env(char *s, int *i, t_shell *sh)
 {
 	char	*env;
 	int		len;
-	int		save_i;
+	int		save;
 
 	len = 0;
-	*i += 1;
-	save_i = *i;
-	while (tmp->cmd[index][save_i] && tmp->cmd[index][save_i] != '"' &&\
-		tmp->cmd[index][save_i] != '\'' && tmp->cmd[index][save_i] != '$')
+	save = *i;
+	while (s[save] && s[save] != '\'' && s[save] != ' ' && s[save] != '$' \
+			&& s[save] != '\t' && s[save] != '"')
 	{
 		len++;
-		save_i++;
+		save++;
 	}
 	env = malloc(sizeof(char) * (len + 1));
 	env[len] = 0;
+	if (!env)
+		return (0);
 	len = 0;
-	while (tmp->cmd[index][*i] && tmp->cmd[index][*i] != '"' &&\
-		tmp->cmd[index][*i] != '\'' && tmp->cmd[index][*i] != '$')
+	while (s[*i] && s[*i] != '\'' && s[*i] != ' ' && s[*i] != '$' \
+		&& s[*i] != '\t' && s[*i] != '"')
 	{
-		env[len] = tmp->cmd[index][*i];
+		env[len] = s[*i];
 		len++;
 		*i += 1;
 	}
-	printf("*--------------------*\n");
-	return (get_len_env(tmp, env));
+	return (len_env(env, sh));
 }
 
-int	fetch_len_env(t_shell *sh, int i_word, int *j)
-{
-	int		len;
-
-	len = 0;
-	while(sh->cmd[i_word][*j])
-	{
-		if (sh->cmd[i_word][*j] == '$')
-			len += get_env(sh, i_word, j);
-		else
-			len++;
-		if (!sh->cmd[i_word][*j])
-			return (len);
-		*j += 1;
-	}
-	return (len);
-}
-
-int	non_expanding_len(t_shell *sh, int *j, int i)
+int	len_new_cmd(char *str, t_shell *sh)
 {
 	int	len;
+	int	i;
 
-	len = 1;
-	*j += 1;
-	while (sh->cmd[i][*j] && sh->cmd[i][*j] != '\'')
-	{
-		*j += 1;
-		len++;
-	}
-	if (sh->cmd[i][*j] == '\'')
-		len++;
-	return (len);
-}
-char	*get_env_from_lst(t_shell *tmp, char *holder)
-{
-	t_env	*env_lst;
-
-	env_lst = tmp->env;
-	while (env_lst)
-	{
-		if (!ft_strncmp(env_lst->key, holder))
-			return (free(holder), env_lst->value);
-		env_lst = env_lst->next;
-	}
-	free(holder);
-	return (NULL);
-}
-
-char	*get_env_value(t_shell *tmp, int index, int *i)
-{
-	char	*env;
-	int		len;
-	int		save_i;
-
+	i = 0;
 	len = 0;
-	*i += 1;
-	save_i = *i;
-	while (tmp->cmd[index][save_i] && tmp->cmd[index][save_i] != '"' &&\
-		tmp->cmd[index][save_i] != '\'' && tmp->cmd[index][*i] != '$')
+	while (str[i])
 	{
-		len++;
-		save_i++;
-	}
-	env = malloc(sizeof(char) * (len + 1));
-	env[len] = 0;
-	len = 0;
-	while (tmp->cmd[index][*i] && tmp->cmd[index][*i] != '"' &&\
-		tmp->cmd[index][*i] != '\'' && tmp->cmd[index][*i] != '$')
-	{
-		env[len] = tmp->cmd[index][*i];
-		len++;
-		*i += 1;
-	}
-	return (get_env_from_lst(tmp, env));
-}
-char	*replace_with_env(t_shell *sh, int len, int i)
-{
-	char	*str;
-	char	*env;
-	int		j;
-	int		index_env;
-
-	j = 0;
-	str = malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	str[len] = 0;
-	len = 0;
-	while (sh->cmd[i][j])
-	{
-		if (sh->cmd[i][j] == '\'')
+		if (str[i] == '\'')
 		{
-			str[len] = sh->cmd[i][j];
+			i++;
 			len++;
-			j++;
-			while (sh->cmd[i][j] && sh->cmd[i][j] != '\'')
+			while (str[i] && str[i] != '\'')
 			{
-				str[len] = sh->cmd[i][j];
 				len++;
-				j++;
+				i++;
 			}
 		}
-		else if (sh->cmd[i][j] == '$')
+		if (str[i] == '"')
 		{
-			env = get_env_value(sh, i, &j);
-			index_env = 0;
-			while (env[index_env])
+			i++;
+			len++;
+			while (str[i] && str[i] != '"')
 			{
-				str[len] = env[index_env];
-				len++;
-				index_env++;
+				if (str[i] == '$')
+				{
+					i++;
+					len += fetch_len_env(str, &i, sh);
+				}
+				else
+					len++;
+				i++;
 			}
+		}
+		if (str[i] == '$')
+		{
+			i++;
+			len += fetch_len_env(str, &i, sh);
 		}
 		else
-		{
-			str[len] = sh->cmd[i][j];
-			j++;
 			len++;
-		}
+		if (!str[i])
+			break ;
+		i++;
 	}
-	printf("%s final \n", str);
+	return (len);
+}
+
+char	*expand_and_copy(t_shell *sh, int i)
+{
+	char	*str;
+	int		j;
+	int		len;
+
+	j = 0;
+	len = len_new_cmd(sh->cmd[i], sh);
+	printf("%d leeenn\n", len);
+	str= malloc(sizeof(char) * (len + 1));
+	str[len] = 0;
+	while (sh->cmd[i])
+	{
+		//start with single the double then dollar then normal
+		i++;
+	}
 	return (str);
 }
 
-char	*fetch_double_quotes(t_shell *cmds, int i)
+char	**new_cmd_expanded(t_shell *sh)
 {
-	int	len;
-	int	j;
+	char	**arr;
+	int		i;
 
-	len = 0;
-	j = 0;
-	while (cmds->cmd[i][j])
+	arr = malloc(sizeof(char *) * (lst_size(sh->cmd) + 1));
+	if (!arr)
+		return (NULL);
+	i = 0;
+	while (sh->cmd[i])
 	{
-		if (cmds->cmd[i][j] == '$')
-			len += fetch_len_env(cmds, i, &j);
-		else if (cmds->cmd[i][j] == '\'')
-			len += non_expanding_len(cmds, &j, i);
-		else
-			len++;
-		if (!cmds->cmd[i][j])
-			break ;
-		j++;
+		if (ft_strchr(sh->cmd[i], '$'))
+			arr[i] = expand_and_copy(sh, i);
+		// else
+		// 	arr[i] = copy_without_expand(sh, i);
+		i++;
 	}
-	replace_with_env(cmds, len, i);
-	return (NULL);
+	return ( arr);
 }
 
-void	expander(t_shell *shell)
+t_shell	*expander(t_shell *shell, t_token *t)
 {
 	t_shell	*tmp;
 	int		i;
 
+	if (!still_expandable(t))
+		return (NULL);
 	tmp = shell;
 	while (tmp)
 	{
 		i = 0;
 		while (shell->cmd[i])
 		{
-			if (ft_strchr(shell->cmd[i], '$'))
-				fetch_double_quotes(tmp, i);
+			new_cmd_expanded(shell);
 			i++;
 		}
 		tmp = tmp->next;
 	}
+	return (NULL);
 }
