@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 12:19:24 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/29 11:43:57 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:24:23 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	redirections_lst(t_shell *shell)
 	int		i;
 
 	tmp = shell;
+
 	while (tmp)
 	{
 		i = 0;

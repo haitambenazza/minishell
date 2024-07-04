@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/04 00:45:20 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:26:15 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void	only_cmd(t_shell *shell)
 	while (tmp)
 	{
 		split_cmd(tmp);
+		number_special_char(tmp->cmd);
 		tmp = tmp->next;
 	}
 }
@@ -163,7 +164,7 @@ t_shell	*lexer(char *inputs, char **env)
 		return (free(sp), free(t), free(mask), NULL);
 	if (shell)
 		init_env_lst(shell, env);
-	// expander(shell, t);
+	expander(shell, t);
 	redirections_lst(shell);
 	remove_quotes(shell);
 	only_cmd(shell);

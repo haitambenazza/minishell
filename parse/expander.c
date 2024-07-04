@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/04 00:44:49 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/04 11:50:45 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,8 @@ t_shell	*expander(t_shell *shell, t_token *t)
 	t_shell	*tmp;
 	int		i;
 
-	if (!still_expandable(t))
+	printf("is true %d\n", still_expandable(t, shell));
+	if (!still_expandable(t, shell))
 		return (NULL);
 	tmp = shell;
 	while (tmp)

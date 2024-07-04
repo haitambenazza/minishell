@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/02 09:33:19 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:25:06 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_shell	*ft_lstnew(char *str)
 		return (NULL);
 	if (str)
 		node->cmd = ft_split(str, " \t");
-	number_special_char(node->cmd);
 	node->list_quotes = NULL;
 	node->redirection = NULL;
 	node->next = NULL;

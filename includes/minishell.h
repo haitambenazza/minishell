@@ -87,7 +87,7 @@ t_token	*tokenize(char *m);
 
 /*-----expander-----------*/
 t_shell	*expander(t_shell *shell, t_token *t);
-int		still_expandable(t_token *t);
+int		still_expandable(t_token *t, t_shell *sh);
 int		is_in_range(char *str, char delimiter, char inside_char);
 /*------------------------*/
 
@@ -164,6 +164,7 @@ void		copy_char(char *out, char *str, int *len, int *i);
 void		change_value_inside_quotes(char *str);
 void		number_special_char(char **cmd);
 int			cmds_size(t_shell *cmd);
+void		change_value_inside_quotes(char *str);
 /*------------------------*/
 
 #endif
