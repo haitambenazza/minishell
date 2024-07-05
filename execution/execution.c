@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/02 11:07:59 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:54:16 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ char *get_cmd(char *cmd, char **envp)
     int i;
 
     i = 0;
-    if (ft_strchr(cmd, '/')) {
+    if (ft_strchr(cmd, '/'))
+	{
         if (access(cmd, F_OK | X_OK) != -1)
             return (ft_strdup(cmd));
         return (NULL);
@@ -72,6 +73,8 @@ char *get_cmd(char *cmd, char **envp)
     return NULL;
 }
 
+//void	open_
+
 int	child_pross(t_shell *cmds)
 {
 	t_shell *tmp;
@@ -90,48 +93,45 @@ int	child_pross(t_shell *cmds)
 int	parent_proc(t_shell *tmp)
 {
 	int	status;
-	int	status2;
-	int	term_signal;
+	// int	status2;
+	// int	term_signal;
 
-	status2 = 0;
+	// status2 = 0;
 	waitpid(tmp->pid, &status, 0);
-	if ((((status) >> 8) & 0x0000ff))
-		status2 = (((status) >> 8) & 0x0000ff);
-	else if (WIFSIGNALED(status))
-	{
-		term_signal = WTERMSIG(status);
-		status2 = 128 + term_signal;
-	}
-	return (status2);
+	return (status);
 }
 
 int	execute(t_shell *cmds)
 {
-	t_shell *tmp;
-	// int pipefd[2];
-	// pipe(pipefd);
+	t_shell	*tmp;
+	// int		pipe_fd[2];
+
 	tmp = cmds;
+	tmp->cmd_count = cmds_size(tmp);
+	// open_pipes(pipefds, tmp);
+	// pipe(pipe_fd);
 	tmp->pid = fork();
-	if (!tmp->pid)
+	// dup2(STDOUT_FILENO, pipe_fd[1]);
+	if (!tmp->pid && is_built_in(cmds))
 		child_pross(tmp);
 	else
-	    parent_proc(tmp);
+		parent_proc(tmp);
 	return (0);
 }
 
 int execution(t_shell *cmds)
 {
 	t_shell *tmp;
-	int safe_fd;
+	int 	save_fd;
 
 	tmp = cmds;
-	safe_fd = 0;
+	save_fd = 0;
 	while (tmp)
 	{
-			if (tmp->redirection && (tmp->redirection->type == RED_OUT || tmp->redirection->type == APPEND) )
-				safe_fd = dup(STDOUT_FILENO);
+			if (tmp->redirection && (tmp->redirection->type == RED_OUT || tmp->redirection->type == APPEND))
+				save_fd = dup(STDOUT_FILENO);
 			else
-				safe_fd = dup(STDIN_FILENO);
+				save_fd = dup(STDIN_FILENO);
 			if (handel_redirection(tmp->redirection) == 0)
 			{
 				if (if_built_in_run(cmds) == 1)
@@ -144,9 +144,9 @@ int execution(t_shell *cmds)
 				}
 			}
 		if (tmp->redirection && (tmp->redirection->type == RED_OUT || tmp->redirection->type == APPEND))
-			dup2(safe_fd, STDOUT_FILENO);
+			dup2(save_fd, STDOUT_FILENO);
 		else
-			dup2(safe_fd, STDIN_FILENO);
+			dup2(save_fd, STDIN_FILENO);
 		tmp = tmp->next;
 	}
 	return (0);

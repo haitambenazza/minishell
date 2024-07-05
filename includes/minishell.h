@@ -65,6 +65,8 @@ typedef struct shell
 {
 	char				**cmd;
 	int					pid;
+	int					cmd_count;
+	int					cmd_index;
 	char				**list_quotes;
 	struct shell		*next;
 	struct s_redirect	*redirection;

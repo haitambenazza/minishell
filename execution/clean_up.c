@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_up.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:02:17 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/02 11:41:37 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/06/06 21:53:51 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,14 @@ void	clean_up(t_shell *shell)
 
 	tmp = shell;
 	clean_redirect(shell);
+	if (shell)
+	{
+		clean_lst(shell->env);
+	}
 	while (tmp)
 	{
 		if (tmp->cmd)
 			free_array(tmp->cmd);
-		if (tmp)
-			clean_lst(tmp->env);
 		tmp = tmp->next;
 		free(shell);
 		shell = tmp;
