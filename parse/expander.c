@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/04 11:50:45 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:11:36 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ t_shell	*expander(t_shell *shell, t_token *t)
 	t_shell	*tmp;
 	int		i;
 
-	printf("is true %d\n", still_expandable(t, shell));
+	// printf("is true %d\n", still_expandable(t, shell));
 	if (!still_expandable(t, shell))
 		return (NULL);
 	tmp = shell;

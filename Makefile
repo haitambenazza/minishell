@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
+#    By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/07/02 17:24:24 by hbenazza         ###   ########.fr        #
+#    Updated: 2024/07/09 03:04:59 by tkoulal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC = ./program/main.c\
 	./execution/execution.c\
 	./execution/check_built_in.c\
 	./execution/clean_up.c\
+	./execution/exec_utils.c\
 	./execution/handel_files.c\
 	./built-in/commands1.c\
 	./parse/init_struct.c\
@@ -45,7 +46,7 @@ SRC = ./program/main.c\
 
 OBJ = ${SRC:.c=.o}
 
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g3 #-fsanitize=address
 
 %.o: %.c
 	cc $(CFLAGS) -c -o $@ $^

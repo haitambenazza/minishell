@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_tools.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:22:43 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/04 15:10:13 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:11:24 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	still_expandable(t_token *t, t_shell *sh)
 	i = 0;
 	while (sh->cmd[i])
 	{
-		printf("check %d\n", check_token(t, 0 , 0));
+		// printf("check %d\n", check_token(t, 0 , 0));
 		if (i > 0 && !ft_strncmp(sh->cmd[i - 1], "<<") && check_token(t, 0, 0))
 			return (1);
 		else if (!i && check_token(t, 0, 0))

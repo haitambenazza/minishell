@@ -100,8 +100,13 @@ void	ctrl_c(int signal);
 /*------------------------*/
 
 /*--------excution--------*/
+char	*get_cmd(char *cmd, char **envp);
 int 	handel_redirection(t_redirect *node);
 int		execution(t_shell *cmds);
+int		child_pross(t_shell *cmds);
+int		parent_proc(t_shell *tmp);
+void    simple_cmd(t_shell *tmp);
+void    pipe_line(t_shell *tmp);
 int		history(char *str);
 int		reading_promp(char **env);
 char	**lst_arr(t_shell *shell);
