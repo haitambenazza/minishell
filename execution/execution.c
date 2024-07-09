@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/09 01:08:44 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/09 03:04:26 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,23 @@ int	child_pross(t_shell *cmds)
 	tmp = cmds;
 	envp = lst_arr(tmp);
 	new_cmd = get_cmd(tmp->cmd[0] ,envp);
-	if (execve(new_cmd, tmp->cmd, envp) == -1)
+	if (is_built_in(cmds))
 	{
-		perror(tmp->cmd[0]);
-		clean_up(tmp);
-		free_array(envp);
-		exit(127);
-		return (1);
+		if (execve(new_cmd, tmp->cmd, envp) == -1)
+		{
+			perror(tmp->cmd[0]);
+			clean_up(tmp);
+			free_array(envp);
+			exit(127);
+			return (1);
+		}
+	}
+	else
+	{
+			clean_up(tmp);
+			free_array(envp);
+			exit(127);
+			return (1);
 	}
 	return (0);
 }
@@ -49,29 +59,73 @@ int	child_pross(t_shell *cmds)
 int	parent_proc(t_shell *tmp)
 {
 	int	status;
-	// int	status2;
-	// int	term_signal;
-
-	// status2 = 0;
 	waitpid(tmp->pid, &status, 0);
 	return (status);
 }
 
+void	index_nodes(t_shell *nodes)
+{
+	t_shell	*tmp;
+	int		i;
+
+	tmp = nodes;
+	i = 0;
+	while (tmp)
+	{
+		tmp->cmd_index = i;
+		i++;
+		tmp = tmp->next;
+	}
+}
+// int	execute(t_shell *cmds)
+// {
+// 	t_shell	*tmp;
+
+// 	tmp = cmds;
+// 	tmp->cmd_count = cmds_size(tmp);
+// 	index_nodes(tmp);
+// 	tmp->pid = fork();
+// 	if (!tmp->pid && is_built_in(cmds))
+// 		child_pross(tmp);
+// 	else
+// 		parent_proc(tmp);
+// 	return (0);
+// }
 int	execute(t_shell *cmds)
 {
-	// bda khdma mn hna !
 	t_shell	*tmp;
+	int	pipe_fd[2];
 
 	tmp = cmds;
+	if (pipe(pipe_fd) == -1)
+		perror("ERROR");
 	tmp->cmd_count = cmds_size(tmp);
-	tmp->pid = fork();
-	if (!tmp->pid && is_built_in(cmds))
-		child_pross(tmp);
+	tmp = cmds;
+	index_nodes(tmp);
+	if (tmp->cmd_count >= 2)
+	{
+		puts("ha 2");
+		tmp->pid = fork();
+		if (!tmp->pid && is_built_in(cmds))
+		{
+			dup2(pipe_fd[1], STDOUT_FILENO);
+			close(pipe_fd[0]);
+			close(pipe_fd[1]);
+			child_pross(tmp);
+		}
+		else
+			parent_proc(tmp);
+	}
 	else
-		parent_proc(tmp);
+	{
+		tmp->pid = fork();
+		if (!tmp->pid)
+			child_pross(tmp);
+		else
+			parent_proc(tmp);
+	}
 	return (0);
 }
-
 int execution(t_shell *cmds)
 {
 	t_shell *tmp;
