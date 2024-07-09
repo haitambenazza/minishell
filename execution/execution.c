@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/09 04:11:25 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/09 05:58:03 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,11 @@ int	execute(t_shell *cmds)
 	tmp = cmds;
 	if (pipe(pipe_fd) == -1)
 		perror("ERROR");
-	tmp->cmd_count = cmds_size(tmp);
-	tmp = cmds;
 	if (tmp->cmd_count >= 2)
 	{
-		// pipe_line(tmp);
+		puts("hna khdma bo7dha");
 	}
-	else
+	else if(tmp->cmd_count == 1)
 		simple_cmd(tmp);
 	return (0);
 }
@@ -116,6 +114,7 @@ int execution(t_shell *cmds)
 
 	tmp = cmds;
 	save_fd = 0;
+	tmp->cmd_count = cmds_size(tmp);
 	while (tmp)
 	{
 			if (tmp->redirection && (tmp->redirection->type == RED_OUT || tmp->redirection->type == APPEND))
