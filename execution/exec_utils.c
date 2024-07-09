@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:12:25 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/09 07:08:29 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/09 08:42:46 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,10 @@ void pipe_line(t_shell *cmds)
     int pipefd[2];
     int in_fd;
     int status;
+    pid_t   pid;
 
     status = 0;
+    pid = 0;
     tmp = cmds;
     in_fd = STDIN_FILENO;
     while (tmp)
@@ -93,7 +95,7 @@ void pipe_line(t_shell *cmds)
             perror("pipe");
             exit(EXIT_FAILURE);
         }
-        pid_t pid = fork();
+        pid = fork();
         if (pid == -1)
         {
             perror("fork");
