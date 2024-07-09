@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:12:25 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/09 04:10:05 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/09 07:08:29 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,61 @@ void    simple_cmd(t_shell *tmp)
         child_pross(tmp);
     else
         parent_proc(tmp);
+}
 
+void pipe_line(t_shell *cmds)
+{
+    t_shell *tmp;
+    int pipefd[2];
+    int in_fd;
+    int status;
+
+    status = 0;
+    tmp = cmds;
+    in_fd = STDIN_FILENO;
+    while (tmp)
+    {
+        if (pipe(pipefd) == -1)
+        {
+            perror("pipe");
+            exit(EXIT_FAILURE);
+        }
+        pid_t pid = fork();
+        if (pid == -1)
+        {
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+        else if (pid == 0)
+        {
+            if (in_fd != STDIN_FILENO)
+            {
+                if (dup2(in_fd, STDIN_FILENO) == -1)
+                {
+                    perror("dup2");
+                    exit(EXIT_FAILURE);
+                }
+                close(in_fd);
+            }
+            if (tmp->next != NULL)
+            {
+                if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+                {
+                    perror("dup2");
+                    exit(EXIT_FAILURE);
+                }
+                close(pipefd[1]);
+            }
+            close(pipefd[0]);
+            child_pross(tmp);
+            exit(EXIT_SUCCESS);
+        }
+        else
+        {
+            close(pipefd[1]);
+            waitpid(pid, &status, 0);
+            tmp = tmp->next;
+            in_fd = pipefd[0];
+        }
+    }
 }
