@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/05 18:54:16 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/09 01:08:44 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,67 +24,23 @@
 // 	return (0);
 // }
 
-char    **find_path(char **envp)
-{
-    int    i;
-
-    i = 0;
-    while (envp[i])
-    {
-        if (!ft_strnncmp(envp[i], "PATH=", 5))
-            return (ft_split(envp[i] + 5, ":"));
-        i++;
-    }
-    return (NULL);
-}
-
-char *get_cmd(char *cmd, char **envp)
-{
-    char **arr;
-    char *pathcmd;
-    char *tmp_pathcmd;
-    int i;
-
-    i = 0;
-    if (ft_strchr(cmd, '/'))
-	{
-        if (access(cmd, F_OK | X_OK) != -1)
-            return (ft_strdup(cmd));
-        return (NULL);
-    }
-    arr = find_path(envp);
-    if (!arr)
-        return (printf("path not found\n"), exit(EXIT_FAILURE), NULL);
-
-    while (arr[i] && arr)
-    {
-        tmp_pathcmd = ft_strjoin("/", cmd);
-        pathcmd = ft_strjoin(arr[i], tmp_pathcmd);
-        free(tmp_pathcmd);
-        if (access(pathcmd, F_OK | X_OK) != -1)
-        {
-            free_array(arr);
-            return (pathcmd);
-        }
-        free(pathcmd);
-        i++;
-    }
-    free_array(arr);
-    return NULL;
-}
-
 //void	open_
 
 int	child_pross(t_shell *cmds)
 {
 	t_shell *tmp;
 	char *new_cmd;
+	char **envp;
 
 	tmp = cmds;
-	new_cmd = get_cmd(tmp->cmd[0] ,lst_arr(tmp));
-	if (execve(new_cmd, tmp->cmd, lst_arr(tmp)) == -1)
+	envp = lst_arr(tmp);
+	new_cmd = get_cmd(tmp->cmd[0] ,envp);
+	if (execve(new_cmd, tmp->cmd, envp) == -1)
 	{
 		perror(tmp->cmd[0]);
+		clean_up(tmp);
+		free_array(envp);
+		exit(127);
 		return (1);
 	}
 	return (0);
@@ -103,15 +59,12 @@ int	parent_proc(t_shell *tmp)
 
 int	execute(t_shell *cmds)
 {
+	// bda khdma mn hna !
 	t_shell	*tmp;
-	// int		pipe_fd[2];
 
 	tmp = cmds;
 	tmp->cmd_count = cmds_size(tmp);
-	// open_pipes(pipefds, tmp);
-	// pipe(pipe_fd);
 	tmp->pid = fork();
-	// dup2(STDOUT_FILENO, pipe_fd[1]);
 	if (!tmp->pid && is_built_in(cmds))
 		child_pross(tmp);
 	else
