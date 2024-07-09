@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/09 03:04:26 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/09 04:11:25 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,29 +101,12 @@ int	execute(t_shell *cmds)
 		perror("ERROR");
 	tmp->cmd_count = cmds_size(tmp);
 	tmp = cmds;
-	index_nodes(tmp);
 	if (tmp->cmd_count >= 2)
 	{
-		puts("ha 2");
-		tmp->pid = fork();
-		if (!tmp->pid && is_built_in(cmds))
-		{
-			dup2(pipe_fd[1], STDOUT_FILENO);
-			close(pipe_fd[0]);
-			close(pipe_fd[1]);
-			child_pross(tmp);
-		}
-		else
-			parent_proc(tmp);
+		// pipe_line(tmp);
 	}
 	else
-	{
-		tmp->pid = fork();
-		if (!tmp->pid)
-			child_pross(tmp);
-		else
-			parent_proc(tmp);
-	}
+		simple_cmd(tmp);
 	return (0);
 }
 int execution(t_shell *cmds)

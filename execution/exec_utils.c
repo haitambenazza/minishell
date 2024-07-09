@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:12:25 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/08 17:21:59 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/09 04:10:05 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,20 @@ char *get_cmd(char *cmd, char **envp)
     }
     free_array(arr);
     return NULL;
+}
+
+void    simple_cmd(t_shell *tmp)
+{
+	pid_t	pid = 0;
+    if (pid == -1)
+	{
+		perror("fork");
+		return ;
+	}
+	pid = fork();
+    if (!pid)
+        child_pross(tmp);
+    else
+        parent_proc(tmp);
+
 }
