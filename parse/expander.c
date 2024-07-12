@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/08 17:11:36 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/12 19:39:16 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	len_env(char *s, t_shell *sh)
 	while (env)
 	{
 		if (!ft_strncmp(env->key, s))
-			return (printf("%s vlau\n", env->value), free(s), ft_strlen(env->value));
+			return (free(s), ft_strlen(env->value));
 		env = env->next;
 	}
 	return (0);
@@ -157,43 +157,141 @@ int	len_new_cmd(char *str, t_shell *sh)
 	return (len);
 }
 
-char	*expand_and_copy(t_shell *sh, int i)
+char	*ft_envirement(char *s, t_shell *sh)
 {
-	char	*str;
+	t_env	*env;
+
+	env = sh->env;
+	while (env)
+	{
+		if (!ft_strncmp(env->key, s))
+			return (free(s), ft_strdup(env->value));
+		env = env->next;
+	}
+	return (NULL);
+}
+
+char	*get_env_var(char *s, int *i, t_shell *sh)
+{
+	char	*env;
+	int		len;
+	int		save;
+
+	len = 0;
+	save = *i;
+	while (s[save] && s[save] != '\'' && s[save] != ' ' && s[save] != '$' \
+			&& s[save] != '\t' && s[save] != '"')
+	{
+		len++;
+		save++;
+	}
+	env = malloc(sizeof(char) * (len + 1));
+	env[len] = 0;
+	if (!env)
+		return (NULL);
+	len = 0;
+	while (s[*i] && s[*i] != '\'' && s[*i] != ' ' && s[*i] != '$' \
+		&& s[*i] != '\t' && s[*i] != '"')
+	{
+		env[len] = s[*i];
+		len++;
+		*i += 1;
+	}
+	return (ft_envirement(env, sh));
+}
+
+void	copy_from_env(t_shell *sh, char *str, int *j, int i, int *env_ind)
+{
+	char	*env;
+	int		index;
+
+	*env_ind += 1;
+	index = 0;
+	env = get_env_var(sh->cmd[i], env_ind, sh);
+	if (!env)
+		return ;
+	while (env[index])
+	{
+		str[*j] = env[index];
+		index++;
+		*j += 1;
+	}
+	free(env);
+}
+
+void	expand_and_copy(t_shell *sh, int i, char *str)
+{
 	int		j;
 	int		len;
 
 	j = 0;
-	len = len_new_cmd(sh->cmd[i], sh);
-	printf("%d leeenn\n", len);
-	str= malloc(sizeof(char) * (len + 1));
-	str[len] = 0;
-	while (sh->cmd[i])
+	len = 0;
+	while (sh->cmd[i][j])
 	{
-		//start with single the double then dollar then normal
-		i++;
+		if (sh->cmd[i][j] == '\'')
+		{
+			str[len] = sh->cmd[i][j];
+			j++;
+			len++;
+			while (sh->cmd[i][j] && sh->cmd[i][j] != '\'')
+			{
+				str[len] = sh->cmd[i][j];
+				len++;
+				j++;
+			}
+			if (sh->cmd[i][j] == '\'')
+			{
+				str[len] = sh->cmd[i][j];
+				len++;
+				j++;
+			}
+		}
+		if (sh->cmd[i][j] == '"')
+		{
+			str[len] = sh->cmd[i][j];
+			j++;
+			len++;
+			while (sh->cmd[i][j] && sh->cmd[i][j] != '"' && sh->cmd[i][j] != '$')
+			{
+				str[len] = sh->cmd[i][j];
+				len++;
+				j++;
+			}
+			if (sh->cmd[i][j] == '$')
+				copy_from_env(sh, str, &len, i, &j);
+			if (sh->cmd[i][j] == '"')
+				str[len++] = sh->cmd[i][j++];
+		}
+		if (sh->cmd[i][j] == '$')
+				copy_from_env(sh, str, &len, i, &j);
+		else if(sh->cmd[i][j])
+		{
+			// while (sh->cmd[i][j] && sh->cmd[i][j] != '"' && sh->cmd[i][j] != '$' &&\
+			// 	sh->cmd[i][j] != '\'')
+				str[len] = sh->cmd[i][j];
+				j++;
+				len++;
+		}
+		printf("index  %d", j);
+		if (!sh->cmd[i][j])
+			break ;
 	}
-	return (str);
 }
 
-char	**new_cmd_expanded(t_shell *sh)
+char	*new_cmd_expanded(t_shell *sh, int i)
 {
-	char	**arr;
-	int		i;
+	char	*str;
+	int		len;
 
-	arr = malloc(sizeof(char *) * (lst_size(sh->cmd) + 1));
-	if (!arr)
-		return (NULL);
-	i = 0;
-	while (sh->cmd[i])
-	{
-		if (ft_strchr(sh->cmd[i], '$'))
-			arr[i] = expand_and_copy(sh, i);
-		// else
-		// 	arr[i] = copy_without_expand(sh, i);
-		i++;
-	}
-	return ( arr);
+	len = len_new_cmd(sh->cmd[i], sh);
+	printf("alloc   %d\n", len);
+	str= malloc(sizeof(char) * (len + 1));
+	str[len] = 0;
+	expand_and_copy(sh, i, str);
+	free(sh->cmd[i]);
+	printf("exp   %s\n", str);
+	//start with single the double then dollar then normal
+	return (str);
 }
 
 t_shell	*expander(t_shell *shell, t_token *t)
@@ -201,16 +299,19 @@ t_shell	*expander(t_shell *shell, t_token *t)
 	t_shell	*tmp;
 	int		i;
 
-	// printf("is true %d\n", still_expandable(t, shell));
+	printf("is true %d\n", still_expandable(t, shell));
 	if (!still_expandable(t, shell))
 		return (NULL);
 	tmp = shell;
 	while (tmp)
 	{
 		i = 0;
-		while (shell->cmd[i])
+		while (tmp->cmd[i])
 		{
-			new_cmd_expanded(shell);
+			if (ft_strchr(tmp->cmd[i], '$'))
+			{
+				tmp->cmd[i] = new_cmd_expanded(tmp, i);
+			}
 			i++;
 		}
 		tmp = tmp->next;
