@@ -6,69 +6,18 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/12 19:39:16 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/13 14:35:27 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	len_inside_quotes(char *str)
-{
-	int	len;
-	int	i;
-
-	i = 0;
-	len = 0;
-	while (str[i])
-	{
-		if (str[i] == '"')
-		{
-			i++;
-			while (str[i] != '"' || str[i])
-			{
-				i++;
-				len++;
-			}
-			if (!str[i])
-				return (len);
-			i++;
-		}
-	}
-	return (len);
-}
-
-int	is_in_range(char *str, char delimiter, char inside_char)
-{
-	int	i;
-	int	flag;
-
-	i = 0;
-	flag = 0;
-	while (str[i])
-	{
-		if (str[i] == delimiter)
-		{
-			i++;
-			while (str[i] && str[i] != delimiter)
-			{
-				if (str[i] == inside_char)
-					flag = 1;
-				if (str[i] == inside_char && delimiter == '\'')
-					flag = 0;
-				i++;
-			}
-		}
-		if (!str[i])
-			return (0);
-		i++;
-	}
-	return (flag);
-}
-
 int	len_env(char *s, t_shell *sh)
 {
 	t_env	*env;
 
+	if (!ft_strlen(s))
+		return (1);
 	env = sh->env;
 	while (env)
 	{
@@ -207,6 +156,12 @@ void	copy_from_env(t_shell *sh, char *str, int *j, int i, int *env_ind)
 
 	*env_ind += 1;
 	index = 0;
+	if (!sh->cmd[i][*env_ind])
+	{
+		str[*j] = '$';
+		*j += 1;
+		return ;
+	}
 	env = get_env_var(sh->cmd[i], env_ind, sh);
 	if (!env)
 		return ;
@@ -230,49 +185,25 @@ void	expand_and_copy(t_shell *sh, int i, char *str)
 	{
 		if (sh->cmd[i][j] == '\'')
 		{
-			str[len] = sh->cmd[i][j];
-			j++;
-			len++;
+			str[len] = sh->cmd[i][j++];
 			while (sh->cmd[i][j] && sh->cmd[i][j] != '\'')
-			{
-				str[len] = sh->cmd[i][j];
-				len++;
-				j++;
-			}
+				str[len++] = sh->cmd[i][j++];
 			if (sh->cmd[i][j] == '\'')
-			{
-				str[len] = sh->cmd[i][j];
-				len++;
-				j++;
-			}
+				str[len++] = sh->cmd[i][j++];
 		}
 		if (sh->cmd[i][j] == '"')
 		{
-			str[len] = sh->cmd[i][j];
-			j++;
-			len++;
 			while (sh->cmd[i][j] && sh->cmd[i][j] != '"' && sh->cmd[i][j] != '$')
-			{
-				str[len] = sh->cmd[i][j];
-				len++;
-				j++;
-			}
+				str[len++] = sh->cmd[i][j++];
 			if (sh->cmd[i][j] == '$')
 				copy_from_env(sh, str, &len, i, &j);
-			if (sh->cmd[i][j] == '"')
-				str[len++] = sh->cmd[i][j++];
 		}
 		if (sh->cmd[i][j] == '$')
-				copy_from_env(sh, str, &len, i, &j);
-		else if(sh->cmd[i][j])
 		{
-			// while (sh->cmd[i][j] && sh->cmd[i][j] != '"' && sh->cmd[i][j] != '$' &&\
-			// 	sh->cmd[i][j] != '\'')
-				str[len] = sh->cmd[i][j];
-				j++;
-				len++;
+				copy_from_env(sh, str, &len, i, &j);
 		}
-		printf("index  %d", j);
+		else if(sh->cmd[i][j])
+				str[len++] = sh->cmd[i][j++];
 		if (!sh->cmd[i][j])
 			break ;
 	}
@@ -284,13 +215,11 @@ char	*new_cmd_expanded(t_shell *sh, int i)
 	int		len;
 
 	len = len_new_cmd(sh->cmd[i], sh);
-	printf("alloc   %d\n", len);
-	str= malloc(sizeof(char) * (len + 1));
+	str = malloc(sizeof(char) * (len + 1));
 	str[len] = 0;
 	expand_and_copy(sh, i, str);
-	free(sh->cmd[i]);
-	printf("exp   %s\n", str);
-	//start with single the double then dollar then normal
+	printf("%s\n", str);
+	// free(sh->cmd[i]);
 	return (str);
 }
 
@@ -299,7 +228,6 @@ t_shell	*expander(t_shell *shell, t_token *t)
 	t_shell	*tmp;
 	int		i;
 
-	printf("is true %d\n", still_expandable(t, shell));
 	if (!still_expandable(t, shell))
 		return (NULL);
 	tmp = shell;
@@ -310,7 +238,7 @@ t_shell	*expander(t_shell *shell, t_token *t)
 		{
 			if (ft_strchr(tmp->cmd[i], '$'))
 			{
-				tmp->cmd[i] = new_cmd_expanded(tmp, i);
+				new_cmd_expanded(tmp, i);
 			}
 			i++;
 		}
