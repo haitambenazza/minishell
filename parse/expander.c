@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/13 15:24:19 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/14 14:33:40 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,6 @@ char	*new_cmd_expanded(t_shell *sh, int i)
 	int		len;
 
 	len = len_new_cmd(sh->cmd[i], sh);
-	printf("len %d\n", len);
 	str = malloc(sizeof(char) * (len + 1));
 	str[len] = 0;
 	expand_and_copy(sh, i, str);
