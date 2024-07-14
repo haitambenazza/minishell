@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/13 14:35:27 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/13 15:24:19 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,11 @@ int	fetch_len_env(char *s, int *i, t_shell *sh)
 
 	len = 0;
 	save = *i;
+	if (s[*i] == '$')
+		return (*i += 1, len_env("$", sh));
 	while (s[save] && s[save] != '\'' && s[save] != ' ' && s[save] != '$' \
-			&& s[save] != '\t' && s[save] != '"')
-	{
+			&& s[save] != '\t' && s[save++] != '"')
 		len++;
-		save++;
-	}
 	env = malloc(sizeof(char) * (len + 1));
 	env[len] = 0;
 	if (!env)
@@ -101,7 +100,6 @@ int	len_new_cmd(char *str, t_shell *sh)
 			len++;
 		if (!str[i])
 			break ;
-		i++;
 	}
 	return (len);
 }
@@ -128,6 +126,11 @@ char	*get_env_var(char *s, int *i, t_shell *sh)
 
 	len = 0;
 	save = *i;
+	if (s[save] == '$')
+	{
+		*i += 1;
+		return(ft_envirement("$", sh));
+	}
 	while (s[save] && s[save] != '\'' && s[save] != ' ' && s[save] != '$' \
 			&& s[save] != '\t' && s[save] != '"')
 	{
@@ -215,11 +218,11 @@ char	*new_cmd_expanded(t_shell *sh, int i)
 	int		len;
 
 	len = len_new_cmd(sh->cmd[i], sh);
+	printf("len %d\n", len);
 	str = malloc(sizeof(char) * (len + 1));
 	str[len] = 0;
 	expand_and_copy(sh, i, str);
-	printf("%s\n", str);
-	// free(sh->cmd[i]);
+	free(sh->cmd[i]);
 	return (str);
 }
 
@@ -238,7 +241,7 @@ t_shell	*expander(t_shell *shell, t_token *t)
 		{
 			if (ft_strchr(tmp->cmd[i], '$'))
 			{
-				new_cmd_expanded(tmp, i);
+				tmp->cmd[i] = new_cmd_expanded(tmp, i);
 			}
 			i++;
 		}
@@ -246,3 +249,4 @@ t_shell	*expander(t_shell *shell, t_token *t)
 	}
 	return (NULL);
 }
+///nfs/homes/hbenazza/nfs/homes/hbenazza
