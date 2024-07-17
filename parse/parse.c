@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/02 09:37:28 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/17 21:45:15 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int	parsing_redirect(t_token *token, int index)
 		if (token[index] != ESPACE && token[index] != t)
 			break ;
 	}
-	if (token[index] == PIPE || token[index] == 20 || c > 1 || token[index] == opposite)
+	if (token[index] == PIPE || token[index] == 20 || c > 1 ||\
+		token[index] == opposite)
 		return (1);
 	if (c == 1 && parse_redirection_space(token))
 		return (1);

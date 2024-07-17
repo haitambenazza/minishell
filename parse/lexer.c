@@ -6,12 +6,12 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/13 14:21:31 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/17 23:39:26 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-//change the value of pipes and space to save them later
+
 void	change_value_others(char *str, int holder)
 {
 	(void)holder;
@@ -164,7 +164,7 @@ t_shell	*lexer(char *inputs, char **env)
 		return (free(sp), free(t), free(mask), NULL);
 	if (shell)
 		init_env_lst(shell, env);
-	expander(shell, t);
+	expander(shell);
 	redirections_lst(shell);
 	remove_quotes(shell);
 	only_cmd(shell);

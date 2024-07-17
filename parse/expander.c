@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/14 14:33:40 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/17 23:46:05 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	len_env(char *s, t_shell *sh)
 			return (free(s), ft_strlen(env->value));
 		env = env->next;
 	}
-	return (0);
+	return (free(s), 0);
 }
 
 int	fetch_len_env(char *s, int *i, t_shell *sh)
@@ -37,7 +37,7 @@ int	fetch_len_env(char *s, int *i, t_shell *sh)
 	len = 0;
 	save = *i;
 	if (s[*i] == '$')
-		return (*i += 1, len_env("$", sh));
+		return (len_env(ft_strdup("$"), sh));
 	while (s[save] && s[save] != '\'' && s[save] != ' ' && s[save] != '$' \
 			&& s[save] != '\t' && s[save++] != '"')
 		len++;
@@ -56,6 +56,36 @@ int	fetch_len_env(char *s, int *i, t_shell *sh)
 	return (len_env(env, sh));
 }
 
+void	calculate_len_single_quotes(int *i, char *str, int *len)
+{
+	*i += 1;
+	*len += 1;
+	while (str[*i] && str[*i] != '\'')
+	{
+		*len += 1;
+		*i += 1;
+	}
+}
+
+void	calculate_double(int *i, char *str, t_shell *sh, int *len)
+{
+	*i += 1;
+	*len += 1;
+	while (str[*i] && str[*i] != '"')
+	{
+		if (str[*i] == '$')
+		{
+			*i += 1;
+			*len += fetch_len_env(str, i, sh);
+		}
+		else
+		{
+			*i += 1;
+			*len += 1;
+		}
+	}
+}
+
 int	len_new_cmd(char *str, t_shell *sh)
 {
 	int	len;
@@ -66,40 +96,19 @@ int	len_new_cmd(char *str, t_shell *sh)
 	while (str[i])
 	{
 		if (str[i] == '\'')
-		{
-			i++;
-			len++;
-			while (str[i] && str[i] != '\'')
-			{
-				len++;
-				i++;
-			}
-		}
+			calculate_len_single_quotes(&i, str, &len);
 		if (str[i] == '"')
-		{
-			i++;
-			len++;
-			while (str[i] && str[i] != '"')
-			{
-				if (str[i] == '$')
-				{
-					i++;
-					len += fetch_len_env(str, &i, sh);
-				}
-				else
-					len++;
-				i++;
-			}
-		}
+			calculate_double(&i, str, sh, &len);
 		if (str[i] == '$')
 		{
 			i++;
 			len += fetch_len_env(str, &i, sh);
 		}
 		else
+		{
+			i++;
 			len++;
-		if (!str[i])
-			break ;
+		}
 	}
 	return (len);
 }
@@ -115,7 +124,7 @@ char	*ft_envirement(char *s, t_shell *sh)
 			return (free(s), ft_strdup(env->value));
 		env = env->next;
 	}
-	return (NULL);
+	return (free(s), NULL);
 }
 
 char	*get_env_var(char *s, int *i, t_shell *sh)
@@ -188,7 +197,7 @@ void	expand_and_copy(t_shell *sh, int i, char *str)
 	{
 		if (sh->cmd[i][j] == '\'')
 		{
-			str[len] = sh->cmd[i][j++];
+			str[len++] = sh->cmd[i][j++];
 			while (sh->cmd[i][j] && sh->cmd[i][j] != '\'')
 				str[len++] = sh->cmd[i][j++];
 			if (sh->cmd[i][j] == '\'')
@@ -207,8 +216,6 @@ void	expand_and_copy(t_shell *sh, int i, char *str)
 		}
 		else if(sh->cmd[i][j])
 				str[len++] = sh->cmd[i][j++];
-		if (!sh->cmd[i][j])
-			break ;
 	}
 }
 
@@ -225,12 +232,12 @@ char	*new_cmd_expanded(t_shell *sh, int i)
 	return (str);
 }
 
-t_shell	*expander(t_shell *shell, t_token *t)
+t_shell	*expander(t_shell *shell)
 {
 	t_shell	*tmp;
 	int		i;
 
-	if (!still_expandable(t, shell))
+	if (!still_expandable(shell))
 		return (NULL);
 	tmp = shell;
 	while (tmp)
@@ -239,13 +246,11 @@ t_shell	*expander(t_shell *shell, t_token *t)
 		while (tmp->cmd[i])
 		{
 			if (ft_strchr(tmp->cmd[i], '$'))
-			{
 				tmp->cmd[i] = new_cmd_expanded(tmp, i);
-			}
 			i++;
 		}
 		tmp = tmp->next;
 	}
-	return (NULL);
+	// return (NULL);
+	return (expander(shell));
 }
-///nfs/homes/hbenazza/nfs/homes/hbenazza

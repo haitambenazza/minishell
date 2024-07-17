@@ -27,7 +27,7 @@
 /*....................*/
 
 
-typedef enum s_token
+typedef enum e_token
 {
 	CMD = 0,
 	ESPACE = 1,
@@ -61,14 +61,14 @@ typedef struct s_redirect
 	struct s_redirect	*next;
 }	t_redirect;
 
-typedef struct shell
+typedef struct s_shell
 {
 	char				**cmd;
 	int					pid;
 	int					cmd_count;
 	int					cmd_index;
 	char				**list_quotes;
-	struct shell		*next;
+	struct s_shell		*next;
 	struct s_redirect	*redirection;
 	struct s_env		*env;
 }	t_shell;
@@ -88,8 +88,8 @@ t_token	*tokenize(char *m);
 /*------------------------*/
 
 /*-----expander-----------*/
-t_shell	*expander(t_shell *shell, t_token *t);
-int		still_expandable(t_token *t, t_shell *sh);
+t_shell	*expander(t_shell *shell);
+int		still_expandable(t_shell *sh);
 int		is_in_range(char *str, char delimiter, char inside_char);
 /*------------------------*/
 

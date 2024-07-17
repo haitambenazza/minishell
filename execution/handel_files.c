@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handel_files.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:55:13 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/06/30 15:11:38 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/17 21:43:33 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,3 +86,4 @@ int handel_redirection(t_redirect *node)
     }
     return (0);
 }
+

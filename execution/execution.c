@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/09 11:11:34 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/14 17:52:16 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ int	execute(t_shell *cmds)
 
 
 
-int execution(t_shell *cmds)
+int	execution(t_shell *cmds)
 {
-	t_shell *tmp;
-	int 	save_fd;
+	t_shell	*tmp;
+	int		save_fd;
 
 	tmp = cmds;
 	save_fd = 0;
