@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/17 23:46:05 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:27:36 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	len_env(char *s, t_shell *sh)
 	t_env	*env;
 
 	if (!ft_strlen(s))
-		return (1);
+		return (free(s), 0);
 	env = sh->env;
 	while (env)
 	{
@@ -138,7 +138,7 @@ char	*get_env_var(char *s, int *i, t_shell *sh)
 	if (s[save] == '$')
 	{
 		*i += 1;
-		return(ft_envirement("$", sh));
+		return(ft_envirement(ft_strdup("$"), sh));
 	}
 	while (s[save] && s[save] != '\'' && s[save] != ' ' && s[save] != '$' \
 			&& s[save] != '\t' && s[save] != '"')
@@ -225,6 +225,7 @@ char	*new_cmd_expanded(t_shell *sh, int i)
 	int		len;
 
 	len = len_new_cmd(sh->cmd[i], sh);
+	printf("   %d   len\n", len);
 	str = malloc(sizeof(char) * (len + 1));
 	str[len] = 0;
 	expand_and_copy(sh, i, str);
@@ -247,10 +248,11 @@ t_shell	*expander(t_shell *shell)
 		{
 			if (ft_strchr(tmp->cmd[i], '$'))
 				tmp->cmd[i] = new_cmd_expanded(tmp, i);
+			printf("%s\n",tmp->cmd[i]);
 			i++;
 		}
 		tmp = tmp->next;
 	}
-	// return (NULL);
-	return (expander(shell));
+	return (NULL);
+	// return (expander(shell));
 }
