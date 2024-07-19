@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/19 23:27:36 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/19 23:48:05 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,16 @@ int	fetch_len_env(char *s, int *i, t_shell *sh)
 	save = *i;
 	if (s[*i] == '$')
 		return (len_env(ft_strdup("$"), sh));
-	while (s[save] && s[save] != '\'' && s[save] != ' ' && s[save] != '$' \
-			&& s[save] != '\t' && s[save++] != '"')
+	while (s[save] && s[save] != '\'' && s[save] != -2 && s[save] != '$' \
+			&& s[save] != -5 && s[save++] != '"')
 		len++;
 	env = malloc(sizeof(char) * (len + 1));
 	env[len] = 0;
 	if (!env)
 		return (0);
 	len = 0;
-	while (s[*i] && s[*i] != '\'' && s[*i] != ' ' && s[*i] != '$' \
-		&& s[*i] != '\t' && s[*i] != '"')
+	while (s[*i] && s[*i] != '\'' && s[*i] != -2 && s[*i] != '$' \
+		&& s[*i] != -5 && s[*i] != '"')
 	{
 		env[len] = s[*i];
 		len++;
@@ -140,8 +140,8 @@ char	*get_env_var(char *s, int *i, t_shell *sh)
 		*i += 1;
 		return(ft_envirement(ft_strdup("$"), sh));
 	}
-	while (s[save] && s[save] != '\'' && s[save] != ' ' && s[save] != '$' \
-			&& s[save] != '\t' && s[save] != '"')
+	while (s[save] && s[save] != '\'' && s[save] != -2 && s[save] != '$' \
+			&& s[save] != -5 && s[save] != '"')
 	{
 		len++;
 		save++;
@@ -151,8 +151,8 @@ char	*get_env_var(char *s, int *i, t_shell *sh)
 	if (!env)
 		return (NULL);
 	len = 0;
-	while (s[*i] && s[*i] != '\'' && s[*i] != ' ' && s[*i] != '$' \
-		&& s[*i] != '\t' && s[*i] != '"')
+	while (s[*i] && s[*i] != '\'' && s[*i] != -2 && s[*i] != '$' \
+		&& s[*i] != -5 && s[*i] != '"')
 	{
 		env[len] = s[*i];
 		len++;
