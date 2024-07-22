@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/19 23:48:05 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/22 21:58:44 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ int	fetch_len_env(char *s, int *i, t_shell *sh)
 	save = *i;
 	if (s[*i] == '$')
 		return (len_env(ft_strdup("$"), sh));
+	if (!s[*i])
+		return (1);
 	while (s[save] && s[save] != '\'' && s[save] != -2 && s[save] != '$' \
-			&& s[save] != -5 && s[save++] != '"')
+			&& s[save] != -5 && s[save++] != '"' && s[save++] != '"')
 		len++;
 	env = malloc(sizeof(char) * (len + 1));
 	env[len] = 0;
