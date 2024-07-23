@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:22:43 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/19 21:23:43 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/23 23:24:34 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	is_expand_valid(char *str, int i)
 {
-	// printf("%s\n", str);
 	while (str[i])
 	{
 		if (str[i] == '\'')
@@ -33,9 +32,9 @@ int	is_expand_valid(char *str, int i)
 				i++;
 			}
 		}
-		else if (str[i] == '$')
+		else if (str[i] == '$' && str[++i])
 			return (1);
-		else
+		else if (str[i])
 			i++;
 	}
 	return (0);
@@ -52,7 +51,6 @@ int	check_expandable_var(t_shell *sh)
 		i = 0;
 		while (tmp->cmd[i])
 		{
-			// printf("%s  %d\n", tmp->cmd[i], i);
 			if (is_expand_valid(tmp->cmd[i], 0))
 				return (1);
 			i++;

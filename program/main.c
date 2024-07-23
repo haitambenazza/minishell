@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:03:38 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/23 19:25:34 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/23 23:37:09 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int c, char **v, char **env)
 	if (c == 1)
 	{
 		if (reading_promp(env))
-			return (1);
+			return (exit_status);
 	}
 	else
 	{

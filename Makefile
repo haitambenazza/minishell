@@ -6,7 +6,7 @@
 #    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/07/22 21:59:47 by hbenazza         ###   ########.fr        #
+#    Updated: 2024/07/23 23:33:27 by hbenazza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,12 +38,15 @@ SRC = ./program/main.c\
 	./parse/init_struct.c\
 	./parse/quotes.c\
 	./parse/tools.c\
-	./parse/expander.c\
+	./expander/expander.c\
 	./parse/tokens_utils.c\
 	./parse/redirections.c\
 	./parse/signals.c\
-	./parse/expander_tools.c\
-	./libft/ft_itoa.c
+	./expander/expander_tools.c\
+	./libft/ft_itoa.c\
+	./libft/ft_calloc.c\
+	./expander/envirements.c\
+	./expander/lenght_envirements.c\
 
 OBJ = ${SRC:.c=.o}
 

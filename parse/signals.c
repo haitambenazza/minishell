@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:46:50 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/22 22:57:29 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/23 22:16:11 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	cntl_D(void)
 	rl_on_new_line();
 	rl_clear_history();
 	write(1, "exit\n", 5);
+	exit(exit_status);
 }
 
 void	ctrl_empty(int signal)

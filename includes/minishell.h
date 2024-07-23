@@ -90,7 +90,14 @@ t_token	*tokenize(char *m);
 /*-----expander-----------*/
 t_shell	*expander(t_shell *shell);
 int		still_expandable(t_shell *sh);
-int		is_in_range(char *str, char delimiter, char inside_char);
+int		len_env(char *s, t_shell *sh);
+char	*ft_envirement(char *s, t_shell *sh);
+char	*get_env_var(char *s, int *i, t_shell *sh);
+int		fetch_len_env(char *s, int *i, t_shell *sh);
+int		len_new_cmd(char *str, t_shell *sh);
+void	copy_to_buffer(char *src, char *dst, int *i);
+void	calculate_len_single_quotes(int *i, char *str, int *len);
+void	calculate_double(int *i, char *str, t_shell *sh, int *len);
 /*------------------------*/
 
 /*--------signals---------*/
@@ -172,6 +179,7 @@ void		change_value_inside_quotes(char *str);
 void		number_special_char(char **cmd);
 int			cmds_size(t_shell *cmd);
 void		change_value_inside_quotes(char *str);
+void		*ft_calloc(size_t count, size_t size);
 /*------------------------*/
 
 #endif
