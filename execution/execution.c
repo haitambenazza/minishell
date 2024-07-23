@@ -3,28 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/14 17:52:16 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/23 23:34:01 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	child_pross(t_shell *cmds)
+int	run_builtins_pipe(t_shell *node)
 {
-	t_shell *tmp;
-	char *new_cmd;
-	char **envp;
+	int	err;
 
-	tmp = cmds;
-	envp = lst_arr(tmp);
-	new_cmd = get_cmd(tmp->cmd[0] ,envp);
-	if (execve(new_cmd, tmp->cmd, envp) == -1)
+	err = if_built_in_run(node);
+	if (err)
+		return (EXIT_SUCCESS);
+	else
+		return (EXIT_FAILURE);
+}
+
+int	child_pross(t_shell *node, char **envp, char *new_cmd)
+{
+	signal(SIGQUIT, SIG_DFL);
+	ft_dup2(node);
+
+	if (node->next)
+		if (node->next->infile != STDIN_FILENO)
+			close(node->next->infile);
+	if (!is_built_in(node))
+		exit(run_builtins_pipe(node));
+	if (execve(new_cmd, node->cmd, envp) == -1)
 	{
-		perror(tmp->cmd[0]);
-		clean_up(tmp);
+		perror(node->cmd[0]);
+		clean_up(node);
 		free_array(envp);
 		exit(127);
 		return (1);
@@ -32,74 +44,153 @@ int	child_pross(t_shell *cmds)
 	return (0);
 }
 
-int	parent_proc(t_shell *tmp)
+void	close_fd(int in_fd, int out_fd)
 {
+	if (in_fd != STDIN_FILENO)
+		close(in_fd);
+	if (out_fd != STDOUT_FILENO)
+		close(out_fd);
+}
+
+int	open_pipes(t_shell *node, int pipe_fd[2])
+{
+	if (pipe(pipe_fd) == -1)
+	{
+		printf("minishell: pipe: %s\n", strerror(errno));
+		exit_status = 1;
+		return (ERROR);
+	}
+	node->next->infile = pipe_fd[0];
+	node->outfile = pipe_fd[1];
+	return (SUCCESS);
+}
+
+void	ft_dup2(t_shell *node)
+{
+	// printf("dup1 %d -> %d\n", node->infile, STDIN_FILENO);
+	if (dup2(node->infile, STDIN_FILENO) == -1)
+	{
+		printf("minishell: dup2: %s\n", strerror(errno));
+		exit_status = 1;
+		clean_up(node);
+		exit(EXIT_FAILURE);
+	}
+	if (node->infile != STDIN_FILENO)
+		close(node->infile);
+	// printf("dup2 %d -> %d\n", node->outfile, STDOUT_FILENO);
+	if (dup2(node->outfile, STDOUT_FILENO) == -1)
+	{
+		printf("minishell: dup2: %s\n", strerror(errno));
+		exit_status = 1;
+		clean_up(node);
+		exit(EXIT_FAILURE);
+	}
+	if (node->outfile != STDOUT_FILENO)
+		close(node->outfile);
+}
+
+int	execute_cmd(t_shell *node)
+{
+	char **envp;
+	char *new_cmd;
+
+	envp = lst_arr(node);
+	new_cmd = get_cmd(node->cmd[0] ,envp);
+	if (!new_cmd)
+	{
+		printf("%s :command not found\n", node->cmd[0]);
+		exit_status = 127;
+		//clean_up(node);
+		//free_array(envp);
+		return (ERROR);
+	}
+	node->pid = fork();
+	if (node->pid < 0)
+	{
+		printf("minishell: fork: %s\n", strerror(errno));
+		exit_status = 1;
+		exit(EXIT_FAILURE); 
+	}
+	if (node->pid == 0)
+		child_pross(node, envp, new_cmd);
+return (SUCCESS);
+}
+
+int	execute(t_shell *node)
+{
+	int	pipe_fd[2];
 	int	status;
 
+	node->pid = 0;
 	status = 0;
-	waitpid(tmp->pid, &status, 0);
-	return (status);
+	if (node->next != NULL)
+	{
+		if (open_pipes(node, pipe_fd) == ERROR)
+			return (ERROR);
+	}
+	else
+		node->outfile = STDOUT_FILENO;
+	if (node->redirection != NULL)
+	{
+		status = handel_redirection(node);
+		if (status < 0)
+		{
+			exit_status = 1;
+			return (status);
+		}
+	}
+	if (execute_cmd(node) == ERROR)
+		return (ERROR);
+	close_fd(node->infile, node->outfile);
+	return (SUCCESS);
 }
-
-void	index_nodes(t_shell *nodes)
+int	run_exec(t_shell *cmds)
 {
 	t_shell	*tmp;
-	int		i;
+	int status;
+	int size;
+	int	i;
 
-	tmp = nodes;
-	i = 0;
+	size = cmds_size(cmds);
+	tmp = cmds;
+	i = -1;
 	while (tmp)
 	{
-		tmp->cmd_index = i;
-		i++;
+		exit_status = 0;
+		if (execute(tmp) == 0)
+			exit_status = 0;
+		else
+		{
+			exit_status = 127;
+			close_fd(tmp->infile, tmp->outfile);
+		}
 		tmp = tmp->next;
 	}
-}
-
-int	execute(t_shell *cmds)
-{
-	t_shell	*tmp;
-
 	tmp = cmds;
-	if (tmp->cmd_count >= 2)
-		pipe_line(tmp);
-	else if(tmp->cmd_count == 1)
-		simple_cmd(tmp);
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	waitpid(tmp->pid, &status, 0);
+	if (WIFEXITED(status) && size > 1)
+		exit_status = WEXITSTATUS(status);
+	while (++i < size - 1)
+		wait(NULL);
+	printf("%d \n", exit_status);
 	return (0);
 }
-
-
 
 int	execution(t_shell *cmds)
 {
 	t_shell	*tmp;
-	int		save_fd;
 
 	tmp = cmds;
-	save_fd = 0;
 	tmp->pid = 0;
-	tmp->cmd_count = cmds_size(tmp); //count how many command (node)
-	while (tmp)
+	//handel_herdoc //TODO
+	if (cmds->next == NULL && !is_built_in(cmds))
 	{
-		//handel_builtin();
-		if (tmp->redirection && (tmp->redirection->type == RED_OUT || tmp->redirection->type == APPEND))
-			save_fd = dup(STDOUT_FILENO);
-		else
-			save_fd = dup(STDIN_FILENO);
-		handel_redirection(tmp->redirection);
-		if (is_built_in(cmds) == 1)
-		{
-			if (tmp->cmd)
-			{
-				if (execute(tmp))
-					return (1);
-			}
-		}
-		if (tmp->redirection && (tmp->redirection->type == RED_OUT || tmp->redirection->type == APPEND))
-			dup2(save_fd, STDOUT_FILENO);
-		else
-			dup2(save_fd, STDIN_FILENO);
-		tmp = tmp->next;
+		if_built_in_run(cmds); // exec builtin
+		return (0);
 	}
+	else if (run_exec(cmds) == ERROR)
+		return (ERROR);
 	return (0);
 }

@@ -45,7 +45,7 @@ typedef enum e_token
 	HERDOC = 13
 }	t_token;
 
-extern char	exit_status;
+extern int exit_status;
 
 typedef struct s_env
 {
@@ -61,12 +61,14 @@ typedef struct s_redirect
 	struct s_redirect	*next;
 }	t_redirect;
 
+// ls | ifconfig
+// pwd
 typedef struct s_shell
 {
 	char				**cmd;
 	int					pid;
-	int					cmd_count;
-	int					cmd_index;
+	int					infile;
+	int					outfile;
 	char				**list_quotes;
 	struct s_shell		*next;
 	struct s_redirect	*redirection;
@@ -107,10 +109,11 @@ void	ctrl_c(int signal);
 /*------------------------*/
 
 /*--------excution--------*/
+void	ft_dup2(t_shell *node);
 char	*get_cmd(char *cmd, char **envp);
-int 	handel_redirection(t_redirect *node);
+int 	handel_redirection(t_shell *node);
 int		execution(t_shell *cmds);
-int		child_pross(t_shell *cmds);
+int		child_pross(t_shell *cmds, char **envp, char *new_cmd);
 int		parent_proc(t_shell *tmp);
 void    simple_cmd(t_shell *tmp);
 void    pipe_line(t_shell *tmp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/23 18:30:27 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/23 23:44:19 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,7 @@ t_redirect *ft_lstnew_redirect(char *str, char *file)
 t_shell	*ft_lstnew(char *str)
 {
 	t_shell	*node;
-	int		i;
-	int		len;
 
-	i = 0;
-	len = 0;
 	node = malloc(sizeof(t_shell));
 	if (!node)
 		return (NULL);

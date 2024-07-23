@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:12:25 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/23 21:28:41 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/23 23:44:25 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,13 @@ void pipe_line(t_shell *cmds)
         if (pipe(pipefd) == -1)
         {
             perror("pipe");
-            exit(exit_status);
+            exit(EXIT_FAILURE);
         }
         pid = fork();
         if (pid == -1)
         {
             perror("fork");
-            exit(exit_status);
+            exit(EXIT_FAILURE);
         }
         else if (pid == 0)
         {
@@ -104,7 +104,7 @@ void pipe_line(t_shell *cmds)
                 if (dup2(in_fd, STDIN_FILENO) == -1)
                 {
                     perror("dup2");
-                    exit(exit_status);
+                    exit(EXIT_FAILURE);
                 }
                 close(in_fd);
             }
@@ -113,7 +113,7 @@ void pipe_line(t_shell *cmds)
                 if (dup2(pipefd[1], STDOUT_FILENO) == -1)
                 {
                     perror("dup2");
-                    exit(exit_status);
+                    exit(EXIT_FAILURE);
                 }
                 close(pipefd[1]);
             }
