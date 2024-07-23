@@ -6,19 +6,19 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:03:38 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/30 13:37:01 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:25:34 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	exit_status;
 
 int	main(int c, char **v, char **env)
 {
 	(void)v;
 	if (c == 1)
 	{
-		// if (!ft_strlen(env[0]))
-		// 	return (printf("no env found exiting minishell...\n"), 1);? ?? transfere to exec fct !
 		if (reading_promp(env))
 			return (1);
 	}
@@ -27,6 +27,6 @@ int	main(int c, char **v, char **env)
 		printf("cant take arguments!\n");
 		return (1);
 	}
-	return (0);
+	return (exit_status);
 }
 

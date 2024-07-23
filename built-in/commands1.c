@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:37:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/06 13:28:04 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/23 19:25:31 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,19 @@ int	ft_pwd(t_shell *shell)
 int	ft_cd(t_shell *shell)
 {
 	char	*home_path;
-	int		i;
+	char	*args;
 
-	i = 0;
-	while (shell->cmd[i])
-		i++;
-	if (i > 2)
-		return (write(2, "pwd: too many arguments! \n", 26), 1);
-	if (i == 1 || !ft_strncmp(shell->cmd[1], "~"))
+	args = NULL;
+	if (shell->cmd)
+		args = ft_strjoin2(lst_size(shell->cmd + 1), shell->cmd + 1, "");
+	if (!ft_strncmp(args, "~") || lst_size(shell->cmd) == 1)
 	{
 		home_path= getenv("HOME");
 		if (chdir(home_path))
-			return (perror("cd"), 1);
+			return (perror("cd"), 2);
 	}
-	else if (chdir(shell->cmd[1]))
-		return (perror("cd"), 1);
+	else if (chdir(args))
+		return (perror("cd"), 2);
 	return (0);
 }
 
@@ -75,5 +73,5 @@ int	ft_exit(t_shell *shell)
 {
 	clean_up(shell);
 	write(1, "exit\n", 5);
-	exit(0);
+	exit(exit_status);
 }

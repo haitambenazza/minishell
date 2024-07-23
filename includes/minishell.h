@@ -45,7 +45,7 @@ typedef enum e_token
 	HERDOC = 13
 }	t_token;
 
-extern int exit_status;
+extern char	exit_status;
 
 typedef struct s_env
 {

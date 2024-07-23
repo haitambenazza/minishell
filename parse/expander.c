@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/22 21:58:44 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/22 22:29:34 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,19 @@ int	len_env(char *s, t_shell *sh)
 	}
 	return (free(s), 0);
 }
+void	copy_to_buffer(char *src, char *dst, int *i)
+{
+	int	j;
 
+	j = 0;
+	while (src[*i] && src[*i] != '\'' && src[*i] != -2 && src[*i] != '$' \
+		&& src[*i] != -5 && src[*i] != '"')
+	{
+		dst[j] = src[*i];
+		j++;
+		*i += 1;
+	}
+}
 int	fetch_len_env(char *s, int *i, t_shell *sh)
 {
 	char	*env;
@@ -41,20 +53,13 @@ int	fetch_len_env(char *s, int *i, t_shell *sh)
 	if (!s[*i])
 		return (1);
 	while (s[save] && s[save] != '\'' && s[save] != -2 && s[save] != '$' \
-			&& s[save] != -5 && s[save++] != '"' && s[save++] != '"')
+			&& s[save] != -5 && s[save] != '"' && s[save++] != '"')
 		len++;
 	env = malloc(sizeof(char) * (len + 1));
 	env[len] = 0;
 	if (!env)
 		return (0);
-	len = 0;
-	while (s[*i] && s[*i] != '\'' && s[*i] != -2 && s[*i] != '$' \
-		&& s[*i] != -5 && s[*i] != '"')
-	{
-		env[len] = s[*i];
-		len++;
-		*i += 1;
-	}
+	copy_to_buffer(s, env, i);
 	return (len_env(env, sh));
 }
 

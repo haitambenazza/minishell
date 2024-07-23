@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/17 21:45:15 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:44:51 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,21 @@ int	parcing_pipe(t_token *token, char *mask)
 	i = 0;
 	(void)mask;
 	if (token && token[i] == PIPE)
-		return (parser_error(), 1);
+		return (parser_error(), exit_status);
 	while (token[i] != 20)
 	{
 		if ((token[i] == QUOTE || token[i] == SINGEL_Q) &&\
 			parse_quote(token, &i))
-			return (parser_error(), 1);
+			return (parser_error(), exit_status);
 		if (token[i] == PIPE && find_next_command(token, i))
-			return (parser_error(), 1);
+			return (parser_error(), exit_status);
 		if ((token[i] == RED_IN || token[i] == RED_OUT) &&\
 			parsing_redirect(token, i))
-			return (parser_error(), 1);
+			return (parser_error(), exit_status);
 		i++;
 	}
 	if (token[--i] == PIPE)
-		return (parser_error(), 1);
+		return (parser_error(), exit_status);
 	return (0);
 }
 

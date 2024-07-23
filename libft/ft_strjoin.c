@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:29:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/06/07 22:28:59 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/23 18:04:28 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ char	*ft_strjoin2(int size, char **strs, char *sep)
 	sentence = new_str(sep, size, total, strs);
 	return (sentence);
 }
+
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*p;

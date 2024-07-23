@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/19 23:25:12 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:39:51 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@ int	reading_promp(char **env)
 {
 	t_shell	*shell;
 	char	*inputs;
-	int		err;
 
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, ctrl_empty);
-	err = 0;
 	while (1337)
 	{
 		inputs = readline("minishell~> ");

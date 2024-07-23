@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:12:25 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/19 22:53:20 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:47:32 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,13 @@ void pipe_line(t_shell *cmds)
         if (pipe(pipefd) == -1)
         {
             perror("pipe");
-            exit(EXIT_FAILURE);
+            exit(exit_status);
         }
         pid = fork();
         if (pid == -1)
         {
             perror("fork");
-            exit(EXIT_FAILURE);
+            exit(exit_status);
         }
         else if (pid == 0)
         {
@@ -108,7 +108,7 @@ void pipe_line(t_shell *cmds)
                 if (dup2(in_fd, STDIN_FILENO) == -1)
                 {
                     perror("dup2");
-                    exit(EXIT_FAILURE);
+                    exit(exit_status);
                 }
                 close(in_fd);
             }
@@ -117,7 +117,7 @@ void pipe_line(t_shell *cmds)
                 if (dup2(pipefd[1], STDOUT_FILENO) == -1)
                 {
                     perror("dup2");
-                    exit(EXIT_FAILURE);
+                    exit(exit_status);
                 }
                 close(pipefd[1]);
             }
