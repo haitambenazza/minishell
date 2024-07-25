@@ -9,7 +9,6 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdbool.h>
-#include <string.h> /// 7aydha
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -60,7 +59,7 @@ typedef struct s_redirect
 	char				*file_name;
 	struct s_redirect	*next;
 }	t_redirect;
-// ls | m3ayzo
+
 typedef struct s_shell
 {
 	char				**cmd;
@@ -99,6 +98,7 @@ int		len_new_cmd(char *str, t_shell *sh);
 void	copy_to_buffer(char *src, char *dst, int *i);
 void	calculate_len_single_quotes(int *i, char *str, int *len);
 void	calculate_double(int *i, char *str, t_shell *sh, int *len);
+int		ft_strncmp_env(char *s1, char *s2);
 /*------------------------*/
 
 /*--------signals---------*/

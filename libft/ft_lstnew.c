@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/25 19:04:52 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/25 20:31:27 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ char	*get_key(char *str)
 	key = malloc(sizeof(char) * (i + 1));
 	if (!key)
 		return (NULL);
+	key[i] = 0;
 	i = 0;
 	while (str[i] && str[i] != '=')
 	{
 		key[i] = str[i];
 		i++;
 	}
-	key[i] = '\0';
 	return (key);
 }
 
@@ -93,13 +93,13 @@ char	*get_value(char *str)
 	value = malloc((i + 1));
 	if (!value)
 		return (NULL);
+	value[i] = 0;
 	i = 0;
 	while (*str)
 	{
 		value[i] = *(str++);
 		i++;
 	}
-	value[i] = 0;
 	return (value);
 }
 

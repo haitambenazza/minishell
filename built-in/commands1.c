@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:37:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/25 19:02:14 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/25 21:34:38 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,28 @@ int	ft_cd(t_shell *shell)
 	return (0);
 }
 
+int	is_in_env(t_shell *sh, char *var_env, int flag)
+{
+	t_env	*tmp;
+	t_env	*tmpcp;
+
+	tmp = sh->env;
+	tmpcp = sh->env_copy;
+	while (tmp && flag)
+	{
+		if (!ft_strncmp_env(tmp->key, var_env))
+			return (1);
+		tmp = tmp->next;
+	}
+	while (tmpcp && !flag)
+	{
+		if (!ft_strncmp_env(tmpcp->key, var_env))
+			return (1);
+		tmpcp = tmpcp->next;
+	}
+	return (0);
+}
+
 int	export_to_env(t_shell *sh)
 {
 	t_shell	*tmp;
@@ -65,12 +87,13 @@ int	export_to_env(t_shell *sh)
 			j++;
 		if (tmp->cmd[i][j] == '=')
 			return (exit_status = 13, printf("bad assignemet\n"), exit_status);
-		if (ft_strchr(tmp->cmd[i], '='))
+		if (ft_strchr(tmp->cmd[i], '=') && !is_in_env(tmp, tmp->cmd[i], 1))
 		{
-			ft_lstadd_back_env(&tmp->env_copy, ft_lstnew_env(tmp->cmd[i]));
 			ft_lstadd_back_env(&tmp->env, ft_lstnew_env(tmp->cmd[i]));
+			if (!is_in_env(tmp, tmp->cmd[i], 0))
+				ft_lstadd_back_env(&tmp->env_copy, ft_lstnew_env(tmp->cmd[i]));
 		}
-		else
+		else if (!is_in_env(tmp, tmp->cmd[i], 0))
 			ft_lstadd_back_env(&tmp->env_copy, ft_lstnew_env(tmp->cmd[i]));
 		i++;
 	}
