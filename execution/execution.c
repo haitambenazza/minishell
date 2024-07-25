@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/25 18:35:23 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:55:38 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,11 @@ int	execute(t_shell *node)
 	if (node->redirection != NULL)
 	{
 		status = handel_redirection(node);
-		if (status < 0)
+		if (status < 0 || status == 1)
 		{
 			close_fd(node->infile, node->outfile);
 			exit_status = 1;
-			return (status);
+			return (exit_status);
 		}
 	}
 	if (execute_cmd(node) == ERROR)
@@ -164,7 +164,10 @@ int	run_exec(t_shell *cmds)
 			exit_status = 0;
 		else
 		{
-			exit_status = 127;
+			if (exit_status == 1)
+				exit_status = 1;
+			else
+				exit_status = 127;
 			close_fd(tmp->infile, tmp->outfile);
 		}
 		tmp = tmp->next;
