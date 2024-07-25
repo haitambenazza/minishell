@@ -45,7 +45,7 @@ typedef enum e_token
 	HERDOC = 13
 }	t_token;
 
-extern int exit_status;
+extern int	exit_status;
 
 typedef struct s_env
 {
@@ -61,8 +61,6 @@ typedef struct s_redirect
 	struct s_redirect	*next;
 }	t_redirect;
 
-// ls | ifconfig
-// pwd
 typedef struct s_shell
 {
 	char				**cmd;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/25 12:20:08 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/25 13:14:19 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	close_fd(int in_fd, int out_fd)
 	if (out_fd != STDOUT_FILENO)
 		close(out_fd);
 }
-
+// ls | ifconfig
 int	open_pipes(t_shell *node, int pipe_fd[2])
 {
 	if (pipe(pipe_fd) == -1)
@@ -106,7 +106,7 @@ int	execute_cmd(t_shell *node)
 	{
 		printf("minishell: fork: %s\n", strerror(errno));
 		exit_status = 1;
-		exit(EXIT_FAILURE); 
+		exit(EXIT_FAILURE);
 	}
 	if (node->pid == 0)
 		if (child_pross(node, envp, new_cmd) == 1)
@@ -153,6 +153,7 @@ int	run_exec(t_shell *cmds)
 
 	size = cmds_size(cmds);
 	tmp = cmds;
+	status = 0;
 	i = -1;
 	while (tmp)
 	{
@@ -184,11 +185,9 @@ int	execution(t_shell *cmds)
 
 	tmp = cmds;
 	tmp->pid = 0;
-	//handel_herdoc //TODO
-	if (cmds->next == NULL && !is_built_in(cmds))
+	if (cmds->next == NULL && !is_built_in(cmds) && !cmds->redirection)
 	{
-		handel_redirection(cmds);
-		if_built_in_run(cmds);
+		if_built_in_run(cmds); // exec builtin
 		return (0);
 	}
 	else if (run_exec(cmds) == ERROR)

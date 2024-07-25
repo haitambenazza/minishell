@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reading_promp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/25 10:46:20 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/25 12:43:19 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	reading_promp(char **env)
 {
 	t_shell	*shell;
 	char	*inputs;
-	int		err;
+	int err;
 
 	err = 0;
 	signal(SIGINT, ctrl_c);
@@ -52,10 +52,7 @@ int	reading_promp(char **env)
 		if (shell)
 			err = execution(shell);
 		if (err < 0)
-		{
-			clean_redirect(shell);
 			return (1);
-		}
 		clean_up(shell);
 	}
 	return (0);
