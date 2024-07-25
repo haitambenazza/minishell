@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:55:13 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/23 22:49:49 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/25 12:10:04 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,12 @@ int open_outfiles(t_shell *node)
 
 int handel_redirection(t_shell *node)
 {
+    t_redirect *tmp_red;
+
+    tmp_red = NULL;
     while (node->redirection)
     {
+        tmp_red = node->redirection;
         if (node->redirection->type == 4) // >
         {
             if (open_outfiles(node) < 0)
@@ -85,17 +89,15 @@ int handel_redirection(t_shell *node)
             if (open_infiles(node) < 0)
                 return (ERROR);
         }
-        // else if (node->type = 11)
-        // {
-        //     if (open_outfiles(node) < 0)
-        //         return (ERROR);
-        // }
+        else if (node->redirection->type == 11)
+        {
+            if (open_outfiles(node) < 0)
+                return (ERROR);
+        }
         node->redirection = node->redirection->next;
     }
     return (0);
 }
-
-
 
 
 

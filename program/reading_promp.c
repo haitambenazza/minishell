@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/23 23:44:02 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/25 10:46:20 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ int	reading_promp(char **env)
 {
 	t_shell	*shell;
 	char	*inputs;
+	int		err;
 
+	err = 0;
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, ctrl_empty);
 	err = 0;
@@ -50,7 +52,10 @@ int	reading_promp(char **env)
 		if (shell)
 			err = execution(shell);
 		if (err < 0)
+		{
+			clean_redirect(shell);
 			return (1);
+		}
 		clean_up(shell);
 	}
 	return (0);

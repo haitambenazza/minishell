@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/23 23:34:01 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/25 12:20:08 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	open_pipes(t_shell *node, int pipe_fd[2])
 
 void	ft_dup2(t_shell *node)
 {
-	// printf("dup1 %d -> %d\n", node->infile, STDIN_FILENO);
 	if (dup2(node->infile, STDIN_FILENO) == -1)
 	{
 		printf("minishell: dup2: %s\n", strerror(errno));
@@ -77,7 +76,6 @@ void	ft_dup2(t_shell *node)
 	}
 	if (node->infile != STDIN_FILENO)
 		close(node->infile);
-	// printf("dup2 %d -> %d\n", node->outfile, STDOUT_FILENO);
 	if (dup2(node->outfile, STDOUT_FILENO) == -1)
 	{
 		printf("minishell: dup2: %s\n", strerror(errno));
@@ -99,9 +97,8 @@ int	execute_cmd(t_shell *node)
 	if (!new_cmd)
 	{
 		printf("%s :command not found\n", node->cmd[0]);
+		free_array(envp);
 		exit_status = 127;
-		//clean_up(node);
-		//free_array(envp);
 		return (ERROR);
 	}
 	node->pid = fork();
@@ -112,8 +109,11 @@ int	execute_cmd(t_shell *node)
 		exit(EXIT_FAILURE); 
 	}
 	if (node->pid == 0)
-		child_pross(node, envp, new_cmd);
-return (SUCCESS);
+		if (child_pross(node, envp, new_cmd) == 1)
+			return (1);
+	free_array(envp);
+	free(new_cmd);
+	return (SUCCESS);
 }
 
 int	execute(t_shell *node)
@@ -187,10 +187,13 @@ int	execution(t_shell *cmds)
 	//handel_herdoc //TODO
 	if (cmds->next == NULL && !is_built_in(cmds))
 	{
-		if_built_in_run(cmds); // exec builtin
+		handel_redirection(cmds);
+		if_built_in_run(cmds);
 		return (0);
 	}
 	else if (run_exec(cmds) == ERROR)
+	{
 		return (ERROR);
+	}
 	return (0);
 }
