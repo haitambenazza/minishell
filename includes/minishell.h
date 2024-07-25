@@ -60,7 +60,7 @@ typedef struct s_redirect
 	char				*file_name;
 	struct s_redirect	*next;
 }	t_redirect;
-
+// ls | m3ayzo
 typedef struct s_shell
 {
 	char				**cmd;
