@@ -140,6 +140,7 @@ int		ft_cd(t_shell *shell);
 int		ft_exit(t_shell *shell);
 int		ft_env(t_env *shell);
 int		ft_export(t_shell *shell);
+int		ft_unset(t_shell *sh);
 /*------------------------*/
 
 /*--------clean-up--------*/
@@ -182,6 +183,7 @@ void		number_special_char(char **cmd);
 int			cmds_size(t_shell *cmd);
 void		change_value_inside_quotes(char *str);
 void		*ft_calloc(size_t count, size_t size);
+void		delete_node_env(t_env *envp);
 /*------------------------*/
 
 #endif

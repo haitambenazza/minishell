@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:02:17 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/25 20:02:25 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/25 22:46:11 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,10 @@ void	clean_up(t_shell *shell)
 	{
 		if (tmp->cmd)
 			free_array(tmp->cmd);
+		// if (tmp->env)
+		// 	clean_lst(tmp->env);
+		// if (tmp->env_copy)
+		// 	clean_lst(tmp->env_copy);
 		tmp = tmp->next;
 		free(shell);
 		shell = tmp;

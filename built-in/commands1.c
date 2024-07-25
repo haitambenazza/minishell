@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:37:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/25 21:34:38 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/25 22:36:21 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,66 @@ int	ft_env(t_env *shell)
 	{
 		printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
+	}
+	return (0);
+}
+
+void	remove_from_env(t_shell *sh, char *target)
+{
+	t_env	*tmp;
+	t_env	*traverse;
+	t_env	*save_next;
+
+	traverse = sh->env;
+	while (traverse)
+	{
+		tmp = traverse->next;
+		if (tmp && !ft_strncmp(tmp->key, target))
+		{
+			save_next = tmp->next;
+			delete_node_env(tmp);
+			traverse->next = save_next;
+		}
+		traverse = traverse->next;
+	}
+}
+
+void	remove_from_export(t_shell *sh, char *target)
+{
+	t_env	*tmp;
+	t_env	*traverse;
+	t_env	*save_next;
+
+	traverse = sh->env_copy;
+	while (traverse)
+	{
+		tmp = traverse->next;
+		if (tmp && !ft_strncmp(tmp->key, target))
+		{
+			save_next = tmp->next;
+			delete_node_env(tmp);
+			traverse->next = save_next;
+		}
+		traverse = traverse->next;
+	}
+}
+
+int	ft_unset(t_shell *sh)
+{
+	t_env	*envp;
+	t_env	*envp_cp;
+	int		i;
+
+	envp = sh->env;
+	envp_cp = sh->env_copy;
+	i = 0;
+	while (sh->cmd[++i])
+	{
+		if (is_in_env(sh, sh->cmd[i], 0))
+		{
+			remove_from_export(sh, sh->cmd[i]);
+			remove_from_env(sh, sh->cmd[i]);
+		}
 	}
 	return (0);
 }

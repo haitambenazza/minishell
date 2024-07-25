@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_built_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:58:22 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/23 22:34:06 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/25 22:09:55 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ int	if_built_in_run(t_shell *tmp)
 		return (ft_export(tmp));
 	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "env"))
 		return (ft_env(tmp->env));
+	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "unset"))
+		return (ft_unset(tmp));
 	return (1);
 }
 
 int	is_built_in(t_shell *tmp)
 {
-
 	if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "pwd"))
 		return (0);
 	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "echo"))
@@ -43,6 +44,8 @@ int	is_built_in(t_shell *tmp)
 	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "export"))
 		return (0);
 	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "env"))
+		return (0);
+	else if (tmp->cmd && !ft_strncmp(tmp->cmd[0], "unset"))
 		return (0);
 	return (1);
 }
