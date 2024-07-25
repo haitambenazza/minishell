@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/25 18:55:38 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/25 19:24:17 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,8 +197,6 @@ int	execution(t_shell *cmds)
 		return (0);
 	}
 	else if (run_exec(cmds) == ERROR)
-	{
 		return (ERROR);
-	}
 	return (0);
 }
