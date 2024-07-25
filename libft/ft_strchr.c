@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 16:36:46 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/02 09:30:27 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:48:54 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_strchr(char *s, int c)
 
 	i = 0;
 	char_c = (unsigned char)c;
-	while (s[i])
+	while (s && s[i])
 	{
 		if (s[i] == char_c)
 			return ((char *)(s + i));

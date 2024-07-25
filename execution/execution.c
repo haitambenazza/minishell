@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/25 13:14:19 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:04:46 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	child_pross(t_shell *node, char **envp, char *new_cmd)
 		exit(run_builtins_pipe(node));
 	if (execve(new_cmd, node->cmd, envp) == -1)
 	{
-		perror(node->cmd[0]);
+		// perror(node->cmd[0]);
 		clean_up(node);
 		free_array(envp);
 		exit(127);
@@ -56,7 +56,7 @@ int	open_pipes(t_shell *node, int pipe_fd[2])
 {
 	if (pipe(pipe_fd) == -1)
 	{
-		printf("minishell: pipe: %s\n", strerror(errno));
+		perror("pipe");
 		exit_status = 1;
 		return (ERROR);
 	}
@@ -94,7 +94,7 @@ int	execute_cmd(t_shell *node)
 
 	envp = lst_arr(node);
 	new_cmd = get_cmd(node->cmd[0] ,envp);
-	if (!new_cmd)
+	if (!new_cmd && is_built_in(node))
 	{
 		printf("%s :command not found\n", node->cmd[0]);
 		free_array(envp);
@@ -115,7 +115,7 @@ int	execute_cmd(t_shell *node)
 	free(new_cmd);
 	return (SUCCESS);
 }
-
+// ls
 int	execute(t_shell *node)
 {
 	int	pipe_fd[2];
@@ -130,6 +130,7 @@ int	execute(t_shell *node)
 	}
 	else
 		node->outfile = STDOUT_FILENO;
+
 	if (node->redirection != NULL)
 	{
 		status = handel_redirection(node);
@@ -175,16 +176,16 @@ int	run_exec(t_shell *cmds)
 		exit_status = WEXITSTATUS(status);
 	while (++i < size - 1)
 		wait(NULL);
-	printf("%d \n", exit_status);
+	// printf("%d \n", exit_status);
 	return (0);
 }
-
 int	execution(t_shell *cmds)
 {
 	t_shell	*tmp;
 
 	tmp = cmds;
 	tmp->pid = 0;
+	//herdoc
 	if (cmds->next == NULL && !is_built_in(cmds) && !cmds->redirection)
 	{
 		if_built_in_run(cmds); // exec builtin

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:12:25 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/25 12:43:57 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:34:41 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char *get_cmd(char *cmd, char **envp)
 	arr = find_path(envp);
 	if (!arr)
 		return (printf("path not found\n"), exit(EXIT_FAILURE), NULL);
-	while (arr[i] && arr)
+	while (arr && arr[i])
 	{
 		tmp_pathcmd = ft_strjoin("/", cmd);
 		pathcmd = ft_strjoin(arr[i], tmp_pathcmd);
@@ -54,5 +54,5 @@ char *get_cmd(char *cmd, char **envp)
 		i++;
 	}
 	free_array(arr);
-	return NULL;
+	return (NULL);
 }

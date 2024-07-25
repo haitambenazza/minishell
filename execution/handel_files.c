@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:55:13 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/25 12:10:04 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/25 15:45:22 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,17 @@ int	open_infiles(t_shell *node)
 int open_outfiles(t_shell *node)
 {
     int status;
+    int flags;
 
     status = 0;
-    status = open(node->redirection->file_name, O_WRONLY | O_APPEND | O_CREAT, 0644);
+    flags = 0;
+    
+    if (node->redirection->type == 4)
+        flags |= O_TRUNC;
+    else if (node->redirection->type == 11)
+        flags |= O_APPEND;
+    flags |= O_WRONLY | O_CREAT;
+    status = open(node->redirection->file_name, flags, 0644);
     if (status < 0)
     {
         status = access(node->redirection->file_name, F_OK);
@@ -78,8 +86,9 @@ int handel_redirection(t_shell *node)
     tmp_red = NULL;
     while (node->redirection)
     {
+
         tmp_red = node->redirection;
-        if (node->redirection->type == 4) // >
+        if (node->redirection->type == 4 || node->redirection->type == 11) // >
         {
             if (open_outfiles(node) < 0)
                 return (ERROR);
@@ -89,7 +98,7 @@ int handel_redirection(t_shell *node)
             if (open_infiles(node) < 0)
                 return (ERROR);
         }
-        else if (node->redirection->type == 11)
+        else if (node->redirection->type == 13)
         {
             if (open_outfiles(node) < 0)
                 return (ERROR);
@@ -98,113 +107,3 @@ int handel_redirection(t_shell *node)
     }
     return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // if (node->type == RED_OUT)
-        // {
-        //     fd = open(node->file_name, O_RDWR | O_CREAT | O_TRUNC, 0666);
-        //     if (fd < 0)
-        //     {
-        //         perror(node->file_name);
-        //         close(fd);
-        //         return (1);
-        //     }
-        //     dup2(fd, STDOUT_FILENO);
-        // }
-        // else if (node->type == RED_IN)
-        // {
-        //     if (access(node->file_name, R_OK) == 0)
-        //     {
-        //         fd = open(node->file_name, O_RDONLY);
-        //         if (fd < 0)
-        //         {
-        //             perror(node->file_name);
-        //             close(fd);
-        //             return (1);
-        //         }
-        //         dup2(fd, STDIN_FILENO);
-        //     }
-        //     else
-        //     {
-        //         perror(node->file_name);
-        //         return (1);
-        //     }
-        // }
-        // else if (node->type == APPEND)
-        // {
-        //     fd = open(node->file_name, O_RDWR | O_CREAT | O_APPEND, 0666);
-        //     if (fd < 0)
-        //     {
-        //         perror(node->file_name);
-        //         close(fd);
-        //         return (1);
-        //     }
-        //     dup2(fd, STDOUT_FILENO);
-        // }
