@@ -71,15 +71,16 @@ typedef struct s_shell
 	struct s_shell		*next;
 	struct s_redirect	*redirection;
 	struct s_env		*env;
+	struct s_env		*env_copy;
 }	t_shell;
 
 /*------- parsing --------*/
-t_shell	*parsing(char *inputs, char **env);
+t_shell	*parsing(char *inputs, t_env *env, t_env *envp);
 int		parcing_pipe(t_token *token, char *mask);
 void	parser_error(void);
 int		len_token(char *m);
 void	cmd_tokens(char mask, t_token *t, int i);
-t_shell	*lexer(char *inputs, char **env);
+t_shell	*lexer(char *inputs, t_env *env, t_env *envp);
 void	masking(char *str, int i, char c);
 char	*cmd_mask(char *str);
 void	remove_quotes(t_shell *shell);
@@ -101,7 +102,7 @@ void	calculate_double(int *i, char *str, t_shell *sh, int *len);
 /*------------------------*/
 
 /*--------signals---------*/
-void	cntl_D(void);
+void	cntl_D(t_shell *sh);
 void	ctrl_empty(int signal);
 void	ctrl_c(int signal);
 /*------------------------*/
@@ -121,7 +122,7 @@ char	**lst_arr(t_shell *shell);
 /*------------------------*/
 
 /*---------init-----------*/
-void	init_env_lst(t_shell *sh, char **env);
+void	init_env_lst(t_shell *sh, t_env *env, t_env *envp);
 t_env	*create_lst_env(char **env);
 /*------------------------*/
 
@@ -155,10 +156,10 @@ char		*ft_substr(char const *s, unsigned int start, size_t len);
 size_t		ft_strlen(const char *str);
 char		**ft_split(char *s, char *c);
 t_shell		*ft_lstnew(char *str);
-t_env		*ft_lstnew2(char *str);
+t_env		*ft_lstnew_env(char *str);
 t_shell		*create_list(char *input);
 void		ft_lstadd_back(t_shell **lst, t_shell *new);
-void		ft_lstadd_back2(t_env **lst, t_env *new);
+void		ft_lstadd_back_env(t_env **lst, t_env *new);
 int 		lstsize(t_env *cmd);
 int 		cmds_size(t_shell *cmd);
 int			ft_strncmp(char *s1, char *s2);
@@ -168,7 +169,7 @@ char		*ft_strchr(char *s, int c);
 int			ft_strcount(char *s, char chr);
 char		*ft_strjoin2(int size, char **strs, char *sep);
 t_redirect	*ft_lstnew_redirect(char *str, char *file);
-void		ft_lstadd_back3(t_redirect **lst, t_redirect *new);
+void		ft_lstadd_back_redirect(t_redirect **lst, t_redirect *new);
 char		*ft_strjoin_no_free(char *s1, char *s2);
 int			lst_size(char **lst);
 int			len_cmd(t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:35:37 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/02 11:41:26 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:04:30 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,23 @@ t_env	*create_lst_env(char **env)
 	head = NULL;
 	while (env[i])
 	{
-		node = ft_lstnew2(env[i]);
-		ft_lstadd_back2(&head, node);
+		node = ft_lstnew_env(env[i]);
+		ft_lstadd_back_env(&head, node);
 		i++;
 		node = node->next;
 	}
 	return (head);
 }
 
-void	init_env_lst(t_shell *sh, char **env)
+void	init_env_lst(t_shell *sh, t_env *env, t_env *envp)
 {
 	t_shell	*tmp;
 
 	tmp = sh;
 	while (tmp)
 	{
-		tmp->env = create_lst_env(env);
+		tmp->env = env;
+		tmp->env_copy = envp;
 		tmp = tmp->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/23 19:44:51 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:57:15 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,14 @@ int	parcing_pipe(t_token *token, char *mask)
 	return (0);
 }
 
-t_shell	*parsing(char *inputs, char **env)
+t_shell	*parsing(char *inputs, t_env *env, t_env *envp)
 {
 	t_shell	*shell;
 
 	shell = NULL;
 	if (inputs)
 	{
-		shell = lexer(inputs, env);
+		shell = lexer(inputs, env, envp);
 		free(inputs);
 		if (!shell)
 			return (NULL);

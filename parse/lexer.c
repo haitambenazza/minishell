@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/23 22:19:12 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:46:58 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	only_cmd(t_shell *shell)
 	}
 }
 
-t_shell	*lexer(char *inputs, char **env)
+t_shell	*lexer(char *inputs, t_env *env, t_env *envp)
 {
 	t_shell	*shell;
 	t_token	*t;
@@ -163,7 +163,7 @@ t_shell	*lexer(char *inputs, char **env)
 	if (!shell)
 		return (free(sp), free(t), free(mask), NULL);
 	if (shell)
-		init_env_lst(shell, env);
+		init_env_lst(shell, env, envp);
 	expander(shell);
 	redirections_lst(shell);
 	remove_quotes(shell);

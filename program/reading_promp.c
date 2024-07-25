@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reading_promp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/25 14:58:25 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:33:27 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,29 @@ void	set_hold(t_shell *node)
 int	reading_promp(char **env)
 {
 	t_shell	*shell;
+	t_env	*env_cp;
+	t_env	*envp;
 	char	*inputs;
-	int err;
 
-	err = 0;
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, ctrl_empty);
-	err = 0;
+	env_cp = create_lst_env(env);
+	envp = create_lst_env(env);
 	while (1337)
 	{
 		inputs = readline("minishell~> ");
 		if (!inputs)
-			cntl_D();
-		shell = parsing(ft_strtrim(inputs, " \t"), env);
+			cntl_D(shell);
+		shell = parsing(ft_strtrim(inputs, " \t"), env_cp, envp);
 		if (history(inputs))
 			return (free(inputs), 3);
 		free(inputs);
 		if (shell)
 		{
 			set_hold(shell);
-			err = execution(shell);
+			if (execution(shell))
+				return (exit_status);
 		}
-		if (err < 0)
-			return (1);
 		clean_up(shell);
 	}
 	return (0);

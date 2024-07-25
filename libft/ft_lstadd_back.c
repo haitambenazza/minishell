@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 11:20:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/05/27 13:31:29 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:00:13 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_lstadd_back(t_shell **lst, t_shell *new)
 	traverse->next = new;
 }
 
-void	ft_lstadd_back2(t_env **lst, t_env *new)
+void	ft_lstadd_back_env(t_env **lst, t_env *new)
 {
 	t_env	*traverse;
 
@@ -51,7 +51,7 @@ void	ft_lstadd_back2(t_env **lst, t_env *new)
 	}
 	traverse->next = new;
 }
-void	ft_lstadd_back3(t_redirect **lst, t_redirect *new)
+void	ft_lstadd_back_redirect(t_redirect **lst, t_redirect *new)
 {
 	t_redirect	*traverse;
 

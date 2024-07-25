@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/23 23:44:19 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/25 19:04:52 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ t_shell	*ft_lstnew(char *str)
 		node->cmd = ft_split(str, " \t");
 	node->list_quotes = NULL;
 	node->redirection = NULL;
+	node->env = NULL;
+	node->env_copy = NULL;
 	node->next = NULL;
 	return (node);
 }
@@ -82,7 +84,7 @@ char	*get_value(char *str)
 	int		i;
 
 	i = 0;
-	while (*str != '=')
+	while (*str && *str != '=')
 		str ++;
 	if (*str == '=')
 		str++;
@@ -101,7 +103,7 @@ char	*get_value(char *str)
 	return (value);
 }
 
-t_env	*ft_lstnew2(char *str)
+t_env	*ft_lstnew_env(char *str)
 {
 	t_env	*node;
 
