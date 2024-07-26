@@ -6,11 +6,27 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/26 20:54:06 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:33:00 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	copy_exit_status(char *str, int *j)
+{
+	char	*num;
+	int		index;
+
+	num = ft_itoa(exit_status);
+	index = 0;
+	while (num[index])
+	{
+		str[*j] = num[index];
+		*j += 1;
+		index++;
+	}
+	free(num);
+}
 
 void	copy_from_env(t_shell *sh, char *str, int *j, int i, int *env_ind)
 {
@@ -19,6 +35,11 @@ void	copy_from_env(t_shell *sh, char *str, int *j, int i, int *env_ind)
 
 	*env_ind += 1;
 	index = 0;
+	if (sh->cmd[i][*env_ind] == '?')
+	{
+		// *env_ind += 1;
+		copy_exit_status(str, j);
+	}
 	if (!sh->cmd[i][*env_ind])
 	{
 		str[*j] = '$';
@@ -37,20 +58,20 @@ void	copy_from_env(t_shell *sh, char *str, int *j, int i, int *env_ind)
 	free(env);
 }
 
-void	copy_in_single_quotes(char *s, int *j, t_shell *sh, int i, int *len)
+void	copy_in_single_quotes(char *s, int *j, char *sh, int *len)
 {
-	s[*len] = sh->cmd[i][*j];
+	s[*len] = sh[*j];
 	*len += 1;
 	*j += 1;
-	while (sh->cmd[i][*j] && sh->cmd[i][*j] != '\'')
+	while (sh[*j] && sh[*j] != '\'')
 	{
-		s[*len] = sh->cmd[i][*j];
+		s[*len] = sh[*j];
 		*len += 1;
 		*j += 1;
 	}
-	if (sh->cmd[i][*j] == '\'')
+	if (sh[*j] == '\'')
 	{
-		s[*len] = sh->cmd[i][*j];
+		s[*len] = sh[*j];
 		*len += 1;
 		*j += 1;
 	}
@@ -66,7 +87,7 @@ void	expand_and_copy(t_shell *s, int i, char *str)
 	while (s->cmd[i][j])
 	{
 		if (s->cmd[i][j] == '\'')
-			copy_in_single_quotes(str, &j, s, i, &len);
+			copy_in_single_quotes(str, &j, s->cmd[i], &len);
 		if (s->cmd[i][j] == '"')
 		{
 			while (s->cmd[i][j] && s->cmd[i][j] != '"' && s->cmd[i][j] != '$')
@@ -87,10 +108,10 @@ char	*new_cmd_expanded(t_shell *sh, int i)
 	int		len;
 
 	len = len_new_cmd(sh->cmd[i], sh);
-	// printf("%d len of exp\n", len);
 	str = ft_calloc(sizeof(char) , (len + 1));
 	str[len] = 0;
 	expand_and_copy(sh, i, str);
+	// printf("%d len of exp %s\n", len, str);
 	free(sh->cmd[i]);
 	return (str);
 }

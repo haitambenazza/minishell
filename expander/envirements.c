@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:26:37 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/23 23:29:45 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:12:28 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,17 @@ char	*get_env_var(char *s, int *i, t_shell *sh)
 	return (ft_envirement(env, sh));
 }
 
+int	get_len_exit_status(void)
+{
+	char	*n;
+	int		len;
+
+	n = ft_itoa(exit_status);
+	len = ft_strlen(n);
+	free(n);
+	return (len);
+}
+
 int	fetch_len_env(char *s, int *i, t_shell *sh)
 {
 	char	*env;
@@ -79,12 +90,17 @@ int	fetch_len_env(char *s, int *i, t_shell *sh)
 	save = *i;
 	if (s[*i] == '$')
 		return (len_env(ft_strdup("$"), sh));
+	else if (s[*i] == '?')
+		return (get_len_exit_status());
 	if (!s[*i])
 		return (1);
 	while (s[save] && s[save] != '\'' && s[save] != -2 && s[save] != '$' \
 			&& s[save] != -5 && s[save] != '"' && s[save] != '"' && \
-			s[save++] != '?')
+			s[save] != '?')
+	{
+		save++;
 		len++;
+	}
 	env = malloc(sizeof(char) * (len + 1));
 	env[len] = 0;
 	if (!env)
