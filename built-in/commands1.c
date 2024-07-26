@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:37:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/25 22:36:21 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/26 10:29:50 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	is_in_env(t_shell *sh, char *var_env, int flag)
 int	export_to_env(t_shell *sh)
 {
 	t_shell	*tmp;
+	t_env	*node;
 	int		i;
 	int		j;
 
@@ -89,12 +90,22 @@ int	export_to_env(t_shell *sh)
 			return (exit_status = 13, printf("bad assignemet\n"), exit_status);
 		if (ft_strchr(tmp->cmd[i], '=') && !is_in_env(tmp, tmp->cmd[i], 1))
 		{
-			ft_lstadd_back_env(&tmp->env, ft_lstnew_env(tmp->cmd[i]));
+			node = ft_lstnew_env(tmp->cmd[i]);
+			printf("node %p in env\n", node);
+			ft_lstadd_back_env(&tmp->env, node);
 			if (!is_in_env(tmp, tmp->cmd[i], 0))
-				ft_lstadd_back_env(&tmp->env_copy, ft_lstnew_env(tmp->cmd[i]));
+			{
+				node = ft_lstnew_env(tmp->cmd[i]);
+				printf("node %p in export\n", node);
+				ft_lstadd_back_env(&sh->env_copy, node);
+			}
 		}
 		else if (!is_in_env(tmp, tmp->cmd[i], 0))
-			ft_lstadd_back_env(&tmp->env_copy, ft_lstnew_env(tmp->cmd[i]));
+		{
+			node = ft_lstnew_env(tmp->cmd[i]);
+			printf("node %p\n", node);
+			ft_lstadd_back_env(&sh->env_copy, node);
+		}
 		i++;
 	}
 	exit_status = 0;
@@ -183,14 +194,14 @@ int	ft_unset(t_shell *sh)
 
 	envp = sh->env;
 	envp_cp = sh->env_copy;
-	i = 0;
-	while (sh->cmd[++i])
+	i = 1;
+	while (sh->cmd[i])
 	{
 		if (is_in_env(sh, sh->cmd[i], 0))
-		{
 			remove_from_export(sh, sh->cmd[i]);
+		if (is_in_env(sh, sh->cmd[i], 1))
 			remove_from_env(sh, sh->cmd[i]);
-		}
+		i++;
 	}
 	return (0);
 }
