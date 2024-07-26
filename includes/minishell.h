@@ -109,7 +109,7 @@ void	ctrl_c(int signal);
 
 /*--------excution--------*/
 void	ft_dup2(t_shell *node);
-char	*get_cmd(char *cmd, char **envp);
+char	*get_cmd(char *cmd, t_env *envp);
 int 	handel_redirection(t_shell *node);
 int		execution(t_shell *cmds);
 int		child_pross(t_shell *cmds, char **envp, char *new_cmd);

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:37:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/26 10:29:50 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/26 12:37:25 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,19 @@
 int	ft_pwd(t_shell *shell)
 {
 	char	*dir;
-	int		i;
 
-	i = 0;
-	while (shell->cmd[i])
-		i++;
-	if (i > 1)
-		return (write(2, "pwd: too many arguments! \n", 26), 1);
+	(void)shell;
 	dir = getcwd((void *)0, 0);
 	if (dir)
 		printf("%s\n", dir);
 	else
-		return (perror("pwd"), 1);
+	{
+		exit_status = 30;
+		return (perror("pwd"), exit_status);
+	}
 	free(dir);
-	return (0);
+	exit_status = 0;
+	return (exit_status);
 }
 
 int	ft_cd(t_shell *shell)
@@ -75,7 +74,6 @@ int	is_in_env(t_shell *sh, char *var_env, int flag)
 int	export_to_env(t_shell *sh)
 {
 	t_shell	*tmp;
-	t_env	*node;
 	int		i;
 	int		j;
 
@@ -90,22 +88,12 @@ int	export_to_env(t_shell *sh)
 			return (exit_status = 13, printf("bad assignemet\n"), exit_status);
 		if (ft_strchr(tmp->cmd[i], '=') && !is_in_env(tmp, tmp->cmd[i], 1))
 		{
-			node = ft_lstnew_env(tmp->cmd[i]);
-			printf("node %p in env\n", node);
-			ft_lstadd_back_env(&tmp->env, node);
+			ft_lstadd_back_env(&tmp->env, ft_lstnew_env(tmp->cmd[i]));
 			if (!is_in_env(tmp, tmp->cmd[i], 0))
-			{
-				node = ft_lstnew_env(tmp->cmd[i]);
-				printf("node %p in export\n", node);
-				ft_lstadd_back_env(&sh->env_copy, node);
-			}
+				ft_lstadd_back_env(&sh->env_copy, ft_lstnew_env(tmp->cmd[i]));
 		}
 		else if (!is_in_env(tmp, tmp->cmd[i], 0))
-		{
-			node = ft_lstnew_env(tmp->cmd[i]);
-			printf("node %p\n", node);
-			ft_lstadd_back_env(&sh->env_copy, node);
-		}
+			ft_lstadd_back_env(&sh->env_copy, ft_lstnew_env(tmp->cmd[i]));
 		i++;
 	}
 	exit_status = 0;

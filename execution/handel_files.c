@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handel_files.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:55:13 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/25 15:45:22 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/26 12:30:57 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,31 +51,36 @@ int	open_infiles(t_shell *node)
 
 int open_outfiles(t_shell *node)
 {
+	t_redirect	*tmp;
     int status;
     int flags;
 
     status = 0;
     flags = 0;
-    
-    if (node->redirection->type == 4)
-        flags |= O_TRUNC;
-    else if (node->redirection->type == 11)
-        flags |= O_APPEND;
-    flags |= O_WRONLY | O_CREAT;
-    status = open(node->redirection->file_name, flags, 0644);
-    if (status < 0)
-    {
-        status = access(node->redirection->file_name, F_OK);
-        if (status == -1)
-        {
-            perror(node->redirection->file_name);
-            close(status);
-            return (ERROR); 
-        }
-    }
-    if (node->outfile != STDOUT_FILENO)
-        close(node->outfile);
-    node->outfile = status;
+	tmp = node->redirection;
+	while (tmp)
+	{
+		if (tmp->type == 4)
+			flags = O_TRUNC;
+		else if (tmp->type == 11)
+			flags = O_APPEND;
+		flags = O_WRONLY | O_CREAT;
+		status = open(tmp->file_name, flags, 0644);
+		if (status < 0)
+		{
+			if (access(tmp->file_name, F_OK) == -1)
+			{
+				perror(tmp->file_name);
+				exit_status = 20;
+				close(status);
+				return (exit_status);
+			}
+		}
+		if (node->outfile != STDOUT_FILENO)
+			close(node->outfile);
+		node->outfile = status;
+		tmp = tmp->next;
+	}
     return (status);
 }
 
@@ -83,27 +88,25 @@ int handel_redirection(t_shell *node)
 {
     t_redirect *tmp_red;
 
-    tmp_red = NULL;
-    while (node->redirection)
+    tmp_red = node->redirection;
+    while (tmp_red)
     {
-
-        tmp_red = node->redirection;
-        if (node->redirection->type == 4 || node->redirection->type == 11) // >
+        if (tmp_red->type == RED_OUT || tmp_red->type == APPEND) // >
         {
             if (open_outfiles(node) < 0)
                 return (ERROR);
         }
-        else if (node->redirection->type == 3)// <
+        else if (tmp_red->type == RED_IN)// <
         {
             if (open_infiles(node) < 0)
                 return (ERROR);
         }
-        else if (node->redirection->type == 13)
+        else if (tmp_red->type == 13)
         {
-            if (open_outfiles(node) < 0)
+            // if (open_herdoc(node) < 0)
                 return (ERROR);
         }
-        node->redirection = node->redirection->next;
+        tmp_red = tmp_red->next;
     }
     return (0);
 }

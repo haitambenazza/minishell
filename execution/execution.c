@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/25 19:24:17 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/26 11:38:11 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	execute_cmd(t_shell *node)
 	char *new_cmd;
 
 	envp = lst_arr(node);
-	new_cmd = get_cmd(node->cmd[0] ,envp);
+	new_cmd = get_cmd(node->cmd[0] ,node->env);
 	if (!new_cmd && is_built_in(node))
 	{
 		printf("%s :command not found\n", node->cmd[0]);
@@ -130,7 +130,6 @@ int	execute(t_shell *node)
 	}
 	else
 		node->outfile = STDOUT_FILENO;
-
 	if (node->redirection != NULL)
 	{
 		status = handel_redirection(node);
@@ -143,8 +142,7 @@ int	execute(t_shell *node)
 	}
 	if (execute_cmd(node) == ERROR)
 		return (ERROR);
-	close_fd(node->infile, node->outfile);
-	return (SUCCESS);
+	return (close_fd(node->infile, node->outfile), SUCCESS);
 }
 int	run_exec(t_shell *cmds)
 {
@@ -200,3 +198,4 @@ int	execution(t_shell *cmds)
 		return (ERROR);
 	return (0);
 }
+

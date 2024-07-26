@@ -6,27 +6,27 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:12:25 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/25 20:07:06 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:00:55 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char    **find_path(char **envp)
+char    **find_path(t_env *envp)
 {
-    int    i;
+	t_env	*tmp;
 
-    i = 0;
-    while (envp[i])
-    {
-        if (!ft_strnncmp(envp[i], "PATH=", 5))
-            return (ft_split(envp[i] + 5, ":"));
-        i++;
-    }
-    return (NULL);
+	tmp = envp;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->key, "PATH"))
+			return (ft_split(tmp->value, ":"));
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
 
-char *get_cmd(char *cmd, char **envp)
+char *get_cmd(char *cmd, t_env *envp)
 {
 	char **arr;
 	char *pathcmd;
@@ -36,7 +36,7 @@ char *get_cmd(char *cmd, char **envp)
 	i = 0;
 	if (ft_strchr(cmd, '/'))
 	{
-		if (access(cmd, F_OK | X_OK) != -1)
+		if (access(cmd, X_OK) != -1)
 			return (ft_strdup(cmd));
 		return (NULL);
 	}
