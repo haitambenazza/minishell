@@ -184,6 +184,7 @@ int			cmds_size(t_shell *cmd);
 void		change_value_inside_quotes(char *str);
 void		*ft_calloc(size_t count, size_t size);
 void		delete_node_env(t_env *envp);
+int			is_in_env(t_shell *sh, char *var_env, int flag);
 /*------------------------*/
 
 #endif

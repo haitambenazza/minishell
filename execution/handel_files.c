@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:55:13 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/26 12:30:57 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/26 20:53:42 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,28 @@ int open_outfiles(t_shell *node)
     return (status);
 }
 
+int	check_is_valid_redirection(t_shell *node, t_redirect *tmp_red)
+{
+	if (!is_in_env(node, tmp_red->file_name, 0) ||\
+		!is_in_env(node, tmp_red->file_name, 1))
+	{
+		if (access(tmp_red->file_name, F_OK) == -1)
+		{
+			exit_status = 1;
+			printf("minishell:%s ambiguous redirect \n",tmp_red->file_name);
+			return (exit_status);
+		}
+	}
+	return (0);
+}
+
 int handel_redirection(t_shell *node)
 {
     t_redirect *tmp_red;
 
     tmp_red = node->redirection;
+	if (check_is_valid_redirection(node, tmp_red))
+		return (exit_status);
     while (tmp_red)
     {
         if (tmp_red->type == RED_OUT || tmp_red->type == APPEND) // >

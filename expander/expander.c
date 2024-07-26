@@ -6,13 +6,11 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/23 23:33:49 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/26 20:54:06 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-
 
 void	copy_from_env(t_shell *sh, char *str, int *j, int i, int *env_ind)
 {
@@ -89,6 +87,7 @@ char	*new_cmd_expanded(t_shell *sh, int i)
 	int		len;
 
 	len = len_new_cmd(sh->cmd[i], sh);
+	// printf("%d len of exp\n", len);
 	str = ft_calloc(sizeof(char) , (len + 1));
 	str[len] = 0;
 	expand_and_copy(sh, i, str);
