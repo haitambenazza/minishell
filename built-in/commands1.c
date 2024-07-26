@@ -6,11 +6,72 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:37:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/26 12:37:25 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 00:43:23 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	check_option(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if ((i == 0) && str[i] != '-')
+			return (1);
+		if (i >= 1 && str[i] != 'n')
+			return (1);
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int	run_option(t_shell *sh)
+{
+	int	i;
+	int	j;
+	int	flag;
+
+	i = 1;
+	flag = 0;
+	if (check_option(sh->cmd[i]))
+		return (0);
+	while (sh->cmd[i])
+	{
+		j = i;
+		if (check_option(sh->cmd[i]))
+			flag = 1;
+		if (flag && sh->cmd[++j])
+			printf("%s ", sh->cmd[i]);
+		else if (flag)
+			printf("%s", sh->cmd[i]);
+		i++;
+	}
+	return (1);
+}
+
+int		ft_echo(t_shell *sh)
+{
+	int	i;
+
+	i = 1;
+	if (!ft_strlen(sh->cmd[1]))
+		printf("\n");
+	if (run_option(sh))
+		return (1);
+	else
+	{
+		while (sh->cmd[i])
+		{
+			printf("%s ", sh->cmd[i]);
+			i++;
+		}
+		printf("\n");
+	}
+	return (0);
+}
 
 int	ft_pwd(t_shell *shell)
 {

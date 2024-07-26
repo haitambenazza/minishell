@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 09:59:45 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/26 21:39:16 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 00:49:27 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	parser_error()
 {
-	exit_status = 100;
+	exit_status = 2;
 	write(2, "minishell: parsing error!\n", 26);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/26 23:33:00 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:47:41 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ void	copy_from_env(t_shell *sh, char *str, int *j, int i, int *env_ind)
 	*env_ind += 1;
 	index = 0;
 	if (sh->cmd[i][*env_ind] == '?')
-	{
-		// *env_ind += 1;
 		copy_exit_status(str, j);
-	}
 	if (!sh->cmd[i][*env_ind])
 	{
 		str[*j] = '$';
@@ -111,7 +108,6 @@ char	*new_cmd_expanded(t_shell *sh, int i)
 	str = ft_calloc(sizeof(char) , (len + 1));
 	str[len] = 0;
 	expand_and_copy(sh, i, str);
-	// printf("%d len of exp %s\n", len, str);
 	free(sh->cmd[i]);
 	return (str);
 }

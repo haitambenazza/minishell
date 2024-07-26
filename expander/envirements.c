@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:26:37 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/26 23:12:28 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:47:21 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ char	*get_env_var(char *s, int *i, t_shell *sh)
 			env[len++] = s[*i];
 			*i += 1;
 		}
+	if (s[*i] == '?')
+		*i += 1;
 	return (ft_envirement(env, sh));
 }
 
