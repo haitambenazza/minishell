@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:37:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/27 00:43:23 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 19:06:54 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,86 @@ int	ft_pwd(t_shell *shell)
 	return (exit_status);
 }
 
+void	set_current_dir(t_shell *sh)
+{
+	t_env	*tmp;
+	char	*pwd;
+
+	tmp = sh->env;
+	pwd = getcwd(NULL, 0);
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->key, "PWD"))
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(pwd);
+		}
+		tmp = tmp->next;
+	}
+	tmp = sh->env_copy;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->key, "PWD"))
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(pwd);
+		}
+		tmp = tmp->next;
+	}
+	free(pwd);
+}
+
+void	get_old_dir(t_shell *sh, char *oldpwd)
+{
+	t_env	*tmp;
+
+	tmp = sh->env;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->key, "OLDPWD"))
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(oldpwd);
+		}
+		tmp = tmp->next;
+	}
+	tmp = sh->env_copy;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->key, "OLDPWD"))
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(oldpwd);
+		}
+		tmp = tmp->next;
+	}
+	free(oldpwd);
+}
+
 int	ft_cd(t_shell *shell)
 {
-	char	*home_path;
-	char	*args;
+	char	*old_pwd;
 
-	args = NULL;
-	if (shell->cmd)
-		args = ft_strjoin2(lst_size(shell->cmd + 1), shell->cmd + 1, "");
-	if (!ft_strncmp(args, "~") || lst_size(shell->cmd) == 1)
+	old_pwd = getcwd(NULL, 0);
+	if (lst_size(shell->cmd) > 2)
 	{
-		home_path= getenv("HOME");
-		if (chdir(home_path))
-			return (perror("cd"), 2);
+		exit_status = 1;
+		return (printf("cd cannot take more than one argument!\n"), exit_status);
 	}
-	else if (chdir(args))
-		return (perror("cd"), 2);
+	if (!shell->cmd[1])
+	{
+		if (chdir(getenv("HOME")))
+			return (perror("cd"), exit_status = 1, 1);
+		get_old_dir(shell, old_pwd);
+		set_current_dir(shell);
+	}
+	else
+	{
+		if (chdir(shell->cmd[1]))
+			return (perror("cd"), exit_status = 1, 1);
+		get_old_dir(shell, old_pwd);
+		set_current_dir(shell);
+	}
 	return (0);
 }
 
