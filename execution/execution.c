@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/26 11:38:11 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 20:06:52 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	child_pross(t_shell *node, char **envp, char *new_cmd)
 	if (execve(new_cmd, node->cmd, envp) == -1)
 	{
 		// perror(node->cmd[0]);
-		clean_up(node);
+		clean_up(node, 0);
 		free_array(envp);
 		exit(127);
 		return (1);
@@ -71,7 +71,7 @@ void	ft_dup2(t_shell *node)
 	{
 		printf("minishell: dup2: %s\n", strerror(errno));
 		exit_status = 1;
-		clean_up(node);
+		clean_up(node, 0);
 		exit(EXIT_FAILURE);
 	}
 	if (node->infile != STDIN_FILENO)
@@ -80,7 +80,7 @@ void	ft_dup2(t_shell *node)
 	{
 		printf("minishell: dup2: %s\n", strerror(errno));
 		exit_status = 1;
-		clean_up(node);
+		clean_up(node, 0);
 		exit(EXIT_FAILURE);
 	}
 	if (node->outfile != STDOUT_FILENO)

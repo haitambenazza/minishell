@@ -142,7 +142,7 @@ int		ft_unset(t_shell *sh);
 /*------------------------*/
 
 /*--------clean-up--------*/
-void	clean_up(t_shell *shell);
+void	clean_up(t_shell *shell, int flag);
 void	clean_lst(t_env *shell);
 int		free_array(char **v);
 void	clean_redirect(t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:37:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/27 19:06:54 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 20:06:14 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,7 +321,7 @@ int	ft_unset(t_shell *sh)
 
 int	ft_exit(t_shell *shell)
 {
-	clean_up(shell);
+	clean_up(shell, 1);
 	write(1, "exit\n", 5);
 	exit(exit_status);
 }

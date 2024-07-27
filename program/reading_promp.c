@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/27 15:45:16 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 20:10:47 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	reading_promp(char **env)
 			if (execution(shell))
 				return (exit_status);
 		}
-		clean_up(shell);
+		clean_up(shell, 0);
 	}
 	return (0);
 }
