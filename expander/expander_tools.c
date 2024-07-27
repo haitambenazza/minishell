@@ -6,14 +6,15 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:22:43 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/23 23:24:34 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 14:19:30 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	is_expand_valid(char *str, int i)
+int	is_expand_valid(char *str, int i, int j)
 {
+	// sleep(1);
 	while (str[i])
 	{
 		if (str[i] == '\'')
@@ -25,14 +26,14 @@ int	is_expand_valid(char *str, int i)
 		else if (str[i] == '"')
 		{
 			i++;
-			while (str[i] && str[i] != '"')
+			while (str[i] && str[i] != '"')//"$USER"'$USER'
 			{
-				if (str[i] == '$')
+				if (str[i++] == '$')
 					return (1);
-				i++;
 			}
 		}
-		else if (str[i] == '$' && str[++i])
+		j = i + 1;
+		if (str[i] == '$' && str[j])
 			return (1);
 		else if (str[i])
 			i++;
@@ -51,7 +52,7 @@ int	check_expandable_var(t_shell *sh)
 		i = 0;
 		while (tmp->cmd[i])
 		{
-			if (is_expand_valid(tmp->cmd[i], 0))
+			if (is_expand_valid(tmp->cmd[i], 0, 0))
 				return (1);
 			i++;
 		}

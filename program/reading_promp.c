@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/26 23:15:43 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 14:22:03 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ int	reading_promp(char **env)
 		if (history(inputs))
 			return (free(inputs), 3);
 		free(inputs);
+		// for (t_shell *tmp = shell; tmp;tmp= tmp->next)
+		// {
+		// 	for (int i = 0; tmp->cmd[i]; i++)
+		// 		printf("%s\n", tmp->cmd[i]);
+		// }
 		if (shell)
 		{
 			set_hold(shell);

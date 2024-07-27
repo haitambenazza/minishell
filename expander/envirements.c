@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:26:37 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/26 23:47:21 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 13:32:01 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	fetch_len_env(char *s, int *i, t_shell *sh)
 	if (!s[*i])
 		return (1);
 	while (s[save] && s[save] != '\'' && s[save] != -2 && s[save] != '$' \
-			&& s[save] != -5 && s[save] != '"' && s[save] != '"' && \
+			&& s[save] != -5 && s[save] != '"' && \
 			s[save] != '?')
 	{
 		save++;
