@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/27 14:20:49 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 14:46:55 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	expand_and_copy(t_shell *s, int i, char *str)
 			copy_in_single_quotes(str, &j, s->cmd[i], &len);
 		if (s->cmd[i][j] == '"')
 		{
+			str[len++] = s->cmd[i][j++];
 			while (s->cmd[i][j] && s->cmd[i][j] != '"' && s->cmd[i][j] != '$')
 				str[len++] = s->cmd[i][j++];
 			if (s->cmd[i][j] == '$')

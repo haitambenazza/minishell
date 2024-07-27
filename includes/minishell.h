@@ -102,7 +102,7 @@ int		ft_strncmp_env(char *s1, char *s2);
 /*------------------------*/
 
 /*--------signals---------*/
-void	cntl_D(t_shell *sh);
+void	cntl_D(t_shell *sh, t_env *env, t_env *envp);
 void	ctrl_empty(int signal);
 void	ctrl_c(int signal);
 /*------------------------*/

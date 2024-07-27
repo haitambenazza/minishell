@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:46:50 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/25 22:44:55 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 14:40:40 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ void	ctrl_c(int signal)
 	}
 }
 
-void	cntl_D(t_shell *sh)
+void	cntl_D(t_shell *sh, t_env *env, t_env *envp)
 {
 	(void)sh;
 	rl_on_new_line();
 	rl_clear_history();
 	write(1, "exit\n", 5);
 	// clean_up(sh);
+	clean_lst(env);
+	clean_lst(envp);
 	exit(exit_status);
 }
 
