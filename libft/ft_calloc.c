@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 13:14:54 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/23 22:54:39 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/28 19:07:17 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_calloc(size_t count, size_t size)
 	unsigned char	*memory;
 	size_t			len;
 
-	if (count && size  && (size > SIZE_MAX / count))
+	if (count && size && (size > SIZE_MAX / count))
 		return (NULL);
 	len = (size * count);
 	p = malloc(len);
@@ -30,4 +30,3 @@ void	*ft_calloc(size_t count, size_t size)
 		memory[len++] = 0;
 	return (p);
 }
-

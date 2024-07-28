@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/27 20:10:47 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/28 18:45:41 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	reading_promp(char **env)
 	{
 		inputs = readline("minishell~> ");
 		if (!inputs)
-			cntl_D(shell, envp, env_cp);
+			cntl_d(shell, envp, env_cp);
 		shell = parsing(ft_strtrim(inputs, " \t"), env_cp, envp);
 		if (history(inputs))
 			return (free(inputs), 3);
@@ -52,7 +52,7 @@ int	reading_promp(char **env)
 		{
 			set_hold(shell);
 			if (execution(shell))
-				return (exit_status);
+				return (g_exit_status);
 		}
 		clean_up(shell, 0);
 	}

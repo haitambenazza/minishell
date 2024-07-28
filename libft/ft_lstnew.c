@@ -6,15 +6,15 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/27 14:30:11 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/28 19:06:14 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_redirect *ft_lstnew_redirect(char *str, char *file)
+t_redirect	*ft_lstnew_redirect(char *str, char *file)
 {
-	t_redirect *node;
+	t_redirect	*node;
 
 	(void)str;
 	node = malloc(sizeof(t_redirect));
@@ -37,7 +37,6 @@ t_redirect *ft_lstnew_redirect(char *str, char *file)
 	node->next = NULL;
 	return (node);
 }
-
 
 t_shell	*ft_lstnew(char *str)
 {

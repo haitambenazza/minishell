@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:26:37 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/27 13:32:01 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 22:54:10 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*get_env_var(char *s, int *i, t_shell *sh)
 	len = 0;
 	save = *i;
 	if (s[save] == '$')
-		return(*i += 1, ft_envirement(ft_strdup("$"), sh));
+		return (*i += 1, ft_envirement(ft_strdup("$"), sh));
 	while (s[save] && s[save] != '\'' && s[save] != -2 && s[save] != '$' \
 			&& s[save] != -5 && s[save] != '"' && s[save++] != '?')
 		len++;
@@ -62,21 +62,21 @@ char	*get_env_var(char *s, int *i, t_shell *sh)
 	len = 0;
 	while (s[*i] && s[*i] != '\'' && s[*i] != -2 && s[*i] != '$' \
 		&& s[*i] != -5 && s[*i] != '"' && s[*i] != '?')
-		{
-			env[len++] = s[*i];
-			*i += 1;
-		}
+	{
+		env[len++] = s[*i];
+		*i += 1;
+	}
 	if (s[*i] == '?')
 		*i += 1;
 	return (ft_envirement(env, sh));
 }
 
-int	get_len_exit_status(void)
+int	get_len_g_exit_status(void)
 {
 	char	*n;
 	int		len;
 
-	n = ft_itoa(exit_status);
+	n = ft_itoa(g_exit_status);
 	len = ft_strlen(n);
 	free(n);
 	return (len);
@@ -93,7 +93,7 @@ int	fetch_len_env(char *s, int *i, t_shell *sh)
 	if (s[*i] == '$')
 		return (len_env(ft_strdup("$"), sh));
 	else if (s[*i] == '?')
-		return (get_len_exit_status());
+		return (get_len_g_exit_status());
 	if (!s[*i])
 		return (1);
 	while (s[save] && s[save] != '\'' && s[save] != -2 && s[save] != '$' \

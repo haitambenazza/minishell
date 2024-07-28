@@ -6,53 +6,26 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/27 14:46:55 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/28 19:03:27 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	copy_exit_status(char *str, int *j)
+void	*copy_from_env(char *sh, char *str, int *j, int *env_ind)
 {
-	char	*num;
-	int		index;
-
-	num = ft_itoa(exit_status);
-	index = 0;
-	while (num[index])
-	{
-		str[*j] = num[index];
-		*j += 1;
-		index++;
-	}
-	free(num);
-}
-
-void	copy_from_env(t_shell *sh, char *str, int *j, int i, int *env_ind)
-{
-	char	*env;
 	int		index;
 
 	*env_ind += 1;
 	index = 0;
-	if (sh->cmd[i][*env_ind] == '?')
-		copy_exit_status(str, j);
-	if (!sh->cmd[i][*env_ind])
+	if (sh[*env_ind] == '?')
+		copy_g_exit_status(str, j);
+	if (!sh[*env_ind])
 	{
 		str[*j] = '$';
 		*j += 1;
-		return ;
 	}
-	env = get_env_var(sh->cmd[i], env_ind, sh);
-	if (!env)
-		return ;
-	while (env[index])
-	{
-		str[*j] = env[index];
-		index++;
-		*j += 1;
-	}
-	free(env);
+	return (NULL);
 }
 
 void	copy_in_single_quotes(char *s, int *j, char *sh, int *len)
@@ -91,12 +64,12 @@ void	expand_and_copy(t_shell *s, int i, char *str)
 			while (s->cmd[i][j] && s->cmd[i][j] != '"' && s->cmd[i][j] != '$')
 				str[len++] = s->cmd[i][j++];
 			if (s->cmd[i][j] == '$')
-				copy_from_env(s, str, &len, i, &j);
+				locate_env(s, copy_from_env(s->cmd[i], str, &len, &j), &j, str);
 		}
 		if (s->cmd[i][j] == '$')
-				copy_from_env(s, str, &len, i, &j);
-		else if(s->cmd[i][j])
-				str[len++] = s->cmd[i][j++];
+			locate_env(s, copy_from_env(s->cmd[i], str, &len, &j), &j, str);
+		else if (s->cmd[i][j])
+			str[len++] = s->cmd[i][j++];
 	}
 }
 
@@ -106,7 +79,7 @@ char	*new_cmd_expanded(t_shell *sh, int i)
 	int		len;
 
 	len = len_new_cmd(sh->cmd[i], sh);
-	str = ft_calloc(sizeof(char) , (len + 1));
+	str = ft_calloc(sizeof(char), (len + 1));
 	str[len] = 0;
 	expand_and_copy(sh, i, str);
 	free(sh->cmd[i]);

@@ -6,7 +6,7 @@
 #    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/07/25 22:05:33 by hbenazza         ###   ########.fr        #
+#    Updated: 2024/07/28 18:59:13 by hbenazza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,11 @@ SRC = ./program/main.c\
 	./expander/envirements.c\
 	./expander/lenght_envirements.c\
 	./libft/ft_deletenode.c\
+	./built-in/commands2.c\
+	./built-in/commands_utils.c\
+	./built-in/commands_utils2.c\
+	./parse/spaces.c\
+	./parse/utils.c
 
 OBJ = ${SRC:.c=.o}
 

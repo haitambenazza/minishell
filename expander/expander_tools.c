@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:22:43 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/27 14:32:35 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/28 19:04:10 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	is_expand_valid(char *str, int i, int j)
 {
-	// sleep(1);
 	while (str[i])
 	{
 		if (str[i] == '\'')
@@ -26,7 +25,7 @@ int	is_expand_valid(char *str, int i, int j)
 		else if (str[i] == '"')
 		{
 			i++;
-			while (str[i] && str[i] != '"')//"'$USER'"
+			while (str[i] && str[i] != '"')
 			{
 				if (str[i++] == '$')
 					return (1);
@@ -71,10 +70,45 @@ int	still_expandable(t_shell *sh)
 		return (1);
 	while (tmp->cmd[i])
 	{
-		if (i && !ft_strncmp(tmp->cmd[i - 1], ">>") &&\
+		if (i && !ft_strncmp(tmp->cmd[i - 1], ">>") && \
 			!ft_strncmp(tmp->cmd[i], "$"))
 			return (1);
 		i++;
 	}
 	return (0);
+}
+
+void	copy_g_exit_status(char *str, int *j)
+{
+	char	*num;
+	int		index;
+
+	num = ft_itoa(g_exit_status);
+	index = 0;
+	while (num[index])
+	{
+		str[*j] = num[index];
+		*j += 1;
+		index++;
+	}
+	free(num);
+}
+
+void	locate_env(t_shell *sh, void *ptr, int *j, char *str)
+{
+	char	*env;
+	int		i;
+
+	(void)ptr;
+	i = 0;
+	env = get_env_var(str, j, sh);
+	if (!env)
+		return ;
+	while (env[i])
+	{
+		str[*j] = env[i];
+		i++;
+		*j += 1;
+	}
+	free(env);
 }

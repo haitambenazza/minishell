@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 23:30:50 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/23 23:32:23 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/28 19:04:22 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,3 @@ void	calculate_double(int *i, char *str, t_shell *sh, int *len)
 		}
 	}
 }
-
-

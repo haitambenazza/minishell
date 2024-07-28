@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 12:19:24 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/25 19:03:56 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 22:42:47 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,23 @@ t_redirect	*create_redirect_lst(char **cmd, int *i)
 
 void	redirections_lst(t_shell *shell)
 {
-	t_shell	*tmp;
+	t_shell	*n;
 	int		i;
 
-	tmp = shell;
-
-	while (tmp)
+	n = shell;
+	while (n)
 	{
 		i = 0;
-		while (tmp->cmd[i])
+		while (n->cmd[i])
 		{
-			if (!ft_strncmp(tmp->cmd[i], ">") || !ft_strncmp(tmp->cmd[i], "<"))
-				tmp->redirection = create_redirect_lst(tmp->cmd, &i);
-			if (!ft_strncmp(tmp->cmd[i], "<<") || !ft_strncmp(tmp->cmd[i], ">>"))
-				tmp->redirection = create_redirect_lst(tmp->cmd, &i);
-			if (!tmp->cmd[i])
+			if (!ft_strncmp(n->cmd[i], ">") || !ft_strncmp(n->cmd[i], "<"))
+				n->redirection = create_redirect_lst(n->cmd, &i);
+			if (!ft_strncmp(n->cmd[i], "<<") || !ft_strncmp(n->cmd[i], ">>"))
+				n->redirection = create_redirect_lst(n->cmd, &i);
+			if (!n->cmd[i])
 				break ;
 			i++;
 		}
-		tmp = tmp->next;
+		n = n->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/27 20:06:52 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 22:49:57 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	open_pipes(t_shell *node, int pipe_fd[2])
 	if (pipe(pipe_fd) == -1)
 	{
 		perror("pipe");
-		exit_status = 1;
+		g_exit_status = 1;
 		return (ERROR);
 	}
 	node->next->infile = pipe_fd[0];
@@ -70,7 +70,7 @@ void	ft_dup2(t_shell *node)
 	if (dup2(node->infile, STDIN_FILENO) == -1)
 	{
 		printf("minishell: dup2: %s\n", strerror(errno));
-		exit_status = 1;
+		g_exit_status = 1;
 		clean_up(node, 0);
 		exit(EXIT_FAILURE);
 	}
@@ -79,7 +79,7 @@ void	ft_dup2(t_shell *node)
 	if (dup2(node->outfile, STDOUT_FILENO) == -1)
 	{
 		printf("minishell: dup2: %s\n", strerror(errno));
-		exit_status = 1;
+		g_exit_status = 1;
 		clean_up(node, 0);
 		exit(EXIT_FAILURE);
 	}
@@ -98,14 +98,14 @@ int	execute_cmd(t_shell *node)
 	{
 		printf("%s :command not found\n", node->cmd[0]);
 		free_array(envp);
-		exit_status = 127;
+		g_exit_status = 127;
 		return (ERROR);
 	}
 	node->pid = fork();
 	if (node->pid < 0)
 	{
 		printf("minishell: fork: %s\n", strerror(errno));
-		exit_status = 1;
+		g_exit_status = 1;
 		exit(EXIT_FAILURE);
 	}
 	if (node->pid == 0)
@@ -136,8 +136,8 @@ int	execute(t_shell *node)
 		if (status < 0 || status == 1)
 		{
 			close_fd(node->infile, node->outfile);
-			exit_status = 1;
-			return (exit_status);
+			g_exit_status = 1;
+			return (g_exit_status);
 		}
 	}
 	if (execute_cmd(node) == ERROR)
@@ -157,15 +157,15 @@ int	run_exec(t_shell *cmds)
 	i = -1;
 	while (tmp)
 	{
-		exit_status = 0;
+		g_exit_status = 0;
 		if (execute(tmp) == 0)
-			exit_status = 0;
+			g_exit_status = 0;
 		else
 		{
-			if (exit_status == 1)
-				exit_status = 1;
+			if (g_exit_status == 1)
+				g_exit_status = 1;
 			else
-				exit_status = 127;
+				g_exit_status = 127;
 			close_fd(tmp->infile, tmp->outfile);
 		}
 		tmp = tmp->next;
@@ -175,10 +175,10 @@ int	run_exec(t_shell *cmds)
 		tmp = tmp->next;
 	waitpid(tmp->pid, &status, 0);
 	if (WIFEXITED(status) && size > 1)
-		exit_status = WEXITSTATUS(status);
+		g_exit_status = WEXITSTATUS(status);
 	while (++i < size - 1)
 		wait(NULL);
-	// printf("%d \n", exit_status);
+	// printf("%d \n", g_exit_status);
 	return (0);
 }
 

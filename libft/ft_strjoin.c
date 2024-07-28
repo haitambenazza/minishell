@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:29:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/23 18:04:28 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/28 19:05:15 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,34 +83,6 @@ char	*ft_strjoin2(int size, char **strs, char *sep)
 }
 
 char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*p;
-	size_t	len;
-	size_t	i;
-
-	i = 0;
-	if (!s1 || !s2)
-		return (checking(s1, s2));
-	len = ft_strlen(s1) + ft_strlen(s2);
-	p = (char *)malloc(sizeof(char) * (len + 1));
-	if (!p)
-		return (NULL);
-	while (*s1)
-	{
-		p[i] = *(char *)s1++;
-		i++;
-	}
-	while (*s2)
-	{
-		p[i] = *(char *)s2++;
-		i++;
-	}
-	// if (s1)
-	// 	free(s1);
-	p[i] = '\0';
-	return (p);
-}
-char	*ft_strjoin_no_free(char *s1, char *s2)
 {
 	char	*p;
 	size_t	len;

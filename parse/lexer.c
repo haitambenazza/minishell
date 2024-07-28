@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:34:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/25 17:46:58 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 22:49:57 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,80 +68,6 @@ int	new_lenght(char *str)
 	return (len);
 }
 
-void	skip_quotes(char *out, int *len, char *str, int *i)
-{
-	char	quote;
-
-	if (str[*i] == '"' || str[*i] == '\'')
-	{
-		if (*i && (str[*i - 1] == '>' || str[*i - 1] == '<'))
-		{
-			out[*len] = ' ';
-			*len += 1;
-		}
-		quote = str[*i];
-		out[*len] = str[*i];
-		*len += 1;
-		*i += 1;
-		while (str[*i] && str[*i] != quote)
-			copy_char(out, str, len, i);
-		if (str[*i] == '"' || str[*i] == '\'')
-			copy_char(out, str, len, i);
-	}
-}
-void	spacing(char *out, char *str, int *len, int *i)
-{
-	if (*i && (str[*i] == '>' || str[*i] == '<') && str[*i] != str[*i - 1])
-	{
-		out[*len] = ' ';
-		*len += 1;
-	}
-	if (*i && (str[*i - 1] == '>' || str[*i - 1] == '<') && str[*i] != str[*i - 1])
-	{
-		out[*len] = ' ';
-		*len += 1;
-	}
-}
-
-char	*add_space(char *str)
-{
-	char	*out;
-	int		i;
-	int		len;
-
-	len = new_lenght(str);
-	out = malloc(sizeof(char) * (len + 1));
-	if (!out)
-		return (NULL);
-	i = 0;
-	len = 0;
-	while (str[i])
-	{
-		skip_quotes(out, &len, str, &i);
-		spacing(out, str, &len, &i);
-		out[len] = str[i];
-		if (!str[i])
-			break ;
-		len++;
-		i++;
-	}
-	out[len] = 0;
-	return (out);
-}
-
-void	only_cmd(t_shell *shell)
-{
-	t_shell	*tmp;
-
-	tmp = shell;
-	while (tmp)
-	{
-		split_cmd(tmp);
-		number_special_char(tmp->cmd);
-		tmp = tmp->next;
-	}
-}
-
 t_shell	*lexer(char *inputs, t_env *env, t_env *envp)
 {
 	t_shell	*shell;
@@ -157,7 +83,7 @@ t_shell	*lexer(char *inputs, t_env *env, t_env *envp)
 		return (free(mask), NULL);
 	if (parcing_pipe(t, mask))
 		return (free(t), free(mask), NULL);
-	sp = add_space(inputs);
+	sp = add_space_for_redirect(inputs);
 	change_value_inside_quotes(sp);
 	shell = create_list(sp);
 	if (!shell)
@@ -168,5 +94,5 @@ t_shell	*lexer(char *inputs, t_env *env, t_env *envp)
 	redirections_lst(shell);
 	remove_quotes(shell);
 	only_cmd(shell);
-	return (free(sp), free(t), free(mask), exit_status = 0, shell);
+	return (free(sp), free(t), free(mask), g_exit_status = 0, shell);
 }

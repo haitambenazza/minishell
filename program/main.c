@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:03:38 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/25 17:02:39 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/27 22:49:57 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	exit_status;
+int	g_exit_status;
 
 int	main(int c, char **v, char **env)
 {
@@ -20,13 +20,13 @@ int	main(int c, char **v, char **env)
 	if (c == 1)
 	{
 		if (reading_promp(env))
-			return (exit_status);
+			return (g_exit_status);
 	}
 	else
 	{
 		printf("cant take arguments!\n");
 		return (1);
 	}
-	return (exit_status);
+	return (g_exit_status);
 }
 

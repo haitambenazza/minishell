@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:12:25 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/26 11:00:55 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 22:49:57 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char *get_cmd(char *cmd, t_env *envp)
 	}
 	arr = find_path(envp);
 	if (!arr)
-		return (printf("path not found\n"),exit_status = 127, NULL);
+		return (printf("path not found\n"),g_exit_status = 127, NULL);
 	while (arr && arr[i])
 	{
 		tmp_pathcmd = ft_strjoin("/", cmd);

@@ -6,24 +6,11 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 16:43:01 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/25 17:57:15 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/27 22:49:57 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	find_next_command(t_token *token, int index)
-{
-	while (token[index] != 20)
-	{
-		index++;
-		if (token[index] != ESPACE)
-			break ;
-	}
-	if (token[index] == PIPE)
-		return (1);
-	return (0);
-}
 
 int	parse_redirection_space(t_token *t)
 {
@@ -67,7 +54,7 @@ int	parsing_redirect(t_token *token, int index)
 		if (token[index] != ESPACE && token[index] != t)
 			break ;
 	}
-	if (token[index] == PIPE || token[index] == 20 || c > 1 ||\
+	if (token[index] == PIPE || token[index] == 20 || c > 1 || \
 		token[index] == opposite)
 		return (1);
 	if (c == 1 && parse_redirection_space(token))
@@ -95,21 +82,21 @@ int	parcing_pipe(t_token *token, char *mask)
 	i = 0;
 	(void)mask;
 	if (token && token[i] == PIPE)
-		return (parser_error(), exit_status);
+		return (parser_error(), g_exit_status);
 	while (token[i] != 20)
 	{
-		if ((token[i] == QUOTE || token[i] == SINGEL_Q) &&\
+		if ((token[i] == QUOTE || token[i] == SINGEL_Q) && \
 			parse_quote(token, &i))
-			return (parser_error(), exit_status);
+			return (parser_error(), g_exit_status);
 		if (token[i] == PIPE && find_next_command(token, i))
-			return (parser_error(), exit_status);
-		if ((token[i] == RED_IN || token[i] == RED_OUT) &&\
+			return (parser_error(), g_exit_status);
+		if ((token[i] == RED_IN || token[i] == RED_OUT) && \
 			parsing_redirect(token, i))
-			return (parser_error(), exit_status);
+			return (parser_error(), g_exit_status);
 		i++;
 	}
 	if (token[--i] == PIPE)
-		return (parser_error(), exit_status);
+		return (parser_error(), g_exit_status);
 	return (0);
 }
 
