@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 21:53:38 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/28 18:36:39 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/29 22:29:32 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	get_old_dir(t_shell *sh, char *oldpwd)
 		}
 		tmp = tmp->next;
 	}
-	free(oldpwd);
 }
 
 int	export_to_env(t_shell *sh)
