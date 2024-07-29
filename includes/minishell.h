@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:46:09 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/28 19:05:30 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/29 22:07:43 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_redirect
 typedef struct s_shell
 {
 	char				**cmd;
+	char				*expander;
 	int					pid;
 	int					infile;
 	int					outfile;
@@ -108,7 +109,8 @@ void		calculate_len_single_quotes(int *i, char *str, int *len);
 void		calculate_double(int *i, char *str, t_shell *sh, int *len);
 int			ft_strncmp_env(char *s1, char *s2);
 void		copy_g_exit_status(char *str, int *j);
-void		locate_env(t_shell *sh, void *ptr, int *j, char *str);
+void		locate_env(t_shell *sh, int	*len, int *j, char *cmd);
+void		*copy_from_env(char *sh, char *str, int *j, int *len);
 /*------------------------*/
 
 /*--------signals---------*/
@@ -208,6 +210,7 @@ int			is_in_env(t_shell *sh, char *var_env, int flag);
 char		*ft_itoa(int n);
 int			find_next_command(t_token *token, int index);
 char		*ft_strjoin_no_free(char *s1, char *s2);
+char		*checking(char const *s1, char const *s2);
 /*------------------------*/
 
 #endif

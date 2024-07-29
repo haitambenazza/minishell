@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/27 22:49:57 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/28 21:33:35 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,6 @@ int	run_exec(t_shell *cmds)
 		g_exit_status = WEXITSTATUS(status);
 	while (++i < size - 1)
 		wait(NULL);
-	// printf("%d \n", g_exit_status);
 	return (0);
 }
 
@@ -188,10 +187,9 @@ int	execution(t_shell *cmds)
 
 	tmp = cmds;
 	tmp->pid = 0;
-	//herdoc
-	if (cmds->next == NULL && !is_built_in(cmds) && !cmds->redirection)
+	if (!cmds->next && !is_built_in(cmds) && !cmds->redirection)
 	{
-		if_built_in_run(cmds); // exec builtin
+		if_built_in_run(cmds);
 		return (0);
 	}
 	else if (run_exec(cmds) == ERROR)

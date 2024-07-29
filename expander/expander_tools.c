@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:22:43 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/28 19:04:10 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/29 22:25:12 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,21 +94,29 @@ void	copy_g_exit_status(char *str, int *j)
 	free(num);
 }
 
-void	locate_env(t_shell *sh, void *ptr, int *j, char *str)
+void	locate_env(t_shell *sh, int	*len, int *j, char *cmd)
 {
 	char	*env;
 	int		i;
 
-	(void)ptr;
 	i = 0;
-	env = get_env_var(str, j, sh);
+	*j += 1;
+	if (cmd[*j] == '?')
+		copy_g_exit_status(sh->expander, len);
+	if (!cmd[*j])
+	{
+		sh->expander[*len] = '$';
+		*len += 1;
+		return ;
+	}
+	env = get_env_var(cmd, j, sh);
 	if (!env)
 		return ;
 	while (env[i])
 	{
-		str[*j] = env[i];
+		sh->expander[*len] = env[i];
 		i++;
-		*j += 1;
+		*len += 1;
 	}
 	free(env);
 }

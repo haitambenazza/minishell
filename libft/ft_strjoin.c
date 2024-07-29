@@ -6,13 +6,13 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:29:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/28 19:05:15 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/28 21:24:58 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*checking(char const *s1, char const *s2)
+char	*checking(char const *s1, char const *s2)
 {
 	if (!s1 && !s2)
 		return (NULL);

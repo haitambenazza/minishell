@@ -6,24 +6,21 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:15:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/28 19:03:27 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/29 22:25:18 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	*copy_from_env(char *sh, char *str, int *j, int *env_ind)
+void	*copy_from_env(char *sh, char *str, int *len, int *j)
 {
-	int		index;
-
-	*env_ind += 1;
-	index = 0;
-	if (sh[*env_ind] == '?')
-		copy_g_exit_status(str, j);
-	if (!sh[*env_ind])
+	*j += 1;
+	if (sh[*j] == '?')
+		copy_g_exit_status(str, len);
+	if (!sh[*j])
 	{
-		str[*j] = '$';
-		*j += 1;
+		str[*len] = '$';
+		*len += 1;
 	}
 	return (NULL);
 }
@@ -64,26 +61,27 @@ void	expand_and_copy(t_shell *s, int i, char *str)
 			while (s->cmd[i][j] && s->cmd[i][j] != '"' && s->cmd[i][j] != '$')
 				str[len++] = s->cmd[i][j++];
 			if (s->cmd[i][j] == '$')
-				locate_env(s, copy_from_env(s->cmd[i], str, &len, &j), &j, str);
+				locate_env(s, &len, &j, s->cmd[i]);
 		}
 		if (s->cmd[i][j] == '$')
-			locate_env(s, copy_from_env(s->cmd[i], str, &len, &j), &j, str);
+			locate_env(s, &len, &j, s->cmd[i]);
 		else if (s->cmd[i][j])
+		{
 			str[len++] = s->cmd[i][j++];
+		}
 	}
 }
 
 char	*new_cmd_expanded(t_shell *sh, int i)
 {
-	char	*str;
 	int		len;
 
 	len = len_new_cmd(sh->cmd[i], sh);
-	str = ft_calloc(sizeof(char), (len + 1));
-	str[len] = 0;
-	expand_and_copy(sh, i, str);
+	sh->expander = ft_calloc(sizeof(char), (len + 1));
+	sh->expander[len] = 0;
+	expand_and_copy(sh, i, sh->expander);
 	free(sh->cmd[i]);
-	return (str);
+	return (sh->expander);
 }
 
 t_shell	*expander(t_shell *shell)

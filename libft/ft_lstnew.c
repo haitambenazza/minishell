@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/28 19:06:14 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/29 11:55:34 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_shell	*ft_lstnew(char *str)
 	node->redirection = NULL;
 	node->env = NULL;
 	node->env_copy = NULL;
+	node->expander = NULL;
 	node->next = NULL;
 	return (node);
 }
