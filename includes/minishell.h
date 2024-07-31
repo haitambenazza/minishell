@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:46:09 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/31 22:37:07 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/31 23:49:58 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,13 @@ void		signal01();
 void		signals();
 void		cntl_d(t_shell *sh, t_env *env, t_env *envp);
 void		ctrl_c(int signal);
+void		ctrl_d_her(void);
 /*------------------------*/
 
 /*----------herdoc--------*/
 int 	handle_herdoc(t_shell *cmds);
-void    unlick_files(t_shell *shell_tmp, t_redirect *red_tmp, char *hername);
-
+void	unlick_files(t_shell *shell_tmp, t_redirect *red_tmp, char *hername);
+void	ctrl_c_her(int signal);
 /*------------------------*/
 
 /*--------excution--------*/
