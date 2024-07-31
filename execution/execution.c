@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/31 11:40:18 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/31 22:46:04 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	execute(t_shell *node)
 	}
 	else
 		node->outfile = STDOUT_FILENO;
-	if (node->redirection != NULL)
+	if (node->redirection)
 	{
 		status = handel_redirection(node);
 		if (status < 0 || status == 1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reading_promp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/31 18:48:38 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/07/31 23:12:49 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,36 @@ void	signal01()
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
-	
+
+void increment_shlvl(t_env *env, t_env *envp)
+{
+	t_env	*tmp;
+	t_env	*tmp_cp;
+	char	*n;
+
+	tmp = env;
+	tmp_cp = envp;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->key, "SHLVL"))
+		{
+			n = ft_itoa(ft_atoi(tmp->value) + 1);
+			free(tmp->value);
+			tmp->value = n;
+		}
+		tmp = tmp->next;
+	}
+	while (tmp_cp)
+	{
+		if (!ft_strncmp(tmp_cp->key, "SHLVL"))
+		{
+			n = ft_itoa(ft_atoi(tmp_cp->value) + 1);
+			free(tmp_cp->value);
+			tmp_cp->value = n;
+		}
+		tmp_cp = tmp_cp->next;
+	}
+}
 
 int	reading_promp(char **env)
 {
@@ -50,6 +79,7 @@ int	reading_promp(char **env)
 
 	env_cp = create_lst_env(env);
 	envp = create_lst_env(env);
+	increment_shlvl(env_cp, envp);
 	while (1337)
 	{
 		signals();
@@ -59,6 +89,11 @@ int	reading_promp(char **env)
 		shell = parsing(ft_strtrim(inputs, " \t"), env_cp, envp);
 		if (history(inputs))
 			return (free(inputs), 3);
+		// for (t_shell *tmp = shell; tmp; tmp = tmp->next)
+		// {
+		// 	for (int i = 0; tmp->cmd[i]; i++)
+		// 		printf("final %s\n", tmp->cmd[i]);
+		// }
 		free(inputs);
 		if (shell)
 		{
@@ -70,6 +105,6 @@ int	reading_promp(char **env)
 		}
 		clean_up(shell, 0);
 	}
-	
+
 	return (0);
 }
