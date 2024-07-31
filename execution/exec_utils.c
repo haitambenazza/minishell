@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:12:25 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/27 22:49:57 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:22:17 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char *get_cmd(char *cmd, t_env *envp)
 	char *tmp_pathcmd;
 	int i;
 
-	i = 0;
+	i = -1;
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) != -1)
@@ -43,7 +43,7 @@ char *get_cmd(char *cmd, t_env *envp)
 	arr = find_path(envp);
 	if (!arr)
 		return (printf("path not found\n"),g_exit_status = 127, NULL);
-	while (arr && arr[i])
+	while (arr && arr[++i])
 	{
 		tmp_pathcmd = ft_strjoin("/", cmd);
 		pathcmd = ft_strjoin(arr[i], tmp_pathcmd);
@@ -51,8 +51,49 @@ char *get_cmd(char *cmd, t_env *envp)
 		if (access(pathcmd, F_OK | X_OK) != -1)
 			return (free_array(arr), pathcmd);
 		free(pathcmd);
-		i++;
 	}
-	free_array(arr);
-	return (NULL);
+	return (free_array(arr), NULL);
+}
+
+void	close_fd(int in_fd, int out_fd)
+{
+	if (in_fd != STDIN_FILENO)
+		close(in_fd);
+	if (out_fd != STDOUT_FILENO)
+		close(out_fd);
+}
+
+int	open_pipes(t_shell *node, int pipe_fd[2])
+{
+	if (pipe(pipe_fd) == -1)
+	{
+		perror("pipe");
+		g_exit_status = 1;
+		return (ERROR);
+	}
+	node->next->infile = pipe_fd[0];
+	node->outfile = pipe_fd[1];
+	return (SUCCESS);
+}
+
+void	ft_dup2(t_shell *node)
+{
+	if (dup2(node->infile, STDIN_FILENO) == -1)
+	{
+		printf("minishell: dup2: %s\n", strerror(errno));
+		g_exit_status = 1;
+		clean_up(node, 0);
+		exit(EXIT_FAILURE);
+	}
+	if (node->infile != STDIN_FILENO)
+		close(node->infile);
+	if (dup2(node->outfile, STDOUT_FILENO) == -1)
+	{
+		printf("minishell: dup2: %s\n", strerror(errno));
+		g_exit_status = 1;
+		clean_up(node, 0);
+		exit(EXIT_FAILURE);
+	}
+	if (node->outfile != STDOUT_FILENO)
+		close(node->outfile);
 }

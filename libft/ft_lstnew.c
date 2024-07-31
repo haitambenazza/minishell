@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 17:17:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/29 11:55:34 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:36:01 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_redirect	*ft_lstnew_redirect(char *str, char *file)
 		free(node);
 		return (NULL);
 	}
+	node->herdoc_name = NULL;
 	node->next = NULL;
 	return (node);
 }

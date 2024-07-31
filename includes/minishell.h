@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:46:09 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/30 23:43:46 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/31 22:37:07 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,17 @@ typedef struct s_redirect
 {
 	t_token				type;
 	char				*file_name;
+	char 				*herdoc_name;
 	struct s_redirect	*next;
 }	t_redirect;
 
 typedef struct s_shell
 {
+	int				size;
 	char				**cmd;
 	char				*expander;
 	int					pid;
+	int					red_size;
 	int					infile;
 	int					outfile;
 	char				**list_quotes;
@@ -114,12 +117,21 @@ void		*copy_from_env(char *sh, char *str, int *j, int *len);
 /*------------------------*/
 
 /*--------signals---------*/
+void		signal01();
+void		signals();
 void		cntl_d(t_shell *sh, t_env *env, t_env *envp);
-void		ctrl_empty(int signal);
 void		ctrl_c(int signal);
 /*------------------------*/
 
+/*----------herdoc--------*/
+int 	handle_herdoc(t_shell *cmds);
+void    unlick_files(t_shell *shell_tmp, t_redirect *red_tmp, char *hername);
+
+/*------------------------*/
+
 /*--------excution--------*/
+int			execute(t_shell *node);
+int			open_pipes(t_shell *node, int pipe_fd[2]);
 void		ft_dup2(t_shell *node);
 char		*get_cmd(char *cmd, t_env *envp);
 int			handel_redirection(t_shell *node);
@@ -128,6 +140,7 @@ int			child_pross(t_shell *cmds, char **envp, char *new_cmd);
 int			history(char *str);
 int			reading_promp(char **env);
 char		**lst_arr(t_shell *shell);
+void		close_fd(int in_fd, int out_fd);
 /*------------------------*/
 
 /*---------init-----------*/
@@ -196,6 +209,7 @@ void		ft_lstadd_back_redirect(t_redirect **lst, t_redirect *new);
 char		*ft_strjoin_no_free(char *s1, char *s2);
 int			lst_size(char **lst);
 int			len_cmd(t_shell *shell);
+int			red_size(t_redirect *cmd);
 void		split_cmd(t_shell *shell);
 void		ft_malloc(char *str, char **arr, int *len);
 int			new_lenght(char *str);
@@ -208,6 +222,7 @@ void		*ft_calloc(size_t count, size_t size);
 void		delete_node_env(t_env *envp);
 int			is_in_env(t_shell *sh, char *var_env, int flag);
 char		*ft_itoa(int n);
+int			ft_atoi(const char *s);
 int			find_next_command(t_token *token, int index);
 char		*ft_strjoin_no_free(char *s1, char *s2);
 char		*checking(char const *s1, char const *s2);

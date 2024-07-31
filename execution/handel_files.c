@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handel_files.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:55:13 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/27 22:49:57 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/31 18:29:35 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,16 @@ int	check_infile_acces(char *file_name)
 	return (ERROR);
 }
 
-int	open_infiles(t_shell *node)
+int	open_infiles(t_shell *node, t_redirect *file)
 {
 	int	status;
 
-	status = check_infile_acces(node->redirection->file_name);
+	if (file->type == HERDOC)
+	{
+		status = check_infile_acces(file->herdoc_name);
+	}
+	else
+		status = check_infile_acces(file->file_name);
 	if (status < 0)
 		return (status);
 	if (node->infile != STDIN_FILENO)
@@ -72,8 +77,7 @@ int open_outfiles(t_shell *node)
 			{
 				perror(tmp->file_name);
 				g_exit_status = 20;
-				close(status);
-				return (g_exit_status);
+				return (close(status), g_exit_status);
 			}
 		}
 		if (node->outfile != STDOUT_FILENO)
@@ -95,11 +99,14 @@ int	check_is_valid_redirection(t_redirect *tmp_red)
 	return (0);
 }
 
+
 int handel_redirection(t_shell *node)
 {
     t_redirect *tmp_red;
+	t_shell		*node_tmp;
 
     tmp_red = node->redirection;
+	node_tmp = node;
 	if (check_is_valid_redirection(tmp_red))
 		return (g_exit_status);
     while (tmp_red)
@@ -109,14 +116,9 @@ int handel_redirection(t_shell *node)
             if (open_outfiles(node) < 0)
                 return (ERROR);
         }
-        else if (tmp_red->type == RED_IN)// <
+        else if (tmp_red->type == RED_IN ||  tmp_red->type == HERDOC)// <
         {
-            if (open_infiles(node) < 0)
-                return (ERROR);
-        }
-        else if (tmp_red->type == 13)
-        {
-            // if (open_herdoc(node) < 0)
+            if (open_infiles(node, tmp_red) < 0)
                 return (ERROR);
         }
         tmp_red = tmp_red->next;

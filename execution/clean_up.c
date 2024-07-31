@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_up.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:02:17 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/27 20:04:54 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:06:49 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	clean_redirect(t_shell *shell)
 		{
 			redirect_tmp = tmp->redirection->next;
 			free(tmp->redirection->file_name);
+   			free(tmp->redirection->herdoc_name);
 			free(tmp->redirection);
 			tmp->redirection = redirect_tmp;
 		}

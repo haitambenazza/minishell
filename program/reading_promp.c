@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reading_promp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/29 22:27:45 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/31 18:48:38 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,42 +24,52 @@ int	history(char *str)
 
 void	set_hold(t_shell *node)
 {
-	node->infile = STDIN_FILENO;
-	node->outfile = STDOUT_FILENO;
+	node->infile = dup(0);
+	node->outfile = dup(1);
 }
+
+void	signals()
+{
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
+}
+void	signal01()
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+	
 
 int	reading_promp(char **env)
 {
 	t_shell	*shell;
+	t_shell	*shell_tmp;
 	t_env	*env_cp;
 	t_env	*envp;
 	char	*inputs;
 
-	signal(SIGINT, ctrl_c);
-	signal(SIGQUIT, ctrl_empty);
 	env_cp = create_lst_env(env);
 	envp = create_lst_env(env);
 	while (1337)
 	{
+		signals();
 		inputs = readline("minishell~> ");
 		if (!inputs)
 			cntl_d(shell, envp, env_cp);
 		shell = parsing(ft_strtrim(inputs, " \t"), env_cp, envp);
 		if (history(inputs))
 			return (free(inputs), 3);
-		// for (t_shell *tmp = shell; tmp; tmp = tmp->next)
-		// {
-		// 	for (int i = 0; tmp->cmd[i]; i++)
-		// 		printf("final %s\n", tmp->cmd[i]);
-		// }
 		free(inputs);
 		if (shell)
 		{
+			shell_tmp = shell;
+			signals();
 			set_hold(shell);
 			if (execution(shell))
 				return (g_exit_status);
 		}
 		clean_up(shell, 0);
 	}
+	
 	return (0);
 }

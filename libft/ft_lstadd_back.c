@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 11:20:13 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/28 19:05:42 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/30 20:29:08 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_lstadd_back_redirect(t_redirect **lst, t_redirect *new)
 		return ;
 	}
 	traverse = *lst;
-	while (traverse->next)
+	while (traverse && traverse->next)
 	{
 		traverse = traverse->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:46:50 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/27 22:49:57 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:30:20 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,4 @@ void	cntl_d(t_shell *sh, t_env *env, t_env *envp)
 	clean_lst(env);
 	clean_lst(envp);
 	exit(g_exit_status);
-}
-
-void	ctrl_empty(int signal)
-{
-	(void)signal;
-	rl_on_new_line();
-	rl_redisplay();
 }
