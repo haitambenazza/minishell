@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reading_promp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/31 23:12:49 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/01 21:54:29 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,22 +89,14 @@ int	reading_promp(char **env)
 		shell = parsing(ft_strtrim(inputs, " \t"), env_cp, envp);
 		if (history(inputs))
 			return (free(inputs), 3);
-		// for (t_shell *tmp = shell; tmp; tmp = tmp->next)
-		// {
-		// 	for (int i = 0; tmp->cmd[i]; i++)
-		// 		printf("final %s\n", tmp->cmd[i]);
-		// }
 		free(inputs);
 		if (shell)
 		{
 			shell_tmp = shell;
-			signals();
-			set_hold(shell);
 			if (execution(shell))
 				return (g_exit_status);
 		}
 		clean_up(shell, 0);
 	}
-
 	return (0);
 }

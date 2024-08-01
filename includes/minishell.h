@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:46:09 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/31 23:49:58 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:48:45 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,12 @@ void		ctrl_d_her(void);
 
 /*----------herdoc--------*/
 int 	handle_herdoc(t_shell *cmds);
-void	unlick_files(t_shell *shell_tmp, t_redirect *red_tmp, char *hername);
+void	unlick_files(t_shell *shell_tmp);
 void	ctrl_c_her(int signal);
 /*------------------------*/
 
 /*--------excution--------*/
+void		set_hold(t_shell *node);
 int			execute(t_shell *node);
 int			open_pipes(t_shell *node, int pipe_fd[2]);
 void		ft_dup2(t_shell *node);
