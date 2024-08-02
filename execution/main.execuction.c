@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 11:05:33 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/08/02 09:21:15 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/01 22:45:19 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,8 @@ int	run_exec(t_shell *cmds)
 int	execution(t_shell *cmds)
 {
 	t_shell	*tmp;
-	t_redirect	*tmp_red;
 
 	tmp = cmds;
-	tmp_red = cmds->redirection;
 	tmp->pid = 0;
 	g_exit_status = 0;
 	cmds->size = cmds_size(cmds);
@@ -70,6 +68,7 @@ int	execution(t_shell *cmds)
 	}
 	else if (run_exec(cmds) == ERROR)
 		return (ERROR);
-	unlick_files(tmp, tmp_red);
+	
+	unlick_files(tmp);
 	return (0);
 }
