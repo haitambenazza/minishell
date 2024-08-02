@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+         #
+#    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/08/01 21:10:39 by tkoulal          ###   ########.fr        #
+#    Updated: 2024/08/02 17:15:14 by hbenazza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,8 @@ SRC = ./program/main.c\
 	./built-in/commands_utils.c\
 	./built-in/commands_utils2.c\
 	./parse/spaces.c\
-	./parse/utils.c
+	./parse/utils.c\
+	./libft/ft_isalpha.c
 
 OBJ = ${SRC:.c=.o}
 

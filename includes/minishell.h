@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:46:09 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/01 16:48:45 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:15:00 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,9 +177,8 @@ int			run_option(t_shell *sh);
 int			check_option(char *str);
 void		get_old_dir(t_shell *sh, char *oldpwd);
 void		set_current_dir(t_shell *sh);
-int			export_to_env(t_shell *sh);
+int			export_to_env(t_shell *sh, int i, int j);
 int			is_in_env(t_shell *sh, char *var_env, int flag);
-int			export_to_env(t_shell *sh);
 void		remove_from_export(t_shell *sh, char *target);
 void		remove_from_env(t_shell *sh, char *target);
 /*------------------------*/
@@ -232,7 +231,8 @@ int			ft_atoi(const char *s);
 int			find_next_command(t_token *token, int index);
 char		*ft_strjoin_no_free(char *s1, char *s2);
 char		*checking(char const *s1, char const *s2);
-int		ft_atoi(const char *str);
+int			ft_atoi(const char *str);
+int			ft_isalpha(char *str);
 /*------------------------*/
 
 #endif

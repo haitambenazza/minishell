@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 21:53:38 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/02 09:17:53 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/02 17:14:52 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,11 @@ void	get_old_dir(t_shell *sh, char *oldpwd)
 	}
 }
 
-int	export_to_env(t_shell *sh)
+int	export_to_env(t_shell *sh, int i, int j)
 {
 	t_shell	*n;
-	int		i;
-	int		j;
 
 	n = sh;
-	i = 1;
 	while (n->cmd[i])
 	{
 		j = 0;
@@ -122,6 +119,8 @@ int	export_to_env(t_shell *sh)
 			j++;
 		if (n->cmd[i][j] == '=')
 			return (g_exit_status = 13, printf("bad assignemet\n"), 13);
+		if (ft_isalpha(n->cmd[i]))
+			return (g_exit_status = 1, g_exit_status);
 		if (ft_strchr(n->cmd[i], '=') && !is_in_env(n, n->cmd[i], 1))
 		{
 			ft_lstadd_back_env(&n->env, ft_lstnew_env(n->cmd[i]));
