@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:46:09 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/01 16:48:45 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/02 09:20:24 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_redirect
 
 typedef struct s_shell
 {
-	int				size;
+	int					size;
 	char				**cmd;
 	char				*expander;
 	int					pid;
@@ -126,7 +126,7 @@ void		ctrl_d_her(void);
 
 /*----------herdoc--------*/
 int 	handle_herdoc(t_shell *cmds);
-void	unlick_files(t_shell *shell_tmp);
+void    unlick_files(t_shell *tmp, t_redirect *tmp_red);
 void	ctrl_c_her(int signal);
 /*------------------------*/
 

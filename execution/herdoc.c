@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 12:36:45 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/08/01 22:42:58 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/02 09:22:10 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,7 @@ void    open_herdoc(t_shell *cmds)
             while (red_tmp)
             {
                 if (red_tmp->type == HERDOC)
-                {
                     reading_promp_her(&fd, red_tmp);
-                }
                 red_tmp = red_tmp->next;
                 close(fd);
             }
@@ -138,13 +136,21 @@ void    open_herdoc(t_shell *cmds)
     waitpid(pid, NULL, 0);
 }
 
-void    unlick_files(t_shell *shell_tmp)
+void    unlick_files(t_shell *tmp, t_redirect *tmp_red)
 {
-    while (shell_tmp && shell_tmp->redirection)
-    {
-        unlink(shell_tmp->redirection->herdoc_name);
-        shell_tmp = shell_tmp->next;
-    }
+    while (tmp && tmp->redirection)
+	{
+		tmp_red = tmp->redirection;
+		while (tmp_red)
+		{
+			if (tmp_red->type == 13)
+			{
+				unlink(tmp_red->herdoc_name);
+			}
+			tmp_red = tmp_red->next;
+		}	
+		tmp = tmp->next;
+	}
 }
 char*	generate_name(int i)
 {
