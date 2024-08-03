@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 12:36:45 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/08/01 22:42:58 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/03 12:31:22 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,11 @@ void    open_herdoc(t_shell *cmds)
         dup2(save_fd, STDIN_FILENO);
         exit(0);
     }
-    waitpid(pid, NULL, 0);
+    else
+    {
+	    signal(SIGQUIT, SIG_DFL);
+        waitpid(pid, NULL, 0);
+    }
 }
 
 int handle_herdoc(t_shell *cmds)
