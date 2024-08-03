@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:46:09 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/02 17:15:00 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:11:33 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,9 @@ void		*copy_from_env(char *sh, char *str, int *j, int *len);
 /*--------signals---------*/
 void		signal01();
 void		signals();
-void		cntl_d(t_shell *sh, t_env *env, t_env *envp);
 void		ctrl_c(int signal);
+void		ctrl_c_her(int signal);
+void		cntl_d(t_shell *sh, t_env *env, t_env *envp);
 void		ctrl_d_her(void);
 /*------------------------*/
 

@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:46:50 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/01 21:21:14 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/03 18:23:17 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,41 @@ void	ctrl_c(int signal)
 {
 	if (signal == SIGINT)
 	{
+		g_exit_status = 130;
 		write(1, "\n", 1);
 		rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
 	}
 }
-
 void	ctrl_c_her(int signal)
 {
-	g_exit_status = 130;
 	if (signal == SIGINT)
+	{
+		printf("\n");
 		exit(130);
+	}
 }
 
-// void	ctrl_d_her(void)
-// {
-// 	g_exit_status = 0;
-// 	write(1, "minishell: you have exited without specifying a delimeter\n", 58);
-// 	exit(g_exit_status);
-// }
+void	signal01()
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	signals()
+{
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+
+void	ctrl_d_her(void)
+{
+	g_exit_status = 0;
+	write(1, "minishell: you have exited without specifying a delimeter\n", 58);
+	exit(g_exit_status);
+}
 
 void	cntl_d(t_shell *sh, t_env *env, t_env *envp)
 {

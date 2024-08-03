@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 11:05:33 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/08/03 12:42:21 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/03 18:26:10 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	run_exec(t_shell *cmds)
 	while (tmp)
 	{
 		if (execute(tmp) == 0)
-			g_exit_status = 0;
+			;
 		else
 			check_exit_status(tmp);
 		tmp = tmp->next;
@@ -41,12 +41,13 @@ int	run_exec(t_shell *cmds)
 	tmp = cmds;
 	while (tmp && tmp->next)
 		tmp = tmp->next;
-	signal01();
 	waitpid(tmp->pid, &status, 0);
 	if (WIFEXITED(status) && cmds->size > 1)
 		g_exit_status = WEXITSTATUS(status);
-	while (++i < cmds->size - 1)
-		wait(NULL);
+	else if(WIFSIGNALED(g_exit_status))
+		    g_exit_status = WTERMSIG(g_exit_status) + 128;
+	while (wait(NULL) > 0)
+	;
 	return (0);
 }
 
@@ -59,7 +60,6 @@ int	execution(t_shell *cmds)
 	g_exit_status = 0;
 	cmds->size = cmds_size(cmds);
 	handle_herdoc(cmds);
-	signals();
 	set_hold(cmds);
 	if (cmds->next == NULL && !is_built_in(cmds) && !cmds->redirection)
 	{
@@ -68,7 +68,6 @@ int	execution(t_shell *cmds)
 	}
 	else if (run_exec(cmds) == ERROR)
 		return (ERROR);
-	
 	unlick_files(tmp);
 	return (0);
 }

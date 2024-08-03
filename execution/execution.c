@@ -6,7 +6,7 @@
 /*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/08/03 12:46:06 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/03 18:15:26 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,41 +43,14 @@ int	child_pross(t_shell *node, char **envp, char *new_cmd)
 	return (0);
 }
 
-int	check_cmd(char *s)
-{
-	int i;
-
-	i = 0;
-	while (s && s[i])
-	{
-		if (s[i] == '.' && s[i + 1] == '/' )
-		{
-			g_exit_status = 126;
-			printf("minishell : %s permession denied!\n", s);
-			return (g_exit_status);
-		}
-	i++;
-	}
-	return (0);
-}
-
 int	execute_cmd(t_shell *node)
 {
 	char **envp;
 	char *new_cmd;
-	int	flag;
 
-	flag = 0;
 	envp = lst_arr(node);
-	flag = check_cmd(node->cmd[0]);
-	if (flag)
-	{
-		free_array(envp);
-		g_exit_status = 126;
-		return (ERROR);
-	}
 	new_cmd = get_cmd(node->cmd[0] ,node->env);
-	if (!new_cmd && is_built_in(node) && !flag)
+	if (!new_cmd && is_built_in(node))
 	{
 		printf("%s :command not found\n", node->cmd[0]);
 		free_array(envp);
@@ -85,7 +58,6 @@ int	execute_cmd(t_shell *node)
 		return (ERROR);
 	}
 	node->pid = fork();
-	signal(SIGQUIT, SIG_DFL);
 	if (node->pid < 0)
 	{
 		exit(EXIT_FAILURE);
