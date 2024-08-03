@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 13:58:22 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/26 23:50:20 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/03 11:33:56 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	is_built_in(t_shell *tmp)
 		return (0);
 	return (1);
 }
-
 
 char	**lst_arr(t_shell *shell)
 {

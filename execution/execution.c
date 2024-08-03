@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/08/03 18:15:26 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/03 22:15:14 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	run_builtins_pipe(t_shell *node)
 int	child_pross(t_shell *node, char **envp, char *new_cmd)
 {
 	ft_dup2(node);
-
 	if (node->next)
 		if (node->next->infile != STDIN_FILENO)
 			close(node->next->infile);
@@ -34,7 +33,6 @@ int	child_pross(t_shell *node, char **envp, char *new_cmd)
 		exit(run_builtins_pipe(node));
 	if (execve(new_cmd, node->cmd, envp) == -1)
 	{
-		// perror(node->cmd[0]);
 		clean_up(node, 0);
 		free_array(envp);
 		exit(127);
@@ -45,11 +43,11 @@ int	child_pross(t_shell *node, char **envp, char *new_cmd)
 
 int	execute_cmd(t_shell *node)
 {
-	char **envp;
-	char *new_cmd;
+	char	**envp;
+	char	*new_cmd;
 
 	envp = lst_arr(node);
-	new_cmd = get_cmd(node->cmd[0] ,node->env);
+	new_cmd = get_cmd(node->cmd[0], node->env);
 	if (!new_cmd && is_built_in(node))
 	{
 		printf("%s :command not found\n", node->cmd[0]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 21:46:50 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/03 18:23:17 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/03 22:16:27 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,12 @@ void	ctrl_c(int signal)
 		rl_redisplay();
 	}
 }
-void	ctrl_c_her(int signal)
-{
-	if (signal == SIGINT)
-	{
-		printf("\n");
-		exit(130);
-	}
-}
-
-void	signal01()
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
 
 void	signals()
 {
 	signal(SIGINT, ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 }
-
 
 void	ctrl_d_her(void)
 {

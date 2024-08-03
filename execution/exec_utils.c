@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 17:12:25 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/07/31 11:22:17 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/03 11:47:31 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char    **find_path(t_env *envp)
+char	**find_path(t_env *envp)
 {
 	t_env	*tmp;
 
@@ -26,12 +26,12 @@ char    **find_path(t_env *envp)
 	return (NULL);
 }
 
-char *get_cmd(char *cmd, t_env *envp)
+char	*get_cmd(char *cmd, t_env *envp)
 {
-	char **arr;
-	char *pathcmd;
-	char *tmp_pathcmd;
-	int i;
+	char	**arr;
+	char	*pathcmd;
+	char	*tmp_pathcmd;
+	int		i;
 
 	i = -1;
 	if (ft_strchr(cmd, '/'))
@@ -42,7 +42,7 @@ char *get_cmd(char *cmd, t_env *envp)
 	}
 	arr = find_path(envp);
 	if (!arr)
-		return (printf("path not found\n"),g_exit_status = 127, NULL);
+		return (printf("path not found\n"), g_exit_status = 127, NULL);
 	while (arr && arr[++i])
 	{
 		tmp_pathcmd = ft_strjoin("/", cmd);

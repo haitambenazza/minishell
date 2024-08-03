@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.execuction.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 11:05:33 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/08/03 18:26:10 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/03 22:34:53 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,33 @@ void	check_exit_status(t_shell *node)
 	else
 		g_exit_status = 127;
 	close_fd(node->infile, node->outfile);
-
 }
+
 int	run_exec(t_shell *cmds)
 {
 	t_shell	*tmp;
-	int status;
-	int	i;
+	int		status;
+	int		i;
 
 	tmp = cmds;
 	status = 0;
 	i = -1;
 	while (tmp)
 	{
-		if (execute(tmp) == 0)
+		if (execute(tmp) == 0) //just why?
 			;
 		else
 			check_exit_status(tmp);
 		tmp = tmp->next;
 	}
 	tmp = cmds;
-	while (tmp && tmp->next)
+	while (tmp && tmp->next) //wtf??!
 		tmp = tmp->next;
 	waitpid(tmp->pid, &status, 0);
 	if (WIFEXITED(status) && cmds->size > 1)
 		g_exit_status = WEXITSTATUS(status);
-	else if(WIFSIGNALED(g_exit_status))
-		    g_exit_status = WTERMSIG(g_exit_status) + 128;
+	else if (WIFSIGNALED(g_exit_status))
+		g_exit_status = WTERMSIG(g_exit_status) + 128;
 	while (wait(NULL) > 0)
 	;
 	return (0);

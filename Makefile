@@ -6,7 +6,7 @@
 #    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/08/02 17:15:14 by hbenazza         ###   ########.fr        #
+#    Updated: 2024/08/03 22:16:53 by hbenazza         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,11 +56,12 @@ SRC = ./program/main.c\
 	./built-in/commands_utils2.c\
 	./parse/spaces.c\
 	./parse/utils.c\
-	./libft/ft_isalpha.c
+	./libft/ft_isalpha.c\
+	./parse/signals_execution.c
 
 OBJ = ${SRC:.c=.o}
 
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g3 #-fsanitize=address
 
 %.o: %.c
 	cc $(CFLAGS) -c -o $@ $^

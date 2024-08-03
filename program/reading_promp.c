@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reading_promp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/03 18:28:52 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/03 22:43:57 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,6 @@ void increment_shlvl(t_env *env, t_env *envp)
 	}
 }
 
-void	ctrl_b_slash(int signal)
-{
-	(void)signal;
-	
-	printf("Quit (core dumped)\n");
-}
-void	ctrl_b_s(int signal)
-{
-	(void)signal;
-	write(1, "\n", 1);
-}
-
 int	reading_promp(char **env)
 {
 	t_shell	*shell;
@@ -83,7 +71,6 @@ int	reading_promp(char **env)
 	increment_shlvl(env_cp, envp);
 	while (1337)
 	{
-		// signals();
 		signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, SIG_IGN);
 		inputs = readline("minishell~> ");

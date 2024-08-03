@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:46:09 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/03 15:11:33 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/03 22:42:59 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ void		ctrl_c(int signal);
 void		ctrl_c_her(int signal);
 void		cntl_d(t_shell *sh, t_env *env, t_env *envp);
 void		ctrl_d_her(void);
+void		ctrl_b_slash(int signal);
+void		ctrl_b_s(int signal);
 /*------------------------*/
 
 /*----------herdoc--------*/
@@ -133,6 +135,7 @@ int 	len_of_env(char *line);
 int 	handle_herdoc(t_shell *cmds);
 void	unlick_files(t_shell *shell_tmp);
 void	ctrl_c_her(int signal);
+int		check_infile_acces(char *file_name);
 /*------------------------*/
 
 /*--------excution--------*/
@@ -158,7 +161,8 @@ t_env		*create_lst_env(char **env);
 /*---------herdoc---------*/
 void		redirections_lst(t_shell *shell);
 t_redirect	*create_redirect_lst(char **cmd, int *i);
-// int			handle_heredoc(t_shell *cmds);
+void		prompt_reading_heredoc(t_redirect *red_tmp, int fd);
+void		reading_promp_her(int *fd, t_redirect *red_tmp);
 /*........................*/
 
 /*--------built-in--------*/
