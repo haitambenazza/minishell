@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 12:36:45 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/08/03 22:36:59 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/04 12:21:06 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	reading_promp_her(int *fd, t_redirect *red_tmp)
 	{
 		line = readline("~> ");
 		if (!line)
+		{
+            ctrl_d_her();
 			return ;
+		}
 		if (ft_strchr(line, '$'))
 		{
 			line = expand_heredoc(line);
@@ -70,6 +73,7 @@ void	open_herdoc(t_shell *cmds)
 	fd = 0;
 	if (!pid)
 	{
+        signal(SIGINT, ctrl_c_her);
 		node = cmds;
 		red_tmp = cmds->redirection;
 		while (node)
@@ -81,7 +85,14 @@ void	open_herdoc(t_shell *cmds)
 		dup2(save_fd, STDIN_FILENO);
 		exit(0);
 	}
-	waitpid(pid, NULL, 0);
+	else
+    {
+        waitpid(pid, &g_exit_status, 0);
+        if (WIFEXITED(g_exit_status))
+		    g_exit_status = WEXITSTATUS(g_exit_status);
+        else if(WIFSIGNALED(g_exit_status))
+		    g_exit_status = WTERMSIG(g_exit_status) + 128;
+    }
 }
 
 int	handle_herdoc(t_shell *cmds)

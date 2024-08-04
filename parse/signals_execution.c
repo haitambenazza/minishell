@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 22:16:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/03 22:42:30 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/04 13:38:09 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ctrl_c_her(int signal)
 	g_exit_status = 130;
 	if (signal == SIGINT)
 	{
-		printf("\n");
 		exit(130);
 	}
 }

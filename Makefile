@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+         #
+#    By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/20 17:57:32 by hbenazza          #+#    #+#              #
-#    Updated: 2024/08/03 22:16:53 by hbenazza         ###   ########.fr        #
+#    Updated: 2024/08/04 12:17:13 by tkoulal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC = ./program/main.c\
 	./execution/clean_up.c\
 	./execution/exec_utils.c\
 	./execution/handel_files.c\
+	./execution/handle_file_utils.c\
 	./built-in/commands1.c\
 	./parse/init_struct.c\
 	./parse/quotes.c\
