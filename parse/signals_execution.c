@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 22:16:04 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/04 13:38:09 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/04 20:07:50 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,10 @@ void	ctrl_c_her(int signal)
 	}
 }
 
-void	signal01()
-{
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-}
-
 void	ctrl_b_slash(int signal)
 {
 	(void)signal;
-
-	printf("Quit (core dumped)\n");
+	printf("Quit\n");
 }
 
 void	ctrl_b_s(int signal)

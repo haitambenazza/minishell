@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 10:37:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/02 14:25:42 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:33:49 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,7 @@ int	ft_cd(t_shell *shell)
 		return (printf("cd cannot take multiple arguments!\n"), g_exit_status);
 	}
 	if (!shell->cmd[1])
-	{
-		if (chdir(getenv("HOME")))
-			return (perror("cd"), free(old_pwd), g_exit_status = 1, 1);
-		get_old_dir(shell, old_pwd);
-		set_current_dir(shell);
-	}
+		return (go_home_dir(shell, old_pwd));
 	else
 	{
 		if (chdir(shell->cmd[1]))

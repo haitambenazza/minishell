@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 12:36:45 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/08/04 12:21:06 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/05 13:40:18 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*expand_heredoc(char *line)
 	return (new_line);
 }
 
-void	reading_promp_her(int *fd, t_redirect *red_tmp)
+int	reading_promp_her(int *fd, t_redirect *red_tmp)
 {
 	char	*line;
 	int		flag;
@@ -42,10 +42,7 @@ void	reading_promp_her(int *fd, t_redirect *red_tmp)
 	{
 		line = readline("~> ");
 		if (!line)
-		{
-            ctrl_d_her();
-			return ;
-		}
+			return (ctrl_d_her(), 1);
 		if (ft_strchr(line, '$'))
 		{
 			line = expand_heredoc(line);
@@ -58,6 +55,7 @@ void	reading_promp_her(int *fd, t_redirect *red_tmp)
 		if (flag == 0)
 			free(line);
 	}
+	return (0);
 }
 
 void	open_herdoc(t_shell *cmds)
@@ -73,7 +71,7 @@ void	open_herdoc(t_shell *cmds)
 	fd = 0;
 	if (!pid)
 	{
-        signal(SIGINT, ctrl_c_her);
+		signal(SIGINT, ctrl_c_her);
 		node = cmds;
 		red_tmp = cmds->redirection;
 		while (node)
@@ -86,13 +84,7 @@ void	open_herdoc(t_shell *cmds)
 		exit(0);
 	}
 	else
-    {
-        waitpid(pid, &g_exit_status, 0);
-        if (WIFEXITED(g_exit_status))
-		    g_exit_status = WEXITSTATUS(g_exit_status);
-        else if(WIFSIGNALED(g_exit_status))
-		    g_exit_status = WTERMSIG(g_exit_status) + 128;
-    }
+		get_last_return_value(pid);
 }
 
 int	handle_herdoc(t_shell *cmds)

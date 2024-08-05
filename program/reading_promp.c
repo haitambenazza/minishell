@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:27:52 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/03 22:43:57 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:53:48 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,21 @@
 
 int	history(char *str)
 {
-	if (!str)
-		return (1);
-	if (ft_strlen(str))
-		add_history(str);
-	return (0);
+	int	i;
+	int	flag;
 
+	i = 0;
+	flag = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
+			flag = 1;
+		i++;
+	}
+	if (ft_strlen(str) && flag && str)
+		add_history(str);
+	free(str);
+	return (0);
 }
 
 void	set_hold(t_shell *node)
@@ -28,7 +37,7 @@ void	set_hold(t_shell *node)
 	node->outfile = dup(1);
 }
 
-void increment_shlvl(t_env *env, t_env *envp)
+int	increment_shlvl(t_env *env, t_env *envp)
 {
 	t_env	*tmp;
 	t_env	*tmp_cp;
@@ -41,8 +50,7 @@ void increment_shlvl(t_env *env, t_env *envp)
 		if (!ft_strncmp(tmp->key, "SHLVL"))
 		{
 			n = ft_itoa(ft_atoi(tmp->value) + 1);
-			free(tmp->value);
-			tmp->value = n;
+			return (free(tmp->value), tmp->value = n, 1);
 		}
 		tmp = tmp->next;
 	}
@@ -51,17 +59,16 @@ void increment_shlvl(t_env *env, t_env *envp)
 		if (!ft_strncmp(tmp_cp->key, "SHLVL"))
 		{
 			n = ft_itoa(ft_atoi(tmp_cp->value) + 1);
-			free(tmp_cp->value);
-			tmp_cp->value = n;
+			return (free(tmp_cp->value), tmp_cp->value = n, 1);
 		}
 		tmp_cp = tmp_cp->next;
 	}
+	return (0);
 }
 
 int	reading_promp(char **env)
 {
 	t_shell	*shell;
-	t_shell	*shell_tmp;
 	t_env	*env_cp;
 	t_env	*envp;
 	char	*inputs;
@@ -79,15 +86,9 @@ int	reading_promp(char **env)
 		signal(SIGINT, ctrl_b_s);
 		signal(SIGQUIT, ctrl_b_slash);
 		shell = parsing(ft_strtrim(inputs, " \t"), env_cp, envp);
-		if (history(inputs))
-			return (free(inputs), 3);
-		free(inputs);
-		if (shell)
-		{
-			shell_tmp = shell;
-			if (execution(shell))
-				return (g_exit_status);
-		}
+		history(inputs);
+		if (execution(shell))
+			return (g_exit_status);
 		clean_up(shell, 0);
 	}
 	return (0);

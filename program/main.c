@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:03:38 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/31 18:29:42 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/05 13:54:17 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,3 @@ int	main(int c, char **v, char **env)
 	}
 	return (g_exit_status);
 }
-

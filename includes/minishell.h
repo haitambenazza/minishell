@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:46:09 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/03 22:42:59 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:41:07 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ typedef struct s_redirect
 {
 	t_token				type;
 	char				*file_name;
-	char 				*herdoc_name;
+	char				*herdoc_name;
 	struct s_redirect	*next;
 }	t_redirect;
 
 typedef struct s_shell
 {
-	int				size;
+	int					size;
 	char				**cmd;
 	char				*expander;
 	int					pid;
@@ -117,8 +117,7 @@ void		*copy_from_env(char *sh, char *str, int *j, int *len);
 /*------------------------*/
 
 /*--------signals---------*/
-void		signal01();
-void		signals();
+void		signals(void);
 void		ctrl_c(int signal);
 void		ctrl_c_her(int signal);
 void		cntl_d(t_shell *sh, t_env *env, t_env *envp);
@@ -128,14 +127,14 @@ void		ctrl_b_s(int signal);
 /*------------------------*/
 
 /*----------herdoc--------*/
-char*	generate_name(int i);
-int		free_if_there_is_a_del(int *flag, char *line, t_redirect *red_tmp);
-char	*get_env_to_line(char *new, char *line);
-int 	len_of_env(char *line);
-int 	handle_herdoc(t_shell *cmds);
-void	unlick_files(t_shell *shell_tmp);
-void	ctrl_c_her(int signal);
-int		check_infile_acces(char *file_name);
+char		*generate_name(int i);
+int			free_if_there_is_a_del(int *flag, char *line, t_redirect *red_tmp);
+char		*get_env_to_line(char *new, char *line);
+int			len_of_env(char *line);
+int			handle_herdoc(t_shell *cmds);
+void		unlick_files(t_shell *shell_tmp);
+void		ctrl_c_her(int signal);
+int			check_infile_acces(char *file_name);
 /*------------------------*/
 
 /*--------excution--------*/
@@ -151,6 +150,7 @@ int			history(char *str);
 int			reading_promp(char **env);
 char		**lst_arr(t_shell *shell);
 void		close_fd(int in_fd, int out_fd);
+int			get_last_return_value(int pid);
 /*------------------------*/
 
 /*---------init-----------*/
@@ -162,7 +162,7 @@ t_env		*create_lst_env(char **env);
 void		redirections_lst(t_shell *shell);
 t_redirect	*create_redirect_lst(char **cmd, int *i);
 void		prompt_reading_heredoc(t_redirect *red_tmp, int fd);
-void		reading_promp_her(int *fd, t_redirect *red_tmp);
+int			reading_promp_her(int *fd, t_redirect *red_tmp);
 /*........................*/
 
 /*--------built-in--------*/
@@ -186,6 +186,8 @@ int			export_to_env(t_shell *sh, int i, int j);
 int			is_in_env(t_shell *sh, char *var_env, int flag);
 void		remove_from_export(t_shell *sh, char *target);
 void		remove_from_env(t_shell *sh, char *target);
+int			go_home_dir(t_shell *sh, char *old_pwd);
+char		*ft_getenv(char *s, t_shell *sh);
 /*------------------------*/
 
 /*--------clean-up--------*/
