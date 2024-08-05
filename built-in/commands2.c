@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 20:02:56 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/05 13:33:58 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:53:22 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ int	ft_exit(t_shell *shell)
 	i = 0;
 	if (shell->cmd[1])
 	{
-		while (shell->cmd[1])
+		while (shell->cmd[1][i])
 		{
+			if (!ft_strncmp(shell->cmd[1], "9223372036854775808") || i >= 19)
+				exit_failing_msg();
 			if (shell->cmd[1][i] < '0' || shell->cmd[1][i] > '9')
 				exit_failing_msg();
 			i++;

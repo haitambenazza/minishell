@@ -6,13 +6,13 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 18:03:38 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/05 13:54:17 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:47:17 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	g_exit_status;
+char	g_exit_status;
 
 int	main(int c, char **v, char **env)
 {

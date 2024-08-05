@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:46:09 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/05 21:33:08 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:47:03 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef enum e_token
 	HERDOC = 13
 }	t_token;
 
-extern int	g_exit_status;
+extern char	g_exit_status;
 
 typedef struct s_env
 {

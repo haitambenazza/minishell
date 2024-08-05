@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/08/05 15:17:08 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/05 21:46:08 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	child_pross(t_shell *node, char **envp, char *new_cmd)
 	execve(new_cmd, node->cmd, envp);
 	clean_up(node, 0);
 	free_array(envp);
-	exit(127);
+	exit(1);
 }
 
 int	execute_cmd(t_shell *node)
