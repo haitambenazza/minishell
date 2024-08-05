@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handel_files.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:55:13 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/08/03 22:38:52 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:55:40 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ int	open_outfiles(t_shell *node, t_redirect *tmp_red)
 	int	status;
 	int	flag ;
 
-	if (tmp_red->type == 4)
-		flag = O_TRUNC;
-	else if (tmp_red->type == 11)
-		flag = O_APPEND;
-	flag = O_WRONLY | O_CREAT;
+	flag = 0;
+	flag |= O_WRONLY | O_CREAT;
+	if (tmp_red->type == RED_OUT)
+		flag |= O_TRUNC;
+	else if (tmp_red->type == APPEND)
+		flag |= O_APPEND;
 	status = open(tmp_red->file_name, flag, 0644);
 	if (status < 0)
 	{
