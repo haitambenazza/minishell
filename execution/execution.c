@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 12:10:44 by tkoulal           #+#    #+#             */
-/*   Updated: 2024/08/05 13:44:26 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:17:08 by tkoulal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,10 @@ int	child_pross(t_shell *node, char **envp, char *new_cmd)
 			close(node->next->infile);
 	if (!is_built_in(node))
 		exit(run_builtins_pipe(node));
-	if (execve(new_cmd, node->cmd, envp) == -1)
-	{
-		clean_up(node, 0);
-		free_array(envp);
-		exit(127);
-		return (1);
-	}
-	return (0);
+	execve(new_cmd, node->cmd, envp);
+	clean_up(node, 0);
+	free_array(envp);
+	exit(127);
 }
 
 int	execute_cmd(t_shell *node)
