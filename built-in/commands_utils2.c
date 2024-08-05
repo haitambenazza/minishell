@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:06:43 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/27 22:07:26 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:32:52 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,48 @@ int	is_in_env(t_shell *sh, char *var_env, int flag)
 		tmpcp = tmpcp->next;
 	}
 	return (0);
+}
+
+void	change_value_export(t_env *env, char *key)
+{
+	char	*value;
+	int		i;
+
+	i = 0;
+	while (key[i] && key[i] != '=')
+		i++;
+	while (env)
+	{
+		if (!ft_strnncmp(key, env->key, i))
+		{
+			value = env->value;
+			env->value = ft_strdup(key + i + 1);
+			free(value);
+		}
+		env = env->next;
+	}
+}
+
+void	change_value_env(t_shell *n, char *key)
+{
+	int		i;
+	t_env	*env;
+	char	*value;
+
+	i = 0;
+	env = n->env;
+	while (key[i] && key[i] != '=')
+		i++;
+	while (env)
+	{
+		if (!ft_strnncmp(key, env->key, i))
+		{
+			value = env->value;
+			env->value = ft_strdup(key + i + 1);
+			free(value);
+		}
+		env = env->next;
+	}
+	change_value_export(n->env_copy, key);
+	g_exit_status = 0;
 }

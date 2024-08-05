@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 21:53:38 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/02 17:14:52 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:32:44 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,10 @@ int	export_to_env(t_shell *sh, int i, int j)
 			return (g_exit_status = 13, printf("bad assignemet\n"), 13);
 		if (ft_isalpha(n->cmd[i]))
 			return (g_exit_status = 1, g_exit_status);
-		if (ft_strchr(n->cmd[i], '=') && !is_in_env(n, n->cmd[i], 1))
+		if (ft_strchr(n->cmd[i], '='))
 		{
+			if (is_in_env(n, n->cmd[i], 1))
+				return (change_value_env(n, n->cmd[i]), 0);
 			ft_lstadd_back_env(&n->env, ft_lstnew_env(n->cmd[i]));
 			if (!is_in_env(n, n->cmd[i], 0))
 				ft_lstadd_back_env(&sh->env_copy, ft_lstnew_env(n->cmd[i]));
@@ -131,6 +133,5 @@ int	export_to_env(t_shell *sh, int i, int j)
 			ft_lstadd_back_env(&sh->env_copy, ft_lstnew_env(n->cmd[i]));
 		i++;
 	}
-	g_exit_status = 0;
-	return (g_exit_status);
+	return (g_exit_status = 0, g_exit_status);
 }

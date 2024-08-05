@@ -6,7 +6,7 @@
 /*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:29:57 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/07/28 21:24:58 by hbenazza         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:28:50 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strcat(char *s1, char *s2)
 
 	i = 0;
 	j = ft_strlen(s1);
-	while (s2[i])
+	while (s2 && s2[i])
 	{
 		s1[j] = s2[i];
 		i++;
@@ -63,7 +63,7 @@ char	*new_str(char *seperator, int size, int t, char **strs)
 	return (str);
 }
 
-char	*ft_strjoin2(int size, char **strs, char *sep)
+char	*ft_strjoin2(int size, char **strs, char *sep, int flag)
 {
 	int		i;
 	int		total;
@@ -71,6 +71,8 @@ char	*ft_strjoin2(int size, char **strs, char *sep)
 
 	total = 0;
 	i = 0;
+	if (flag)
+		i = 1;
 	while (i < size)
 	{
 		total = total + ft_strlen(strs[i]);

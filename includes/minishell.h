@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkoulal <tkoulal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hbenazza <hbenazza@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 22:46:09 by hbenazza          #+#    #+#             */
-/*   Updated: 2024/08/05 15:29:55 by tkoulal          ###   ########.fr       */
+/*   Updated: 2024/08/05 21:33:08 by hbenazza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ void		remove_from_export(t_shell *sh, char *target);
 void		remove_from_env(t_shell *sh, char *target);
 int			go_home_dir(t_shell *sh, char *old_pwd);
 char		*ft_getenv(char *s, t_shell *sh);
+void		change_value_env(t_shell *n, char *key);
 /*------------------------*/
 
 /*--------clean-up--------*/
@@ -216,7 +217,7 @@ int			ft_strnncmp(char *s1, char *s2, size_t len);
 char		*ft_strtrim(char *s1, char *set);
 char		*ft_strchr(char *s, int c);
 int			ft_strcount(char *s, char chr);
-char		*ft_strjoin2(int size, char **strs, char *sep);
+char		*ft_strjoin2(int size, char **strs, char *sep, int flag);
 t_redirect	*ft_lstnew_redirect(char *str, char *file);
 void		ft_lstadd_back_redirect(t_redirect **lst, t_redirect *new);
 char		*ft_strjoin_no_free(char *s1, char *s2);
